@@ -221,15 +221,45 @@ export default class PrebuiltQuiz extends React.Component {
     } 
   }
 
+  handleTryAgain(e) {
+    this.setState({
+      quizName: e.target.value,
+      questions: [],
+      answers: [],
+      index: 0,
+      timeCount:15,
+      correctAns: 0,
+      wrongAns: 0,
+      showTimer: false,
+      completedQuiz: false,
+      correct: '',
+      wrong1: '',
+      wrong2: '',
+      wrong3: '',
+      index: null,
+      timeCount:15, // used for countdown
+      correctAns: 0, // number of correct and wrong answer submissions for percent
+      wrongAns: 0
+    }, this.GetQuestions);
+
+  }
+
   // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
   // ternary is also used to display the Timer only after a test has been selected
   render() {
     return (
       <div className="App">
       {
-          this.state.completedQuiz ? <h1>quiz complete, your score is: {this.state.score}%!</h1> :
+          this.state.completedQuiz ?
           <div>
-            <h1>Select a quiz!</h1>
+            <h1>quiz complete, your score is: {this.state.score}%!</h1>
+            <div>
+              <button className="btn btn-sm btn-primary" onClick={this.handleTryAgain.bind(this)} value={this.state.value} >Take another quiz?
+              </button>
+            </div>
+          </div>
+          :
+          <div><h1>Select a quiz!</h1>
             <select className="buttonStyle" onChange={this.handleQuizSelect.bind(this)} value={this.state.value} >
               <option selected></option>
               {this.state.quizNames.map(name =>
