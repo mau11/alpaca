@@ -30,7 +30,7 @@ export default class PrebuiltQuiz extends React.Component {
 
   componentDidMount(){
     this.getQuizes(); // generate drop down list to select test
-    this.GetQuestions();
+    this.getQuestions();
   }
 
   // get all quizzes from server
@@ -74,7 +74,7 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   // grabs all the questions based on the selected quiz from the drop down list
-  GetQuestions() {
+  getQuestions() {
     var config = {
       params: {
         ID: this.state.quizName
@@ -178,7 +178,7 @@ export default class PrebuiltQuiz extends React.Component {
       correctAns: 0,
       wrongAns: 0,
       showTimer: true,
-    }, this.GetQuestions);
+    }, this.getQuestions);
 
   }
 
