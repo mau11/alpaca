@@ -19,7 +19,7 @@ export default class PrebuiltQuiz extends React.Component {
       timeCount:15, // used for countdown
       correctAns: 0, // number of correct and wrong answer submissions for percent
       wrongAns: 0,
-      startTimer: true, // begins timer
+      startTimer: false, // begins timer
       showTimer: false, // used to show timer after selecting a quiz
       quizName: '',
       quizNames: [],
@@ -177,13 +177,14 @@ export default class PrebuiltQuiz extends React.Component {
       timeCount:15,
       correctAns: 0,
       wrongAns: 0,
+      startTimer: true, // not working
       showTimer: true,
     }, this.getQuestions);
 
   }
 
-          // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
-          // ternary is also used to display the Timer only after a test has been selected
+  // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
+  // ternary is also used to display the Timer only after a test has been selected
   render() {
 
     return (
@@ -199,7 +200,7 @@ export default class PrebuiltQuiz extends React.Component {
               )}
             </select>
 
-            <h1>{this.state.name}</h1>
+            <h2>{this.state.name}</h2>
             {/* animations for buttons */}
             <VelocityTransitionGroup
               enter={{animation: "transition.slideDownBigOut", duration: 20000, opacity: [1,1], translateY: 200}}
@@ -210,7 +211,8 @@ export default class PrebuiltQuiz extends React.Component {
 
             <div className="container"></div>
             {
-              this.state.showTimer ? <h2>{this.state.timeCount}</h2> : null
+              <h2>{this.state.timeCount}</h2>
+              // this.state.showTimer ? <h2>{this.state.timeCount}</h2> : null
             }
             <div id='ground'></div>
           </div>
