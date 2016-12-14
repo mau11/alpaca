@@ -27,16 +27,16 @@ export default class Homepage extends React.Component {
         <div className="row main-content">
           <div className="col-md-4 text-left">
               <h2>What is CrashCourse?</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe rem nisi accusamus error velit animi non ipsa placeat. Recusandae, suscipit, soluta quibusdam accusamus a veniam quaerat eveniet eligendi dolor consectetur.</p>
+              <p><b>CrashCourse</b> is a free online app where people can take educational quizzes!  It takes the tried-and-true multiple choice question approach and applies it into a fun interactive way.</p>
           </div>
           <div className="col-md-4 text-left">
               <h2>Why use CrashCourse?</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe rem nisi accusamus error velit animi non ipsa placeat. Recusandae, suscipit, soluta quibusdam accusamus a veniam quaerat eveniet eligendi dolor consectetur.</p>
+              <p>Make challenge questions fun by making quizzes and sharing them with others, or take quizzes that others have made.  It's a fun and interactive way to test your knowledge.</p>
           </div>
           <div className="col-md-4 text-left">
               <h2>Get started</h2>
-              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe rem nisi accusamus error velit animi non ipsa placeat. Recusandae, suscipit, soluta quibusdam accusamus a veniam quaerat eveniet eligendi dolor consectetur.</p>
-              <Link to="/signup">Learn More</Link>
+              <p>Take a quiz by clicking on "PreBuilt Quiz" in the top bar.  Or click "Custom Quiz" to start making your very own quiz for others!</p>
+              <Link to="/signup">Sign Up</Link>
           </div>
         </div>
 
