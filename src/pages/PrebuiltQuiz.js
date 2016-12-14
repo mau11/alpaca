@@ -208,7 +208,6 @@ export default class PrebuiltQuiz extends React.Component {
         showTimer: true,
       }, this.getQuestions);
     }
-
   }
 
   // helper function to shuffle the contents of an array
@@ -240,7 +239,7 @@ export default class PrebuiltQuiz extends React.Component {
       timeCount:15, // used for countdown
       correctAns: 0, // number of correct and wrong answer submissions for percent
       wrongAns: 0
-    }, this.GetQuestions);
+    }, this.getQuestions);
 
   }
 
