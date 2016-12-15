@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 
-export default class RemoveQuiz extends React.Component {
+export default class ManageQuiz extends React.Component {
  constructor(props) {
     super(props);
 
