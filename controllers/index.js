@@ -2,6 +2,19 @@ var db = require('../db');
 
 module.exports = {
   // in quiz page, GET request will return object of all quiz Q's and A's
+  tests: {
+    post: function (req, res) {
+      if (req.body.delete === true) {
+        console.log('POST delete request for testName = ' + req.body.testName);
+        db.Question.destroy({
+          where: {
+            testName: req.body.testName
+          }
+        })
+        .then(() => res.json({status: 'deleted'}));
+      }
+    }
+  },
   questions: {
     get: function (req, res) {
       // console.log('===> MAKING GET REQUEST FOR QUESTIONS, REQ.PARAMS = ', JSON.parse(JSON.stringify(req.query)).ID)
@@ -34,6 +47,7 @@ module.exports = {
               name: req.body.name
             }
         })
+        .then(() => res.json({status: 'deleted'}))
       } else {
         db.Question.create({
           name: req.body.name,
@@ -77,13 +91,13 @@ module.exports = {
   },
   results: {
     // opportunity to keep track of results in database, sorting by userID.
-    
+
     get: function (req, res) {
-      db.Results.find({ 
-          where: { 
+      db.Results.find({
+          where: {
             userID: req.body.userID,
             testName: req.body.testName
-          } 
+          }
         })
         .then(function(err, response) {
           if (!response) {

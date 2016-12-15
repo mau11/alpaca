@@ -25,6 +25,7 @@ router.post('/questions', controller.questions.post);
 //router.post('/users', controller.users.post);
 router.get('/results', controller.results.get);
 router.post('/results', controller.results.post);
+router.post('/tests', controller.tests.post);
 
 // Port ========================
 app.set('port', 1337);

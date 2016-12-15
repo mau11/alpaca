@@ -4,12 +4,10 @@ import axios from "axios";
 export default class AddQuiz extends React.Component {
  constructor(props) {
     super(props);
+  }
 
-    // //keep state
-    this.state = {
-      testName: undefined,
-      currQuesList: [] // populated with data from server in this.getTestNameCurrentQuestions
-    };
+  componentWillUnmount() {
+     document.getElementById('messagesContainer').innerHTML = '';
   }
 
   // this actually pushes the current values to the server using a post request
@@ -47,66 +45,20 @@ export default class AddQuiz extends React.Component {
       testName: testName,
     })
     .then(() => {
-      this.setState({
-        testName: testName
-      }, this.getTestNameCurrentQuestions)
-    })
-    .then(function () {
       $(':input', '.form-customquiz')
       .not('input[name=testName]')
       .val('');
+      this.setMessage('Quiz added!', 'success');
     })
     .catch(function (err) {
       console.error('error:', err);
     });
   }
 
-  getTestNameCurrentQuestions() {
-    var entries;
-    var config = {
-      params: {
-        ID: this.state.testName
-      }
-    };
-
-    axios.get('/questions', config)
-      .then(response => {
-        entries = response.data;
-        var temp = [];
-        entries.forEach(entry => {
-          temp.push(entry.name);
-        });
-        this.setState({
-          currQuesList: temp,
-        });
-      })
-      .catch(function(err){
-        console.log(err)
-      })
+  setMessage(message, type = 'info') {
+    document.getElementById('messagesContainer').innerHTML = '<div class="alert alert-' + type + '">' + message + '</div>';
   }
 
-  handleTestName(testName) {
-    this.setState({
-      testName: testName
-    }, this.getTestNameCurrentQuestions);
-  }
-
-  handleRemove(e) {
-    // do something here that posts a delete request to server
-    var tempName = e.target.textContent;
-    this.setState({
-      currQuesList: [],
-    }, function() {
-      axios.post('/questions', {
-        delete: true,
-        name: tempName,
-      })
-      .catch(function(err){
-        console.log(err)
-      });
-      this.getTestNameCurrentQuestions();
-    });
-  }
 
   render() {
     return (
@@ -120,7 +72,7 @@ export default class AddQuiz extends React.Component {
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="testName">Test Name</label>
                   <div className="col-xs-8">
-                    <input name="testName" type="text" className="form-control" placeholder="Enter the Name of this Test" onKeyUp={(e) => this.handleTestName(e.target.value)} required></input>
+                    <input name="testName" type="text" className="form-control" placeholder="Enter the Name of this Test" required></input>
                   </div>
                 </div>
 
@@ -162,18 +114,6 @@ export default class AddQuiz extends React.Component {
                 <button className="btn btn-sm btn-primary" type="submit" onClick={(e) => this.sendCustomTemplate(e) }>Submit</button>
               </form>
             </div>
-
-            <div className='col-md-6'>
-              <div>
-                <h3>Click questions below to delete them once created!</h3>
-                {this.state.currQuesList.map(option =>
-                  <button
-                    onClick={this.handleRemove.bind(this)}
-                    className={`answer btn btn-lg ${option}`}>{option}
-                  </button> )}
-              </div>
-            </div>
-
           </div>
         </div>
       </div>
