@@ -104,28 +104,37 @@ export default class PrebuiltQuiz extends React.Component {
       this.handleWrong();
     }
   }
+
   handleCorrect() {
     this.playCorrectSound();
-    this.setState({
-      timeCount: 15,
-      index: this.state.index + 1,
-      answers: [],
-      correctAns: this.state.correctAns + 1,
-    }, this.handleQuestionChange)
+    this.setState((prevState, props) => {
+      return {
+        timeCount: 15,
+        index: prevState.index + 1,
+        answers: [],
+        correctAns: prevState.correctAns + 1
+      };
+    }, this.handleQuestionChange);
   }
+
   handleWrong() {
     this.playWrongSound();
-    this.setState({
-      timeCount: 15,
-      index: this.state.index + 1,
-      answers: [],
-      wrongAns: this.state.wrongAns + 1,
-    }, this.handleQuestionChange)
+    this.setState((prevState, props) => {
+      return {
+        timeCount: 15,
+        index: prevState.index + 1,
+        answers: [],
+        wrongAns: this.state.wrongAns + 1
+      };
+    }, this.handleQuestionChange);
   }
+
   handleTime() {
-    this.setState({
-      timeCount: this.state.timeCount-1,
-    }, function() {
+    this.setState((prevState, props) => {
+      return {
+        timeCount: prevState.timeCount - 1
+      };
+    }, function () {
       if (this.state.timeCount === 0) {
         this.handleWrong();
       }
@@ -133,6 +142,7 @@ export default class PrebuiltQuiz extends React.Component {
       this.setState({startTimer: true});
     })
   }
+
   handleTimeCount() {
     var that = this;
     this.timer = setInterval(function() {
@@ -145,19 +155,23 @@ export default class PrebuiltQuiz extends React.Component {
   handleQuestionChange() {
     var questions = this.state.questions;
     var index = this.state.index;
+    var currentQuestion = questions[index];
     if (index === this.state.questions.length) {
       this.handleEndQuiz();
     } else {
-      this.setState({
-        name: questions[index].name,
-        correct: questions[index].correct,
-        wrong1: questions[index].wrong1,
-        wrong2: questions[index].wrong2,
-        wrong3: questions[index].wrong3,
-        answers: this.state.answers.concat(questions[index].correct, questions[index].wrong1, questions[index].wrong2, questions[index].wrong3)
+      this.setState((prevState, props) => {
+        return {
+          name: currentQuestion.name,
+          correct: currentQuestion.correct,
+          wrong1: currentQuestion.wrong1,
+          wrong2: currentQuestion.wrong2,
+          wrong3: currentQuestion.wrong3,
+          answers: [currentQuestion.correct, currentQuestion.wrong1, currentQuestion.wrong2, currentQuestion.wrong3]
+        };
       });
     }
   }
+
   handleEndQuiz() {
     var percent = (this.state.correctAns/(this.state.questions.length)).toFixed(2) * 100;
     clearInterval(this.timer);
