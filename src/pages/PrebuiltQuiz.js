@@ -10,9 +10,6 @@ export default class PrebuiltQuiz extends React.Component {
       category: '', // opportunity to get category of current test to track results
       name: '',  // this is actually the question being asked (please change the name)
       correct: '',
-      wrong1: '',
-      wrong2: '',
-      wrong3: '',
       questions: [],
       answers: [],
       index: null,
@@ -173,9 +170,6 @@ export default class PrebuiltQuiz extends React.Component {
         return {
           name: currentQuestion.name,
           correct: currentQuestion.correct,
-          wrong1: currentQuestion.wrong1,
-          wrong2: currentQuestion.wrong2,
-          wrong3: currentQuestion.wrong3,
           answers: answers
         };
       });
