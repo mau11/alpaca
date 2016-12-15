@@ -14,6 +14,7 @@ export default class Layout extends React.Component {
       <div>
         <Nav auth={this.props.route.auth} location={location} />
         <div className="container" style={containerStyle}>
+          <div id="messagesContainer"></div>
           <div className="row">
             {this.props.children}
           </div>
