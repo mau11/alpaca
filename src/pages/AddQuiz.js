@@ -132,28 +132,28 @@ export default class AddQuiz extends React.Component {
                 </div>
 
                 <div className="form-group row">
-                  <label className="col-xs-4 col-form-label" htmlFor="answer">Correct</label>
+                  <label className="col-xs-4 col-form-label" htmlFor="answer" maxlength="20">Correct</label>
                   <div className="col-xs-8">
                     <input name="answer" type="text" className="form-control" placeholder="Enter an answer" required></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
-                  <label className="col-xs-4 col-form-label" htmlFor="option1">Wrong 1</label>
+                  <label className="col-xs-4 col-form-label" htmlFor="option1" maxlength="20">Wrong 1</label>
                   <div className="col-xs-8">
                     <input name="option1" type="text" className="form-control" placeholder="Enter an answer"></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
-                  <label className="col-xs-4 col-form-label" htmlFor="option2">Wrong 2</label>
+                  <label className="col-xs-4 col-form-label" htmlFor="option2" maxlength="20">Wrong 2</label>
                   <div className="col-xs-8">
                     <input name="option2" type="text" className="form-control" placeholder="Enter an answer"></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
-                  <label className="col-xs-4 col-form-label" htmlFor="option3">Wrong 3</label>
+                  <label className="col-xs-4 col-form-label" htmlFor="option3" maxlength="20">Wrong 3</label>
                   <div className="col-xs-8">
                     <input name="option3" type="text" className="form-control" placeholder="Enter an answer"></input>
                   </div>
