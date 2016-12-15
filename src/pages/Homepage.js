@@ -13,9 +13,6 @@ export default class Homepage extends React.Component {
     };
   }
 
-
-
-
   render() {
     return (
       <div className="container homepage">
@@ -35,7 +32,7 @@ export default class Homepage extends React.Component {
           <div className="col-md-4 text-left">
               <h2>Get started</h2>
               <p>Take a quiz by clicking on "PreBuilt Quiz" in the top bar.  Or click "Custom Quiz" to start making your very own quiz for others!</p>
-              <Link to="/signup">Sign Up</Link>
+              <Link to="/login">Log In</Link>
           </div>
         </div>
 
