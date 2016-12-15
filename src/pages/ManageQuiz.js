@@ -42,8 +42,8 @@ export default class RemoveQuiz extends React.Component {
         wrong2: '',
         wrong3: ''
       })
-    });
-    this.getTestNameCurrentQuestions();
+    }, this.getTestNameCurrentQuestions);
+    // this.getTestNameCurrentQuestions();
   }
 
   // the next *handle* functions to the work of updating state variables as
@@ -141,21 +141,21 @@ export default class RemoveQuiz extends React.Component {
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="testName">Test Name</label>
                   <div className="col-xs-8">
-                    <input name="testName" type="text" className="form-control" placeholder="Enter the Name of this Test" onChange={this.handleTestName.bind(this)}></input>
+                    <input name="testName" type="text" className="form-control" placeholder="Enter the Name of this Test" onChange={this.handleTestName.bind(this)} required></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="question">Question</label>
                   <div className="col-xs-8">
-                    <input name="question" type="text" className="form-control" placeholder="Enter a question" onChange={this.handleQuestion.bind(this)}></input>
+                    <input name="question" type="text" className="form-control" placeholder="Enter a question" onChange={this.handleQuestion.bind(this)} required></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="answer">Correct</label>
                   <div className="col-xs-8">
-                    <input name="answer" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleCorrentAnswer.bind(this)}></input>
+                    <input name="answer" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleCorrentAnswer.bind(this)} required></input>
                   </div>
                 </div>
 
