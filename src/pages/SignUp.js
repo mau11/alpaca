@@ -47,14 +47,13 @@ export default class SignUp extends React.Component {
   }
 
   render() {
-    console.log("SignUp");
     return (
       <div className="container main-signup-container">
         <div className="col-md-6 col-md-offset-3">
           <h1>Sign Up for CrashCourse</h1>
           <form className="form-signup signup">
            <div className="form-group row">
-              <label htmlFor="firstname" className="col-xs-4 col-form-label">First Name</label> 
+              <label htmlFor="firstname" className="col-xs-4 col-form-label">First Name</label>
               <div className="col-xs-8">
                 <input type="text" className="form-control" id="firstname"  onChange={this.checkFirstname.bind(this)}></input>
               </div>
@@ -80,7 +79,7 @@ export default class SignUp extends React.Component {
             <button className="btn btn-sm btn-primary" type="submit" onClick={this.sendCredentials.bind(this)}>Sign Up</button>
           </form>
         </div>
-      </div> 
+      </div>
     );
   }
 }

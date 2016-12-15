@@ -19,7 +19,7 @@ export default class PrebuiltQuiz extends React.Component {
       timeCount:15, // used for countdown
       correctAns: 0, // number of correct and wrong answer submissions for percent
       wrongAns: 0,
-      startTimer: true, // begins timer
+      startTimer: false, // begins timer
       showTimer: false, // used to show timer after selecting a quiz
       quizName: '',
       quizNames: [],
@@ -28,9 +28,8 @@ export default class PrebuiltQuiz extends React.Component {
     };
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.getQuizes(); // generate drop down list to select test
-    this.GetQuestions();
   }
 
   // get all quizzes from server
@@ -74,7 +73,7 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   // grabs all the questions based on the selected quiz from the drop down list
-  GetQuestions() {
+  getQuestions() {
     var config = {
       params: {
         ID: this.state.quizName
@@ -85,8 +84,10 @@ export default class PrebuiltQuiz extends React.Component {
     axios.get('/questions', config)
       .then(response =>{
         questions = response.data;
-        this.setState({
-          questions: this.state.questions.concat(questions),
+        this.setState((prevState, props) => {
+          return {
+            questions: prevState.questions.concat(questions)
+          };
         }, this.handleQuestionChange);
       })
       .catch(function(err){
@@ -103,28 +104,37 @@ export default class PrebuiltQuiz extends React.Component {
       this.handleWrong();
     }
   }
+
   handleCorrect() {
     this.playCorrectSound();
-    this.setState({
-      timeCount: 15,
-      index: this.state.index + 1,
-      answers: [],
-      correctAns: this.state.correctAns + 1,
-    }, this.handleQuestionChange)
+    this.setState((prevState, props) => {
+      return {
+        timeCount: 15,
+        index: prevState.index + 1,
+        answers: [],
+        correctAns: prevState.correctAns + 1
+      };
+    }, this.handleQuestionChange);
   }
+
   handleWrong() {
     this.playWrongSound();
-    this.setState({
-      timeCount: 15,
-      index: this.state.index + 1,
-      answers: [],
-      wrongAns: this.state.wrongAns + 1,
-    }, this.handleQuestionChange)
+    this.setState((prevState, props) => {
+      return {
+        timeCount: 15,
+        index: prevState.index + 1,
+        answers: [],
+        wrongAns: this.state.wrongAns + 1
+      };
+    }, this.handleQuestionChange);
   }
+
   handleTime() {
-    this.setState({
-      timeCount: this.state.timeCount-1,
-    }, function() {
+    this.setState((prevState, props) => {
+      return {
+        timeCount: prevState.timeCount - 1
+      };
+    }, function () {
       if (this.state.timeCount === 0) {
         this.handleWrong();
       }
@@ -132,6 +142,7 @@ export default class PrebuiltQuiz extends React.Component {
       this.setState({startTimer: true});
     })
   }
+
   handleTimeCount() {
     var that = this;
     this.timer = setInterval(function() {
@@ -144,31 +155,72 @@ export default class PrebuiltQuiz extends React.Component {
   handleQuestionChange() {
     var questions = this.state.questions;
     var index = this.state.index;
+    var currentQuestion = questions[index];
     if (index === this.state.questions.length) {
       this.handleEndQuiz();
     } else {
-      this.setState({
-        name: questions[index].name,
-        correct: questions[index].correct,
-        wrong1: questions[index].wrong1,
-        wrong2: questions[index].wrong2,
-        wrong3: questions[index].wrong3,
-        answers: this.state.answers.concat(questions[index].correct, questions[index].wrong1, questions[index].wrong2, questions[index].wrong3)
+      this.setState((prevState, props) => {
+        var answers = [
+        currentQuestion.correct,
+        currentQuestion.wrong1,
+        currentQuestion.wrong2,
+        currentQuestion.wrong3
+        ];
+
+        // shuffle the order of the answer options
+        this.shuffle(answers);
+
+        return {
+          name: currentQuestion.name,
+          correct: currentQuestion.correct,
+          wrong1: currentQuestion.wrong1,
+          wrong2: currentQuestion.wrong2,
+          wrong3: currentQuestion.wrong3,
+          answers: answers
+        };
       });
     }
   }
+
   handleEndQuiz() {
     var percent = (this.state.correctAns/(this.state.questions.length)).toFixed(2) * 100;
     clearInterval(this.timer);
     this.setState({
       score: percent,
       completedQuiz: true,
+      startTimer: false // stop the timer if quiz has ended
     })
   }
 
   // on selecting a quiz, reset timer, correct answer count and wrong count,
   // and get the array of questions
   handleQuizSelect(e) {
+    if (e.target.value) { // don't update the state if they selected '' as a quiz
+      this.setState({
+        quizName: e.target.value,
+        questions: [],
+        answers: [],
+        index: 0,
+        timeCount:15,
+        correctAns: 0,
+        wrongAns: 0,
+        startTimer: true, // start the timer if quiz has started
+        showTimer: true,
+      }, this.getQuestions);
+    }
+  }
+
+  // helper function to shuffle the contents of an array
+  shuffle(array) {
+    for (var i = array.length - 1; i > 0; i--) { 
+      var j = Math.floor(Math.random() * (i + 1)); 
+      var temp = array[i]; 
+      array[i] = array[j]; 
+      array[j] = temp; 
+    } 
+  }
+
+  handleTryAgain(e) {
     this.setState({
       quizName: e.target.value,
       questions: [],
@@ -177,8 +229,17 @@ export default class PrebuiltQuiz extends React.Component {
       timeCount:15,
       correctAns: 0,
       wrongAns: 0,
-      showTimer: true,
-    }, this.GetQuestions);
+      showTimer: false,
+      completedQuiz: false,
+      correct: '',
+      wrong1: '',
+      wrong2: '',
+      wrong3: '',
+      index: null,
+      timeCount:15, // used for countdown
+      correctAns: 0, // number of correct and wrong answer submissions for percent
+      wrongAns: 0
+    }, this.getQuestions);
 
   }
 
@@ -205,10 +266,9 @@ export default class PrebuiltQuiz extends React.Component {
 
   }
 
-          // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
-          // ternary is also used to display the Timer only after a test has been selected
+  // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
+  // ternary is also used to display the Timer only after a test has been selected
   render() {
-
     return (
       <div className="App">
       {
@@ -229,7 +289,7 @@ export default class PrebuiltQuiz extends React.Component {
               )}
             </select>
 
-            <h1>{this.state.name}</h1>
+            <h2>{this.state.name}</h2>
             {/* animations for buttons */}
             <VelocityTransitionGroup
               enter={{animation: "transition.slideDownBigOut", duration: 20000, opacity: [1,1], translateY: 200}}
