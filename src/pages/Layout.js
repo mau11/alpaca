@@ -12,7 +12,7 @@ export default class Layout extends React.Component {
     };
     return (
       <div>
-        <Nav location={location} />
+        <Nav auth={this.props.auth} location={location} />
         <div className="container" style={containerStyle}>
           <div className="row">
             {this.props.children}

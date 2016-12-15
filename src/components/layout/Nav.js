@@ -18,6 +18,8 @@ export default class Nav extends React.Component {
     const { location } = this.props;
     const { collapsed } = this.state;
     const navClass = collapsed ? "collapse" : "";
+    const showLogin = this.props.auth.loggedIn() ? false : true;
+
 
     return (
 
@@ -34,11 +36,9 @@ export default class Nav extends React.Component {
           </div>
           <div className={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav navbar-right">
-             {/* <li><Link to="/settings" onClick={this.toggleCollapse.bind(this)}>Settings</Link></li> */}
-              <li><Link to="/prebuiltQuiz">PreBuilt Quiz</Link></li>
+              <li><Link to="/prebuiltQuiz">Game overview</Link></li>
               <li><Link to="/customQuiz">Custom Quiz</Link></li>
-              <li><Link to="/login">Log In</Link></li>
-              <li><Link to="/signup">Sign Up</Link></li>
+               {showLogin ? (<li><Link to="/login">Log In</Link></li>) : ''}
             </ul>
           </div>
         </div>
