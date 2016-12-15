@@ -51,6 +51,7 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   componentDidUpdate() {
+    this.answerWidth();
     if (this.state.startTimer) {
       this.handleTimeCount();
       this.setState({startTimer: false});
@@ -236,6 +237,17 @@ export default class PrebuiltQuiz extends React.Component {
       array[i] = array[j]; 
       array[j] = temp; 
     } 
+  }
+
+    // sets fix width of answer buttons
+  answerWidth() {
+    var answerBtns = document.getElementsByClassName('answer');
+    var answerCount = this.state.answers.length;
+    var width = 90/answerCount;
+    for(var i = 0; i < answerBtns.length; i++){
+      answerBtns[i].style.maxWidth = width + '%';
+      answerBtns[i].style.minWidth = width + '%';
+    }
   }
 
   // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
