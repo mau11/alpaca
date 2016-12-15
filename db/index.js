@@ -22,7 +22,7 @@ var Question = db.define('Question', {
 
 var Results = db.define('Results', {
   userID: Sequelize.INTEGER,
-  category: Sequelize.STRING,
+  testName: Sequelize.STRING,
   correct: Sequelize.INTEGER,
   incorrect: Sequelize.INTEGER
 });

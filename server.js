@@ -23,7 +23,8 @@ router.get('/questions', controller.questions.get);
 router.post('/questions', controller.questions.post);
 //router.get('/users', controller.users.get);
 //router.post('/users', controller.users.post);
-
+router.get('/results', controller.results.get);
+router.post('/results', controller.results.post);
 
 // Port ========================
 app.set('port', 1337);
