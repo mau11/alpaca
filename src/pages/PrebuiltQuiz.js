@@ -22,7 +22,6 @@ export default class PrebuiltQuiz extends React.Component {
       quizNames: [],
       score: 0,
       completedQuiz: false, // when true ternary in render shows the summary component
-      sound: true
     };
   }
 
@@ -51,6 +50,7 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   componentDidUpdate() {
+    this.answerWidth();
     if (this.state.startTimer) {
       this.handleTimeCount();
       this.setState({startTimer: false});
@@ -63,14 +63,10 @@ export default class PrebuiltQuiz extends React.Component {
 
   playCorrectSound() {
     var audio = new Audio('./assets/correct.mp3');
-    var sounds = document.getElementById("volume").value;
-    audio.volume = sounds / 100;
     audio.play();
   }
   playWrongSound() {
     var audio = new Audio('./assets/wrongCrash.wav');
-    var sounds = document.getElementById("volume").value;
-    audio.volume = sounds / 100;
     audio.play();
   }
 
@@ -99,7 +95,6 @@ export default class PrebuiltQuiz extends React.Component {
 
   // *handle* functions take care of clicking the buttons, and the events of the
   // quiz
-
   handleClick(e) {
     if (this.state.correct === e.target.textContent) {
       this.handleCorrect();
@@ -109,9 +104,7 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   handleCorrect() {
-    if(this.state.sound === true) {
-      this.playCorrectSound();
-    }
+    this.playCorrectSound();
     this.setState((prevState, props) => {
       return {
         timeCount: 15,
@@ -123,9 +116,7 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   handleWrong() {
-    if(this.state.sound === true) {
-      this.playWrongSound();
-    }
+    this.playWrongSound();
     this.setState((prevState, props) => {
       return {
         timeCount: 15,
@@ -174,6 +165,8 @@ export default class PrebuiltQuiz extends React.Component {
         currentQuestion.wrong3
         ];
 
+        // remove blank answer options
+        answers = this.removeBlank(answers);
         // shuffle the order of the answer options
         this.shuffle(answers);
 
@@ -238,6 +231,28 @@ export default class PrebuiltQuiz extends React.Component {
     } 
   }
 
+    // sets fix width of answer buttons
+  answerWidth() {
+    var answerBtns = document.getElementsByClassName('answer');
+    var answerCount = this.state.answers.length;
+    var width = 90/answerCount;
+    for(var i = 0; i < answerBtns.length; i++){
+      answerBtns[i].style.maxWidth = width + '%';
+      answerBtns[i].style.minWidth = width + '%';
+    }
+
+  // helper function to remove undefined from an array
+  removeBlank(array) {
+    var result = [];
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] !== '') {
+        result.push(array[i]);
+      }
+    }
+    return result;
+
+  }
+
   // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
   // ternary is also used to display the Timer only after a test has been selected
   render() {
@@ -268,11 +283,9 @@ export default class PrebuiltQuiz extends React.Component {
               enter={{animation: "transition.slideDownBigOut", duration: 20000, opacity: [1,1], translateY: 200}}
               leave={{opacity: [1,1]}}
             >
-              {this.state.answers.map(option => {
-                if (option) {
-                  return (<button onClick={this.handleClick.bind(this)} className={`answer btn btn-lg ${option}`}>{option}</button>);
-                }
-              })}
+              {this.state.answers.map(option =>
+                <button onClick={this.handleClick.bind(this)} className={`answer btn btn-lg ${option}`}>{option}</button>
+              )}
             </VelocityTransitionGroup>
 
             <div className="container"></div>
@@ -281,8 +294,6 @@ export default class PrebuiltQuiz extends React.Component {
             }
             <div id='ground'></div>
           </div>
-
-
       }
       </div>
     );
