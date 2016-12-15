@@ -163,23 +163,26 @@ export default class PrebuiltQuiz extends React.Component {
     this.setState({
       score: percent,
       completedQuiz: true,
+      startTimer: false // stop the timer if quiz has ended
     })
   }
 
   // on selecting a quiz, reset timer, correct answer count and wrong count,
   // and get the array of questions
   handleQuizSelect(e) {
-    this.setState({
-      quizName: e.target.value,
-      questions: [],
-      answers: [],
-      index: 0,
-      timeCount:15,
-      correctAns: 0,
-      wrongAns: 0,
-      startTimer: true, // not working
-      showTimer: true,
-    }, this.getQuestions);
+    if (e.target.value) { // don't update the state if they selected '' as a quiz
+      this.setState({
+        quizName: e.target.value,
+        questions: [],
+        answers: [],
+        index: 0,
+        timeCount:15,
+        correctAns: 0,
+        wrongAns: 0,
+        startTimer: true, // start the timer if quiz has started
+        showTimer: true,
+      }, this.getQuestions);
+    }
 
   }
 
