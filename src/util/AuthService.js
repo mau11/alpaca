@@ -8,7 +8,7 @@ export default class AuthService {
     // Configure Auth0
     this.lock = new Auth0Lock(clientId, domain, {
       auth: {
-        redirectUrl: 'http://localhost:1337/#/prebuiltQuiz',
+        redirectUrl: 'http://localhost:1337/#/gameOverview',
         responseType: 'token'
       }
     })
@@ -19,7 +19,6 @@ export default class AuthService {
   }
 
   _doAuthentication(authResult) {
-    console.log('authenticating...')
     // Saves the user token
     this.setToken(authResult.idToken)
   }

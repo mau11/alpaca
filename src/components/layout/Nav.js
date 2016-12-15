@@ -8,7 +8,6 @@ export default class Nav extends React.Component {
     this.state = {
       collapsed: true,
     };
-    this.context = context;
   }
 
   toggleCollapse() {
@@ -18,7 +17,6 @@ export default class Nav extends React.Component {
 
   logout() {
     this.props.auth.logout();
-    console.log('logggin out')
     this.context.router.push('/home');
   }
 
