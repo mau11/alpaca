@@ -160,13 +160,23 @@ export default class PrebuiltQuiz extends React.Component {
       this.handleEndQuiz();
     } else {
       this.setState((prevState, props) => {
+        var answers = [
+        currentQuestion.correct,
+        currentQuestion.wrong1,
+        currentQuestion.wrong2,
+        currentQuestion.wrong3
+        ];
+
+        // shuffle the order of the answer options
+        this.shuffle(answers);
+
         return {
           name: currentQuestion.name,
           correct: currentQuestion.correct,
           wrong1: currentQuestion.wrong1,
           wrong2: currentQuestion.wrong2,
           wrong3: currentQuestion.wrong3,
-          answers: [currentQuestion.correct, currentQuestion.wrong1, currentQuestion.wrong2, currentQuestion.wrong3]
+          answers: answers
         };
       });
     }
@@ -201,10 +211,19 @@ export default class PrebuiltQuiz extends React.Component {
 
   }
 
+  // helper function to shuffle the contents of an array
+  shuffle(array) {
+    for (var i = array.length - 1; i > 0; i--) { 
+      var j = Math.floor(Math.random() * (i + 1)); 
+      var temp = array[i]; 
+      array[i] = array[j]; 
+      array[j] = temp; 
+    } 
+  }
+
   // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
   // ternary is also used to display the Timer only after a test has been selected
   render() {
-
     return (
       <div className="App">
       {
