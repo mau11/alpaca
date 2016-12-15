@@ -56,6 +56,11 @@ li a:hover {
   background-color: #111;
 }
 
+input[type=range] {
+  margin: 0 auto;
+  width: 100%;
+}
+
 .container {
   width: 80%;
   margin: 0 auto;

@@ -22,6 +22,7 @@ export default class PrebuiltQuiz extends React.Component {
       quizNames: [],
       score: 0,
       completedQuiz: false, // when true ternary in render shows the summary component
+      sound: true
     };
   }
 
@@ -62,10 +63,14 @@ export default class PrebuiltQuiz extends React.Component {
 
   playCorrectSound() {
     var audio = new Audio('./assets/correct.mp3');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
   playWrongSound() {
     var audio = new Audio('./assets/wrongCrash.wav');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
 
@@ -94,6 +99,7 @@ export default class PrebuiltQuiz extends React.Component {
 
   // *handle* functions take care of clicking the buttons, and the events of the
   // quiz
+
   handleClick(e) {
     if (this.state.correct === e.target.textContent) {
       this.handleCorrect();
@@ -103,7 +109,9 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   handleCorrect() {
-    this.playCorrectSound();
+    if(this.state.sound === true) {
+      this.playCorrectSound();
+    }
     this.setState((prevState, props) => {
       return {
         timeCount: 15,
@@ -115,7 +123,9 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   handleWrong() {
-    this.playWrongSound();
+    if(this.state.sound === true) {
+      this.playWrongSound();
+    }
     this.setState((prevState, props) => {
       return {
         timeCount: 15,
@@ -258,6 +268,8 @@ export default class PrebuiltQuiz extends React.Component {
             }
             <div id='ground'></div>
           </div>
+
+
       }
       </div>
     );
