@@ -16,6 +16,7 @@
     "open": "0.0.5"
   },
   "dependencies": {
+    "auth0-lock": "^10.7.2",
     "axios": "^0.15.3",
     "bcrypt": "^1.0.1",
     "body-parser": "^1.15.2",

@@ -1,11 +1,17 @@
 // src/utils/AuthService.js
 
+import Auth0Lock from 'auth0-lock';
 import { browserHistory } from 'react-router'
 
 export default class AuthService {
   constructor(clientId, domain) {
     // Configure Auth0
-    this.lock = new Auth0Lock(clientId, domain, {})
+    this.lock = new Auth0Lock(clientId, domain, {
+      auth: {
+        redirectUrl: 'http://localhost:1337/#/prebuiltQuiz',
+        responseType: 'token'
+      }
+    })
     // Add callback for lock `authenticated` event
     this.lock.on('authenticated', this._doAuthentication.bind(this))
     // binds login functions to keep this context
@@ -16,8 +22,6 @@ export default class AuthService {
     console.log('authenticating...')
     // Saves the user token
     this.setToken(authResult.idToken)
-    // navigate to the home route
-    browserHistory.replace('/home')
   }
 
   login() {

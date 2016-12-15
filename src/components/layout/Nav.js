@@ -1,17 +1,25 @@
-import React from "react";
+import React, { PropTypes as T } from 'react'
 import { Link } from 'react-router'
 
+
 export default class Nav extends React.Component {
-  constructor() {
-    super()
+  constructor(props, context) {
+    super(props, context)
     this.state = {
       collapsed: true,
     };
+    this.context = context;
   }
 
   toggleCollapse() {
     const collapsed = !this.state.collapsed;
     this.setState({collapsed});
+  }
+
+  logout() {
+    this.props.auth.logout();
+    console.log('logggin out')
+    this.context.router.push('/home');
   }
 
   render() {
@@ -36,13 +44,19 @@ export default class Nav extends React.Component {
           </div>
           <div className={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav navbar-right">
-              <li><Link to="/prebuiltQuiz">Game overview</Link></li>
-              <li><Link to="/customQuiz">Custom Quiz</Link></li>
-               {showLogin ? (<li><Link to="/login">Log In</Link></li>) : ''}
+              <li><Link to="/gameOverview">Game overview</Link></li>
+              {this.props.auth.loggedIn() ? (<li><Link to="/addQuiz">Add Quiz</Link></li>) : ''}
+              {this.props.auth.loggedIn() ? (<li><Link to="/manageQuiz">Manage Quizzes</Link></li>) : ''}
+              {this.props.auth.loggedIn() ? (<li><Link onClick={this.logout.bind(this)}>Log Out</Link></li>) : ''}
+              {!this.props.auth.loggedIn() ? (<li><Link onClick={this.props.auth.login.bind(this)}>Log In</Link></li>) : ''}
             </ul>
           </div>
         </div>
       </nav>
     );
   }
+}
+
+Nav.contextTypes = {
+  router: T.object
 }
