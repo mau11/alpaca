@@ -79,13 +79,14 @@ module.exports = {
     // opportunity to keep track of results in database, sorting by userID.
     
     get: function (req, res) {
-      db.Results.find({ 
+      console.log('------REQUESTFORGETRESULTS', req.query);
+      db.Results.findAll({ 
           where: { 
-            userID: req.body.userID,
-            testName: req.body.testName
+            userID: req.query.userID
           } 
         })
-        .then(function(err, response) {
+        .then(function(response) {
+          console.log('wut is erorr rwerwerwerwer', response);
           if (!response) {
             console.log('No results for that test');
           } else {
