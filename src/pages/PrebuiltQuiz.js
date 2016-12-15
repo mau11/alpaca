@@ -245,7 +245,11 @@ export default class PrebuiltQuiz extends React.Component {
               enter={{animation: "transition.slideDownBigOut", duration: 20000, opacity: [1,1], translateY: 200}}
               leave={{opacity: [1,1]}}
             >
-              {this.state.answers.map(option => <button onClick={this.handleClick.bind(this)} className={`answer btn btn-lg ${option}`}>{option}</button> )}
+              {this.state.answers.map(option => {
+                if (option) {
+                  return (<button onClick={this.handleClick.bind(this)} className={`answer btn btn-lg ${option}`}>{option}</button>);
+                }
+              })}
             </VelocityTransitionGroup>
 
             <div className="container"></div>
