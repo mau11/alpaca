@@ -65,9 +65,8 @@ export default class ManageQuiz extends React.Component {
         <div className="col-md-12">
           <div className="row">
             <div className="col-md-6">
-              <h2>Manage Quizzes</h2>
+              <h1>Manage Quizzes</h1>
                 {this.state.questions.map(question => {
-
                   return (
                     <div className="quiz-row" onClick={this.toggleInfo.bind(this)}>
                       <div >
