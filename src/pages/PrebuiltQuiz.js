@@ -28,9 +28,8 @@ export default class PrebuiltQuiz extends React.Component {
     };
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.getQuizes(); // generate drop down list to select test
-    this.getQuestions();
   }
 
   // get all quizzes from server
@@ -85,8 +84,10 @@ export default class PrebuiltQuiz extends React.Component {
     axios.get('/questions', config)
       .then(response =>{
         questions = response.data;
-        this.setState({
-          questions: this.state.questions.concat(questions),
+        this.setState((prevState, props) => {
+          return {
+            questions: prevState.questions.concat(questions)
+          };
         }, this.handleQuestionChange);
       })
       .catch(function(err){
@@ -214,8 +215,7 @@ export default class PrebuiltQuiz extends React.Component {
 
             <div className="container"></div>
             {
-              <h2>{this.state.timeCount}</h2>
-              // this.state.showTimer ? <h2>{this.state.timeCount}</h2> : null
+              this.state.showTimer ? <h2>{this.state.timeCount}</h2> : null
             }
             <div id='ground'></div>
           </div>
