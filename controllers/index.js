@@ -77,12 +77,35 @@ module.exports = {
   },
   results: {
     // opportunity to keep track of results in database, sorting by userID.
+    
+    get: function (req, res) {
+      db.Results.find({ 
+          where: { 
+            userID: req.body.userID,
+            testName: req.body.testName
+          } 
+        })
+        .then(function(err, response) {
+          if (!response) {
+            console.log('No results for that test');
+          } else {
+            res.json(response);
+          }
+        });
+    },
+
     post: function (req, res) {
-      db.Results.create({
-        userID: req.body.userID,
-        category: req.body.category,
-        correct: req.body.correctAns,
-        incorrect: req.body.wrongAns
+      console.log('REQUEST BODY==============',req.body);
+      db.Results.findOrCreate({
+        where:{
+          userID: req.body.userID,
+          testName: req.body.testName,
+        },
+        defaults:{
+          correct: req.body.correct,
+          incorrect: req.body.incorrect,
+        }
+
       }).then(function(results) {
         res.sendStatus(201);
       })

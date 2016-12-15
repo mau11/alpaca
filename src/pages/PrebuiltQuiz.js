@@ -6,7 +6,7 @@ export default class PrebuiltQuiz extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userID: '', // opportunity to get ID for currently logged-in user to track results
+      userID: '999', // opportunity to get ID for currently logged-in user to track results
       category: '', // opportunity to get category of current test to track results
       name: '',  // this is actually the question being asked (please change the name)
       correct: '',
@@ -186,9 +186,22 @@ export default class PrebuiltQuiz extends React.Component {
     }
   }
 
+  sendResults() {
+    axios.post('/results', {
+      userID: this.state.userID,
+      testName: this.state.quizName,
+      correct: this.state.correctAns,
+      incorrect: this.state.wrongAns,
+    })
+    .catch(function(err){
+        console.log(err)
+    });
+  }
+
   handleEndQuiz() {
     var percent = (this.state.correctAns/(this.state.questions.length)).toFixed(2) * 100;
     clearInterval(this.timer);
+    this.sendResults();
     this.setState({
       score: percent,
       completedQuiz: true,
