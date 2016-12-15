@@ -194,10 +194,10 @@ export default class PrebuiltQuiz extends React.Component {
 
   // on selecting a quiz, reset timer, correct answer count and wrong count,
   // and get the array of questions
-  handleQuizSelect(e) {
-    if (e.target.value) { // don't update the state if they selected '' as a quiz
+  handleQuizSelect(quizName) {
+    if (quizName) { // don't update the state if they selected '' as a quiz
       this.setState({
-        quizName: e.target.value,
+        quizName: quizName,
         questions: [],
         answers: [],
         index: 0,
@@ -206,6 +206,7 @@ export default class PrebuiltQuiz extends React.Component {
         wrongAns: 0,
         startTimer: true, // start the timer if quiz has started
         showTimer: true,
+        completedQuiz: false
       }, this.getQuestions);
     }
   }
@@ -220,52 +221,6 @@ export default class PrebuiltQuiz extends React.Component {
     } 
   }
 
-  handleTryAgain(e) {
-    this.setState({
-      quizName: e.target.value,
-      questions: [],
-      answers: [],
-      index: 0,
-      timeCount:15,
-      correctAns: 0,
-      wrongAns: 0,
-      showTimer: false,
-      completedQuiz: false,
-      correct: '',
-      wrong1: '',
-      wrong2: '',
-      wrong3: '',
-      index: null,
-      timeCount:15, // used for countdown
-      correctAns: 0, // number of correct and wrong answer submissions for percent
-      wrongAns: 0
-    }, this.getQuestions);
-
-  }
-
-  handleTryAgain(e) {
-    this.setState({
-      quizName: e.target.value,
-      questions: [],
-      answers: [],
-      index: 0,
-      timeCount:15,
-      correctAns: 0,
-      wrongAns: 0,
-      showTimer: false,
-      completedQuiz: false,
-      correct: '',
-      wrong1: '',
-      wrong2: '',
-      wrong3: '',
-      index: null,
-      timeCount:15, // used for countdown
-      correctAns: 0, // number of correct and wrong answer submissions for percent
-      wrongAns: 0
-    }, this.GetQuestions);
-
-  }
-
   // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
   // ternary is also used to display the Timer only after a test has been selected
   render() {
@@ -276,13 +231,13 @@ export default class PrebuiltQuiz extends React.Component {
           <div>
             <h1>quiz complete, your score is: {this.state.score}%!</h1>
             <div>
-              <button className="btn btn-sm btn-primary" onClick={this.handleTryAgain.bind(this)} value={this.state.value} >Take another quiz?
+              <button className="btn btn-sm btn-primary" onClick={() => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
               </button>
             </div>
           </div>
           :
           <div><h1>Select a quiz!</h1>
-            <select className="buttonStyle" onChange={this.handleQuizSelect.bind(this)} value={this.state.value} >
+            <select className="buttonStyle" onChange={(e) => this.handleQuizSelect(e.target.value)} value={this.state.value} >
               <option selected></option>
               {this.state.quizNames.map(name =>
                 <option value={name}>{name}</option>
