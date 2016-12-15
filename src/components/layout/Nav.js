@@ -46,6 +46,7 @@ export default class Nav extends React.Component {
               <li><Link to="/gameOverview">Game overview</Link></li>
               {this.props.auth.loggedIn() ? (<li><Link to="/addQuiz">Add Quiz</Link></li>) : ''}
               {this.props.auth.loggedIn() ? (<li><Link to="/manageQuiz">Manage Quizzes</Link></li>) : ''}
+              {this.props.auth.loggedIn() ? (<li><Link to="/myResults">My Results</Link></li>) : ''}
               {this.props.auth.loggedIn() ? (<li><Link onClick={this.logout.bind(this)}>Log Out</Link></li>) : ''}
               {!this.props.auth.loggedIn() ? (<li><Link onClick={this.props.auth.login.bind(this)}>Log In</Link></li>) : ''}
             </ul>

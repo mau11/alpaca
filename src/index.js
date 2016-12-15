@@ -10,6 +10,7 @@ import GameOverview from "./pages/GameOverview";
 import PrebuiltQuiz from "./pages/PrebuiltQuiz";
 import Layout from "./pages/Layout";
 import Homepage from "./pages/Homepage";
+import MyResults from "./pages/MyResults";
 import AuthService from "./util/AuthService"
 
 
@@ -33,6 +34,7 @@ ReactDOM.render(
       <Route path="/prebuiltQuiz" name="prebuiltQuiz" component={PrebuiltQuiz}></Route>
       <Route path="/addQuiz" name="addQuiz" component={AddQuiz} onEnter={requireAuth} ></Route>
       <Route path="/manageQuiz" name="manageQuiz" component={ManageQuiz} onEnter={requireAuth} ></Route>
+      <Route path="/myResults" name="myResults" component={MyResults} onEnter={requireAuth} ></Route>
     </Route>
   </Router>,
 app);
