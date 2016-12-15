@@ -240,6 +240,7 @@ export default class PrebuiltQuiz extends React.Component {
       answerBtns[i].style.maxWidth = width + '%';
       answerBtns[i].style.minWidth = width + '%';
     }
+  }
 
   // helper function to remove undefined from an array
   removeBlank(array) {
