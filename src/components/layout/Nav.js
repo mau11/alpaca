@@ -31,8 +31,8 @@ export default class Nav extends React.Component {
               <span className="icon-bar"></span>
             </button>
             <a className="navbar-brand" href="#">CrashCourse</a>
-          </div>
           <div><input id="volume" type="range" min="0" max="100" /></div>
+          </div>
           <div className={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav navbar-right">
              {/* <li><Link to="/settings" onClick={this.toggleCollapse.bind(this)}>Settings</Link></li> */}
