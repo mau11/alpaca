@@ -231,8 +231,9 @@ export default class PrebuiltQuiz extends React.Component {
           <div>
             <h1>quiz complete, your score is: {this.state.score}%!</h1>
             <div>
-              <button className="btn btn-sm btn-primary" onClick={() => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
+              <button className="button btn-retake-quiz" onClick={(e) => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
               </button>
+              <button className="button btn-another-quiz" onClick={(e) => window.location.reload() }>Take another quiz?</button>
             </div>
           </div>
           :
