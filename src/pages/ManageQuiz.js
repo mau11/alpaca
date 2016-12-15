@@ -5,86 +5,60 @@ export default class RemoveQuiz extends React.Component {
  constructor(props) {
     super(props);
 
-    //keep state
+    // //keep state
     this.state = {
-      question: '',
-      answer: '',
-      option1: '',
-      option2: '',
-      option3: '',
-      testName: '',
-      currQuesList: [], // populated with data from server in this.getTestNameCurrentQuestions
+      testName: undefined,
+      currQuesList: [] // populated with data from server in this.getTestNameCurrentQuestions
     };
   }
 
   // this actually pushes the current values to the server using a post request
   // with axios
   sendCustomTemplate(e) {
-    //e.preventDefault(); // use prevent default to stop page from clearing form
-                          // to hopefully keep 'testName' in the top input field,
-                          // but there was an issue when setting value attribute,
-                          // couldn't input or change the inputs after value was
-                          // set this way
+    e.preventDefault();
+
+    // an array of objects for each input field, with 'name' and 'value' keys
+    var $form = $('.form-customquiz').serializeArray();
+    var testName, question, correct, wrong1, wrong2, wrong3;
+
+    // TODO: perhaps there is a better way to write this
+    $form.forEach(function (field) {
+      if (field.name === 'testName') {
+        testName = field.value;
+      } else if (field.name === 'question') {
+        question = field.value;
+      } else if (field.name === 'answer') {
+        correct = field.value;
+      } else if (field.name === 'option1') {
+        wrong1 = field.value;
+      } else if (field.name === 'option2') {
+        wrong2 = field.value;
+      } else if (field.name === 'option3') {
+        wrong3 = field.value;
+      }
+    });
+
     axios.post('/questions', {
-      name: this.state.question,
-      correct: this.state.answer,
-      wrong1: this.state.option1,
-      wrong2: this.state.option2,
-      wrong3: this.state.option3,
-      testName: this.state.testName,
+      name: question,
+      correct: correct,
+      wrong1: wrong1,
+      wrong2: wrong2,
+      wrong3: wrong3,
+      testName: testName,
     })
     .then(() => {
-      // clear forms
       this.setState({
-        name: '',
-        correct: '',
-        wrong1: '',
-        wrong2: '',
-        wrong3: ''
-      })
-    }, this.getTestNameCurrentQuestions);
-    // this.getTestNameCurrentQuestions();
-  }
-
-  // the next *handle* functions to the work of updating state variables as
-  // data is typed into the input fields.
-  handleQuestion(e) {
-    this.setState({
-      question: e.target.value
+        testName: testName
+      }, this.getTestNameCurrentQuestions)
+    })
+    .then(function () {
+      $(':input', '.form-customquiz')
+      .not('input[name=testName]')
+      .val('');
+    })
+    .catch(function (err) {
+      console.error('error:', err);
     });
-  }
-
-  handleCorrentAnswer(e) {
-    this.setState({
-      answer: e.target.value
-    });
-  }
-
-  handleWrong1(e) {
-    this.setState({
-      option1: e.target.value
-    });
-  }
-
-  handleWrong2(e) {
-    this.setState({
-      option2: e.target.value
-    });
-  }
-
-  handleWrong3(e) {
-    this.setState({
-      option3: e.target.value
-    });
-  }
-
-  // still handling input field text, but calling this.getTest..... to populate the
-  // existing questions for the supplied test in the div to the right
-  handleTestName(e) {
-    this.setState({
-      testName: e.target.value,
-      currQuesList: [],
-    }, this.getTestNameCurrentQuestions);
   }
 
   getTestNameCurrentQuestions() {
@@ -97,7 +71,6 @@ export default class RemoveQuiz extends React.Component {
 
     axios.get('/questions', config)
       .then(response => {
-        // console.log('line 75 custom quiz, res.body = ' + JSON.stringify(response.data, null, 2));
         entries = response.data;
         var temp = [];
         entries.forEach(entry => {
@@ -110,6 +83,12 @@ export default class RemoveQuiz extends React.Component {
       .catch(function(err){
         console.log(err)
       })
+  }
+
+  handleTestName(testName) {
+    this.setState({
+      testName: testName
+    }, this.getTestNameCurrentQuestions);
   }
 
   handleRemove(e) {
@@ -141,46 +120,46 @@ export default class RemoveQuiz extends React.Component {
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="testName">Test Name</label>
                   <div className="col-xs-8">
-                    <input name="testName" type="text" className="form-control" placeholder="Enter the Name of this Test" onChange={this.handleTestName.bind(this)} required></input>
+                    <input name="testName" type="text" className="form-control" placeholder="Enter the Name of this Test" onKeyUp={(e) => this.handleTestName(e.target.value)} required></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="question">Question</label>
                   <div className="col-xs-8">
-                    <input name="question" type="text" className="form-control" placeholder="Enter a question" onChange={this.handleQuestion.bind(this)} required></input>
+                    <input name="question" type="text" className="form-control" placeholder="Enter a question" required></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="answer">Correct</label>
                   <div className="col-xs-8">
-                    <input name="answer" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleCorrentAnswer.bind(this)} required></input>
+                    <input name="answer" type="text" className="form-control" placeholder="Enter an answer" required></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="option1">Wrong 1</label>
                   <div className="col-xs-8">
-                    <input name="option1" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleWrong1.bind(this)}></input>
+                    <input name="option1" type="text" className="form-control" placeholder="Enter an answer"></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="option2">Wrong 2</label>
                   <div className="col-xs-8">
-                    <input name="option2" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleWrong2.bind(this)}></input>
+                    <input name="option2" type="text" className="form-control" placeholder="Enter an answer"></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="option3">Wrong 3</label>
                   <div className="col-xs-8">
-                    <input name="option3" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleWrong3.bind(this)}></input>
+                    <input name="option3" type="text" className="form-control" placeholder="Enter an answer"></input>
                   </div>
                 </div>
 
-                <button className="btn btn-sm btn-primary" type="submit" onClick={this.sendCustomTemplate.bind(this)}>Submit</button>
+                <button className="btn btn-sm btn-primary" type="submit" onClick={(e) => this.sendCustomTemplate(e) }>Submit</button>
               </form>
             </div>
 
