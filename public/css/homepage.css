@@ -27,9 +27,10 @@
 }
 
 .footer {
-  /*background-image: linear-gradient(#04519b, #044687 60%, #033769);*/
-  /*background-repeat: no-repeat;*/
-  /*color: #fff;*/
+  background-image: linear-gradient(#04519b, #044687 60%, #033769);
+  width: 100%;
+  background-repeat: no-repeat;
+  color: #fff;
   border-top: 1px solid #eee ;
   padding: 10px 0;
   height: 40px;
