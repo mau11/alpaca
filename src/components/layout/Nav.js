@@ -43,7 +43,7 @@ export default class Nav extends React.Component {
           </div>
           <div className={"navbar-collapse " + navClass} id="bs-example-navbar-collapse-1">
             <ul className="nav navbar-nav navbar-right">
-              <li><Link to="/gameOverview">Game overview</Link></li>
+              <li><Link to="/gameOverview">Games</Link></li>
               {this.props.auth.loggedIn() ? (<li><Link to="/addQuiz">Build a Quiz</Link></li>) : ''}
               {this.props.auth.loggedIn() ? (<li><Link to="/manageQuiz">Manage Quizzes</Link></li>) : ''}
               {this.props.auth.loggedIn() ? (<li><Link to="/myResults">My Results</Link></li>) : ''}
