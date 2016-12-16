@@ -97,11 +97,16 @@ input[type=range] {
 
 }
 
-.moreInfo {
+.info-answers {
   display: none;
 }
 
+.info-test {
+  display: inline-block;
+}
+
 .actions {
+  display: inline-block;
   float: right;
 }
 

@@ -63,10 +63,14 @@ export default class PrebuiltQuiz extends React.Component {
 
   playCorrectSound() {
     var audio = new Audio('./assets/correct.mp3');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
   playWrongSound() {
     var audio = new Audio('./assets/wrongCrash.wav');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
 
@@ -251,7 +255,6 @@ export default class PrebuiltQuiz extends React.Component {
       }
     }
     return result;
-
   }
 
   // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
@@ -262,7 +265,7 @@ export default class PrebuiltQuiz extends React.Component {
       {
           this.state.completedQuiz ?
           <div>
-            <h1>quiz complete, your score is: {this.state.score}%!</h1>
+            <h2>Quiz complete!<br/>Your score is: {this.state.score}%</h2>
             <div>
               <button className="button btn-retake-quiz" onClick={(e) => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
               </button>
@@ -270,7 +273,7 @@ export default class PrebuiltQuiz extends React.Component {
             </div>
           </div>
           :
-          <div><h1>Select a quiz!</h1>
+          <div><h2>Select a quiz!</h2>
             <select className="buttonStyle" onChange={(e) => this.handleQuizSelect(e.target.value)} value={this.state.value} >
               <option selected></option>
               {this.state.quizNames.map(name =>
