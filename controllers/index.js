@@ -114,6 +114,13 @@ module.exports = {
               testName: req.body.testName
             }
           });
+        } else {
+          db.Results.create({
+            userID: req.body.userID,
+            testName: req.body.testName,
+            correct: req.body.correct,
+            incorrect: req.body.incorrect
+          })
         }
       }).then(function(results) {
         res.sendStatus(201);
