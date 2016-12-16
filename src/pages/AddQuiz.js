@@ -19,7 +19,6 @@ export default class AddQuiz extends React.Component {
     var $form = $('.form-customquiz').serializeArray();
     var testName, question, correct, wrong1, wrong2, wrong3;
 
-    // TODO: perhaps there is a better way to write this
     $form.forEach(function (field) {
       if (field.name === 'testName') {
         testName = field.value;
@@ -66,7 +65,7 @@ export default class AddQuiz extends React.Component {
         <div className="col-md-12">
           <div className='row'>
             <div className='col-md-6' >
-              <h2>Build a Custom Quiz</h2>
+              <h1>Build a Custom Quiz</h1>
 
               <form className="form-customquiz customquiz">
                 <div className="form-group row">
