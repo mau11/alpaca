@@ -108,15 +108,26 @@ module.exports = {
     },
 
     post: function (req, res) {
-      console.log('REQUEST BODY==============',req.body);
-      db.Results.findOrCreate({
+      db.Results.find({
         where:{
           userID: req.body.userID,
-          testName: req.body.testName,
-        },
-        defaults:{
-          correct: req.body.correct,
-          incorrect: req.body.incorrect,
+          testName: req.body.testName
+        }
+      }).then(function(result){
+        if(result){
+          db.Results.update(req.body,{
+            where:{
+              userID: req.body.userID,
+              testName: req.body.testName
+            }
+          });
+        } else {
+          db.Results.create({
+            userID: req.body.userID,
+            testName: req.body.testName,
+            correct: req.body.correct,
+            incorrect: req.body.incorrect
+          })
         }
 
       }).then(function(results) {

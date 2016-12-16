@@ -12,6 +12,7 @@ var router = require('express').Router();
 
 // Configuration  ========================
 app.use(express.static('public')); // Serve the client files
+app.use('/game', express.static('src/racer')); // Serve the client files
 app.use(morgan('dev')); //logging
 app.use(parser.json()); //parsing
 app.use('/', router); // Set up our routes
