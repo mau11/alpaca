@@ -16,7 +16,7 @@ export default class MyResults extends React.Component {
     this.getUserId();
   }
 
-    getUserId(){
+  getUserId(){
     var setUserId = this.setUserId.bind(this);
     this.props.route.auth.lock.getProfile(this.props.route.auth.getToken(), function(error, profile) {
       if (error) {
@@ -35,7 +35,6 @@ export default class MyResults extends React.Component {
   }
 
   getResults() {
-    console.log('props.', this.state.userID)
     var config = {
       params:{
         userID: this.state.userID

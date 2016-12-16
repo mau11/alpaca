@@ -6,6 +6,7 @@ export default class ManageQuiz extends React.Component {
     super(props);
 
     this.state = {
+      userID: '',
       allQuestions: [], // populated with data from server in this.getTestNameCurrentQuestions
       allTestNames: [], // populated by this.getTestNames
       displayQuestions: [] // questions to display
@@ -13,6 +14,7 @@ export default class ManageQuiz extends React.Component {
   }
 
   componentWillMount() {
+    this.getUserId();
     this.getQuestions();
   }
 
@@ -20,8 +22,31 @@ export default class ManageQuiz extends React.Component {
      document.getElementById('messagesContainer').innerHTML = '';
   }
 
+  getUserId(){
+    var setUserId = this.setUserId.bind(this);
+    this.props.route.auth.lock.getProfile(this.props.route.auth.getToken(), function(error, profile) {
+      if (error) {
+        return;
+      }
+      setUserId(profile.user_id);
+    });
+  }
+
+  setUserId(id){
+    this.setState({
+      userID: id
+    }, function(){
+      this.getQuestions();
+    });
+  }
+
   getQuestions() {
-    axios.get('/questions')
+    var config = {
+      params:{
+        userID: this.state.userID
+      }
+    }
+    axios.get('/questions', config)
       .then(response =>{
         this.setState({
           allQuestions: response.data,
@@ -52,6 +77,7 @@ export default class ManageQuiz extends React.Component {
     e.preventDefault();
     axios.post('/questions', {
       delete: true,
+      userID: this.state.userID,
       name: questionName
     })
     .then((result) => {
@@ -68,6 +94,7 @@ export default class ManageQuiz extends React.Component {
     // do something here that posts a delete request to server
     axios.post('/tests', {
       delete: true,
+      userID: this.state.userID,
       testName: testName,
     })
     .then((result) => {
