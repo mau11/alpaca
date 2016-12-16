@@ -132,8 +132,11 @@ export default class ManageQuiz extends React.Component {
               <div className="quiz-row" onClick={this.toggleInfo.bind(this)}>
                 <div className="info-test">
                   Test name: {question.testName}
-                  <span className="info-answers">Correct: {question.correct}
-                  Wrong: {question.wrong1} {question.wrong2} {question.wrong3}</span>
+                  <div className="info-answers">
+                  Question: {question.name}<br/>
+                  Correct: {question.correct}<br/>
+                  Wrong: {question.wrong1} {question.wrong2} {question.wrong3}
+                  </div>
                 </div>
                 <div className="actions" role="quiz-actions">
                   <button className="btn btn-primary" onClick={(e) => {this.handleTestRemove(e, question.testName)}}>Delete Quiz</button>
