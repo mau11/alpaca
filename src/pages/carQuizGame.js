@@ -47,11 +47,13 @@ export default class CarQuizGame extends React.Component {
 
     function moveLeft(){
       var elem = document.getElementById('car');
+        console.log('pos',elem.style.left);
         elem.style.left = parseInt(elem.style.left) - 10 + 'px';
     };
 
     function moveRight(){
       var elem = document.getElementById('car');
+      console.log('pos',elem.style.left);
       elem.style.left = parseInt(elem.style.left) + 10 + 'px';
     };
   }
