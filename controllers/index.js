@@ -31,8 +31,10 @@ module.exports = {
     },
     // in quiz Creation page, POST request will add an entry into database
     post: function (req, res) {
+      console.log('POST REQUEST TO QUESTIONS')
       console.log(JSON.stringify(req.body));
       if (req.body.delete === true) {
+        console.log('POST delete request for name = ' + req.body.name);
         db.Question.destroy({
             where: {
               name: req.body.name
@@ -84,13 +86,15 @@ module.exports = {
   results: {
     // opportunity to keep track of results in database, sorting by userID.
     get: function (req, res) {
-      db.Results.findAll({
+
+      db.Results.find({
           where: {
-            userID: req.query.userID
+            userID: req.body.userID
           }
         })
         .then(function(response) {
           if (!response) {
+            console.log('No results for that test');
           } else {
             res.json(response);
           }
@@ -119,6 +123,7 @@ module.exports = {
             incorrect: req.body.incorrect
           })
         }
+
       }).then(function(results) {
         res.sendStatus(201);
       })
