@@ -63,10 +63,14 @@ export default class PrebuiltQuiz extends React.Component {
 
   playCorrectSound() {
     var audio = new Audio('./assets/correct.mp3');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
   playWrongSound() {
     var audio = new Audio('./assets/wrongCrash.wav');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
 
