@@ -33,8 +33,8 @@ ReactDOM.render(
       <Route path="/home" auth={auth} component={Homepage} />
       <Route path="/gameOverview" name="gameOverview" component={GameOverview}></Route>
       <Route path="/prebuiltQuiz" auth={auth} name="prebuiltQuiz" component={PrebuiltQuiz}></Route>
-      <Route path="/carQuizGame" name="carQuizGame" component={CarQuizGame}></Route>
-      <Route path="/addQuiz" name="addQuiz" component={AddQuiz} onEnter={requireAuth} ></Route>
+      <Route path="/carQuizGame" auth={auth} name="carQuizGame" component={CarQuizGame}></Route>
+      <Route path="/addQuiz" auth={auth} name="addQuiz" component={AddQuiz} onEnter={requireAuth} ></Route>
       <Route path="/manageQuiz" auth={auth} name="manageQuiz" component={ManageQuiz} onEnter={requireAuth} ></Route>
       <Route path="/myResults" auth={auth} name="myResults" component={MyResults} onEnter={requireAuth} ></Route>
     </Route>

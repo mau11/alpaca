@@ -6,7 +6,7 @@ export default class PrebuiltQuiz extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userID: '999', // opportunity to get ID for currently logged-in user to track results
+      userID: '', // opportunity to get ID for currently logged-in user to track results
       category: '', // opportunity to get category of current test to track results
       name: '',  // this is actually the question being asked (please change the name)
       correct: '',
@@ -26,6 +26,7 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   componentWillMount(){
+    this.getUserId();
     this.getQuizes(); // generate drop down list to select test
   }
 
@@ -59,6 +60,22 @@ export default class PrebuiltQuiz extends React.Component {
 
   componentWillUnmount() {
     clearInterval(this.timer);
+  }
+
+  getUserId(){
+    var setUserId = this.setUserId.bind(this);
+    this.props.route.auth.lock.getProfile(this.props.route.auth.getToken(), function(error, profile) {
+      if (error) {
+        return;
+      }
+      setUserId(profile.user_id);
+    });
+  }
+
+  setUserId(id){
+    this.setState({
+      userID: id
+    });
   }
 
   playCorrectSound() {

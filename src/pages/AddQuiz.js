@@ -5,6 +5,7 @@ export default class AddQuiz extends React.Component {
  constructor(props) {
     super(props);
     this.state = {
+      userID: '',
       question: '',
       answer: '',
       option1: '',
@@ -13,6 +14,26 @@ export default class AddQuiz extends React.Component {
       testName: '',
       currQuesList: [], // populated with data from server in this.getTestNameCurrentQuestions
     }
+  }
+
+  componentWillMount(){
+    this.getUserId();
+  }
+
+  getUserId(){
+    var setUserId = this.setUserId.bind(this);
+    this.props.route.auth.lock.getProfile(this.props.route.auth.getToken(), function(error, profile) {
+      if (error) {
+        return;
+      }
+      setUserId(profile.user_id);
+    });
+  }
+
+  setUserId(id){
+    this.setState({
+      userID: id
+    });
   }
 
   handleRemove(e) {
@@ -39,7 +60,8 @@ export default class AddQuiz extends React.Component {
     var entries;
     var config = {
       params: {
-        ID: this.state.testName
+        userID: this.state.userID,
+        testName: this.state.testName
       }
     };
     axios.get('/questions', config)
@@ -88,6 +110,7 @@ export default class AddQuiz extends React.Component {
     });
 
     axios.post('/questions', {
+      userID: this.state.userID,
       name: question,
       correct: correct,
       wrong1: wrong1,

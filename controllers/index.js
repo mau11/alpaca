@@ -17,23 +17,16 @@ module.exports = {
   },
   questions: {
     get: function (req, res) {
-      // console.log('===> MAKING GET REQUEST FOR QUESTIONS, REQ.PARAMS = ', JSON.parse(JSON.stringify(req.query)).ID)
-      // console.log('===> MAKING GET REQUEST FOR QUESTIONS, REQ.PARAMS = ', req.query.ID)
-      if (req.query.ID !== undefined) {
-        console.log('INSIDE IF STATEMENT')
+      if (req.query.userID !== undefined) {
         db.Question.findAll({
-          where: {
-            testName: req.query.ID
-          }
+          where: req.query
         })
         .then(function(questions) {
           res.json(questions);
         });
       } else {
-        db.Question.findAll()
-        .then(function(questions) {
-          res.json(questions);
-        });
+        console.log('No user ID supplied');
+        res.json(questions)
       }
     },
     // in quiz Creation page, POST request will add an entry into database
@@ -50,6 +43,7 @@ module.exports = {
         .then(() => res.json({status: 'deleted'}))
       } else {
         db.Question.create({
+          userID: req.body.userID,
           name: req.body.name,
           correct: req.body.correct,
           wrong1: req.body.wrong1,
