@@ -346,7 +346,7 @@ export default class CarQuizGame extends React.Component {
       {
           this.state.completedQuiz ?
           <div>
-            <h1>quiz complete, your score is: {this.state.score}%!</h1>
+            <h2>Quiz complete!<br/>Your score is: {this.state.score}%</h2>
             <div>
               <button className="button btn-retake-quiz" onClick={(e) => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
               </button>
