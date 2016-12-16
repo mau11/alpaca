@@ -7,7 +7,9 @@ export default class ManageQuiz extends React.Component {
 
     // //keep state
     this.state = {
-      questions: [] // populated with data from server in this.getTestNameCurrentQuestions
+      allQuestions: [], // populated with data from server in this.getTestNameCurrentQuestions
+      allTestNames: [], // populated by this.getTestNames
+      displayQuestions: [] // questions to display
     };
   }
 
@@ -22,11 +24,29 @@ export default class ManageQuiz extends React.Component {
   getQuestions() {
     axios.get('/questions')
       .then(response =>{
-        this.setState({questions: response.data});
+        this.setState({
+          allQuestions: response.data,
+          displayQuestions: response.data
+        }, () => {
+          this.getTestNames(this.state.allQuestions);
+        });
       })
       .catch(function(err){
         console.log(err)
       })
+  }
+
+  getTestNames(questions) {
+    var testNames = [];
+    questions.forEach(function(question) {
+      var testName = question.testName;
+      if (testNames.indexOf(testName) === -1) {
+        testNames.push(testName.toLowerCase()); // case insensitive
+      }
+    });
+    this.setState({
+      allTestNames: testNames
+    });
   }
 
   handleRemove(e, testName) {
@@ -43,6 +63,28 @@ export default class ManageQuiz extends React.Component {
     .catch(function(err){
       console.log(err)
     });
+  }
+
+  handleSearch(term) {
+    var term = term.toLowerCase();
+    if (this.state.allTestNames.indexOf(term) !== -1) { // search term matches a test name
+      var displayQuestions = this.state.allQuestions.filter(function(question) {
+        return question.testName.toLowerCase().match(term);
+      });
+      this.setState({
+        displayQuestions: displayQuestions
+      });
+    } else if (term === '') { // no search term
+      this.setState((prevState, props) => {
+        return {
+          displayQuestions: prevState.allQuestions
+        };
+      });
+    } else { // no matches
+      this.setState({
+        displayQuestions: []
+      });
+    }
   }
 
   setMessage(message, type = 'info') {
@@ -66,7 +108,11 @@ export default class ManageQuiz extends React.Component {
           <div className="row">
             <div className="col-md-6">
               <h1>Manage Quizzes</h1>
-                {this.state.questions.map(question => {
+              <form>
+                <label for="filter-quiz">Search</label>
+                <input id="filter-quiz" name="filter-quiz" type="text" placeholder="Search for a quiz" onChange={(e) => this.handleSearch(e.target.value)}></input>
+              </form>
+                {this.state.displayQuestions.map(question => {
                   return (
                     <div className="quiz-row" onClick={this.toggleInfo.bind(this)}>
                       <div >
