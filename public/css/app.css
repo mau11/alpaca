@@ -59,8 +59,14 @@ li a:hover {
 }
 
 input[type=range] {
-  margin: 0 auto;
-  width: 100%;
+  width: 120px;
+  display: inline;
+  float: right;
+  margin-right: 10px;
+}
+
+#volumeIcon{
+  float:right;
 }
 
 .container {
