@@ -115,3 +115,7 @@ input[type=range] {
   padding-top: 20px;
   border-bottom: 1px solid #ddd;
 }
+
+.login, .logout {
+  cursor: pointer;
+}

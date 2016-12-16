@@ -47,7 +47,7 @@ export default class AddQuiz extends React.Component {
       $(':input', '.form-customquiz')
       .not('input[name=testName]')
       .val('');
-      this.setMessage('Quiz added!', 'success');
+      this.setMessage('Question added! Keep adding questions to this quiz if you like...', 'success');
     })
     .catch(function (err) {
       console.error('error:', err);
