@@ -260,7 +260,7 @@ export default class PrebuiltQuiz extends React.Component {
       {
           this.state.completedQuiz ?
           <div>
-            <h1>quiz complete, your score is: {this.state.score}%!</h1>
+            <h2>Quiz complete!<br/>Your score is: {this.state.score}%</h2>
             <div>
               <button className="button btn-retake-quiz" onClick={(e) => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
               </button>
@@ -268,7 +268,7 @@ export default class PrebuiltQuiz extends React.Component {
             </div>
           </div>
           :
-          <div><h1>Select a quiz!</h1>
+          <div><h2>Select a quiz!</h2>
             <select className="buttonStyle" onChange={(e) => this.handleQuizSelect(e.target.value)} value={this.state.value} >
               <option selected></option>
               {this.state.quizNames.map(name =>
