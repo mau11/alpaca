@@ -34,12 +34,14 @@ h1, a {
   to { transform: rotate(360deg); }
 }
 
+/*
 li {
   list-style-type: none;
   display: inline;
   float: right;
   margin-right: 5px;
 }
+*/
 
 .username {
   color: grey;
@@ -57,14 +59,19 @@ li a:hover {
 }
 
 input[type=range] {
-  margin: 0 auto;
-  width: 100%;
+  width: 120px;
+  display: inline;
+  float: right;
+  margin-right: 10px;
+}
+
+#volumeIcon{
+  float:right;
 }
 
 .container {
   width: 80%;
   margin: 0 auto;
-  text-align: center;
 }
 
 .answer {
@@ -101,17 +108,26 @@ input[type=range] {
   display: none;
 }
 
-.info-test {
-  display: inline-block;
-}
-
-.actions {
-  display: inline-block;
-  float: right;
-}
-
 .quiz-row {
   padding-bottom: 20px;
   padding-top: 20px;
   border-bottom: 1px solid #ddd;
+}
+
+.login, .logout {
+  cursor: pointer;
+}
+
+.actions .btn {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.filter-quiz {
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+.question {
+  padding: 5px;
 }

@@ -124,27 +124,46 @@ export default class ManageQuiz extends React.Component {
       <div className="container customquiz">
         <h1>Manage Quizzes</h1>
         <form name="filter-quiz">
-          <label for="quiz-name">Search</label>
-          <input id="quiz-name" name="quiz-name" type="text" placeholder="Search for a quiz" onChange={(e) => this.handleSearch(e.target.value)}></input>
+          <label htmlFor="quiz-name">Search for a quiz</label>
+          <input className="form-control" id="quiz-name" name="quiz-name" type="text" placeholder="Search for a quiz" onChange={(e) => this.handleSearch(e.target.value)}></input>
+
         </form>
-          {this.state.displayQuestions.map(question => {
+        <table className="table table-striped">
+          <thead>
+            <tr>
+              <th className="col-md-8">Question</th>
+              <th className="col-md-4">Operations</th>
+            </tr>
+          </thead>
+          <tbody>
+          {this.state.displayQuestions.map((question, key) => {
             return (
-              <div className="quiz-row" onClick={this.toggleInfo.bind(this)}>
-                <div className="info-test">
-                  Test name: {question.testName}
+              <tr key={key} onClick={this.toggleInfo.bind(this)}>
+                <td className="col-md-8">
+                    <h3>{question.testName}</h3>
+                    <div className="question"><span className="glyphicon glyphicon-question-sign"></span> {question.name}</div>
                   <div className="info-answers">
-                  Question: {question.name}<br/>
-                  Correct: {question.correct}<br/>
-                  Wrong: {question.wrong1} {question.wrong2} {question.wrong3}
+                    <ul className="list-group">
+                      <li className="list-group-item"><span className="glyphicon glyphicon-ok"></span> {question.correct}</li>
+                      <li className="list-group-item">
+                        <ul>
+                          <li><span className="glyphicon glyphicon-remove"></span> {question.wrong1}</li>
+                          <li><span className="glyphicon glyphicon-remove"></span> {question.wrong2}</li>
+                          <li><span className="glyphicon glyphicon-remove"></span> {question.wrong3}</li>
+                       </ul>
+                      </li>
+                    </ul>
                   </div>
-                </div>
-                <div className="actions" role="quiz-actions">
-                  <button className="btn btn-primary" onClick={(e) => {this.handleTestRemove(e, question.testName)}}>Delete Quiz</button>
-                  <button className="btn btn-primary" onClick={(e) => {this.handleQuestionRemove(e, question.name)}}>Delete Question</button>
-                </div>
-              </div>
+                </td>
+                <td className="actions col-md-4" role="quiz-actions">
+                  <button className="btn btn-primary btn-sm" onClick={(e) => {this.handleTestRemove(e, question.testName)}}>Delete Quiz</button>
+                  <button className="btn btn-primary btn-sm" onClick={(e) => {this.handleQuestionRemove(e, question.name)}}>Delete Question</button>
+                </td>
+              </tr>
             );
           })}
+          </tbody>
+        </table>
       </div>
     )
   }

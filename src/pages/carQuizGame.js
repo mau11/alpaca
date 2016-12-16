@@ -30,7 +30,7 @@ export default class CarQuizGame extends React.Component {
   }
 
   componentDidMount() {
-    document.getElementById('car').style.left='200px'
+    document.getElementById('car').style.left=((window.innerWidth / 2) - 50) + 'px';
     this.registerKeydownListener();
   }
 
@@ -139,10 +139,14 @@ export default class CarQuizGame extends React.Component {
 
   playCorrectSound() {
     var audio = new Audio('./assets/correct.mp3');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
   playWrongSound() {
     var audio = new Audio('./assets/wrongCrash.wav');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
 
@@ -342,7 +346,7 @@ export default class CarQuizGame extends React.Component {
       {
           this.state.completedQuiz ?
           <div>
-            <h1>quiz complete, your score is: {this.state.score}%!</h1>
+            <h2>Quiz complete!<br/>Your score is: {this.state.score}%</h2>
             <div>
               <button className="button btn-retake-quiz" onClick={(e) => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
               </button>

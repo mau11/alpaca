@@ -41,7 +41,7 @@ export default class MyResults extends React.Component {
         <div className="col-md-12">
           <div className="row flex-container">
             <div className="flex-box">
-              <h2>Quiz Results</h2>
+              <h1>Quiz Results</h1>
               <table className="table table-striped results"><thead><tr><th>Quiz</th><th>Correct</th><th>Incorrect</th></tr></thead>
               <tbody>
               {this.state.results.map(quiz =>
