@@ -101,16 +101,20 @@ module.exports = {
     },
 
     post: function (req, res) {
-      db.Results.findOrCreate({
+      db.Results.find({
         where:{
           userID: req.body.userID,
-          testName: req.body.testName,
-        },
-        defaults:{
-          correct: req.body.correct,
-          incorrect: req.body.incorrect,
+          testName: req.body.testName
         }
-
+      }).then(function(result){
+        if(result){
+          db.Results.update(req.body,{
+            where:{
+              userID: req.body.userID,
+              testName: req.body.testName
+            }
+          });
+        }
       }).then(function(results) {
         res.sendStatus(201);
       })
