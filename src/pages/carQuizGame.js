@@ -30,7 +30,7 @@ export default class CarQuizGame extends React.Component {
   }
 
   componentDidMount() {
-    document.getElementById('car').style.left='200px'
+    document.getElementById('car').style.left=((window.innerWidth / 2) - 50) + 'px';
     this.registerKeydownListener();
   }
 
