@@ -118,32 +118,26 @@ export default class ManageQuiz extends React.Component {
   render() {
     return (
       <div className="container customquiz">
-        <div className="col-md-12">
-          <div className="row">
-            <div className="col-md-6">
-              <h1>Manage Quizzes</h1>
-              <form name="filter-quiz">
-                <label for="quiz-name">Search</label>
-                <input id="quiz-name" name="quiz-name" type="text" placeholder="Search for a quiz" onChange={(e) => this.handleSearch(e.target.value)}></input>
-              </form>
-                {this.state.displayQuestions.map(question => {
-                  return (
-                    <div className="quiz-row" onClick={this.toggleInfo.bind(this)}>
-                      <div >
-                        Test name: {question.testName}
-                        <span className="moreInfo">Correct: {question.correct}
-                        Wrong: {question.wrong1} {question.wrong2} {question.wrong3}</span>
-                      </div>
-                      <div className="actions">
-                        <button onClick={(e) => {this.handleTestRemove(e, question.testName)}}>Delete Test</button>
-                        <button onClick={(e) => {this.handleQuestionRemove(e, question.name)}}>Delete Question</button>
-                      </div>
-                    </div>
-                  );
-                })}
-            </div>
-          </div>
-        </div>
+        <h1>Manage Quizzes</h1>
+        <form name="filter-quiz">
+          <label for="quiz-name">Search</label>
+          <input id="quiz-name" name="quiz-name" type="text" placeholder="Search for a quiz" onChange={(e) => this.handleSearch(e.target.value)}></input>
+        </form>
+          {this.state.displayQuestions.map(question => {
+            return (
+              <div className="quiz-row" onClick={this.toggleInfo.bind(this)}>
+                <div className="info-test">
+                  Test name: {question.testName}
+                  <span className="info-answers">Correct: {question.correct}
+                  Wrong: {question.wrong1} {question.wrong2} {question.wrong3}</span>
+                </div>
+                <div className="actions" role="quiz-actions">
+                  <button className="btn btn-primary" onClick={(e) => {this.handleTestRemove(e, question.testName)}}>Delete Quiz</button>
+                  <button className="btn btn-primary" onClick={(e) => {this.handleQuestionRemove(e, question.name)}}>Delete Question</button>
+                </div>
+              </div>
+            );
+          })}
       </div>
     )
   }
