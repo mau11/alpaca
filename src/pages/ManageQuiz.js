@@ -5,7 +5,6 @@ export default class ManageQuiz extends React.Component {
  constructor(props) {
     super(props);
 
-    // //keep state
     this.state = {
       allQuestions: [], // populated with data from server in this.getTestNameCurrentQuestions
       allTestNames: [], // populated by this.getTestNames
@@ -49,7 +48,22 @@ export default class ManageQuiz extends React.Component {
     });
   }
 
-  handleRemove(e, testName) {
+  handleQuestionRemove(e, questionName) {
+    e.preventDefault();
+    axios.post('/questions', {
+      delete: true,
+      name: questionName
+    })
+    .then((result) => {
+      this.setMessage('Question "' + questionName + '" deleted!', 'warning');
+      this.getQuestions();
+    })
+    .catch(function(err) {
+      console.error(err);
+    });
+  }
+
+  handleTestRemove(e, testName) {
     e.preventDefault();
     // do something here that posts a delete request to server
     axios.post('/tests', {
@@ -60,8 +74,8 @@ export default class ManageQuiz extends React.Component {
       this.setMessage('Quiz "' + testName + '" deleted!', 'warning');
       this.getQuestions()
     })
-    .catch(function(err){
-      console.log(err)
+    .catch(function(err) {
+      console.error(err)
     });
   }
 
@@ -108,9 +122,9 @@ export default class ManageQuiz extends React.Component {
           <div className="row">
             <div className="col-md-6">
               <h1>Manage Quizzes</h1>
-              <form>
-                <label for="filter-quiz">Search</label>
-                <input id="filter-quiz" name="filter-quiz" type="text" placeholder="Search for a quiz" onChange={(e) => this.handleSearch(e.target.value)}></input>
+              <form name="filter-quiz">
+                <label for="quiz-name">Search</label>
+                <input id="quiz-name" name="quiz-name" type="text" placeholder="Search for a quiz" onChange={(e) => this.handleSearch(e.target.value)}></input>
               </form>
                 {this.state.displayQuestions.map(question => {
                   return (
@@ -121,7 +135,8 @@ export default class ManageQuiz extends React.Component {
                         Wrong: {question.wrong1} {question.wrong2} {question.wrong3}</span>
                       </div>
                       <div className="actions">
-                        <button onClick={(e) => {this.handleRemove(e, question.testName)}}>Delete</button>
+                        <button onClick={(e) => {this.handleTestRemove(e, question.testName)}}>Delete Test</button>
+                        <button onClick={(e) => {this.handleQuestionRemove(e, question.name)}}>Delete Question</button>
                       </div>
                     </div>
                   );
