@@ -30,13 +30,13 @@ ReactDOM.render(
   <Router history={hashHistory}>
     <Route path="/" component={Layout} auth={auth}>
       <IndexRedirect to="/home" />
-      <Route path="home" component={Homepage} />
+      <Route path="/home" auth={auth} component={Homepage} />
       <Route path="/gameOverview" name="gameOverview" component={GameOverview}></Route>
-      <Route path="/prebuiltQuiz" name="prebuiltQuiz" component={PrebuiltQuiz}></Route>
+      <Route path="/prebuiltQuiz" auth={auth} name="prebuiltQuiz" component={PrebuiltQuiz}></Route>
       <Route path="/carQuizGame" name="carQuizGame" component={CarQuizGame}></Route>
       <Route path="/addQuiz" name="addQuiz" component={AddQuiz} onEnter={requireAuth} ></Route>
-      <Route path="/manageQuiz" name="manageQuiz" component={ManageQuiz} onEnter={requireAuth} ></Route>
-      <Route path="/myResults" name="myResults" component={MyResults} onEnter={requireAuth} ></Route>
+      <Route path="/manageQuiz" auth={auth} name="manageQuiz" component={ManageQuiz} onEnter={requireAuth} ></Route>
+      <Route path="/myResults" auth={auth} name="myResults" component={MyResults} onEnter={requireAuth} ></Route>
     </Route>
   </Router>,
 app);
