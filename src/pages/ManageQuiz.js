@@ -80,23 +80,27 @@ export default class ManageQuiz extends React.Component {
   }
 
   handleSearch(term) {
-    var term = term.toLowerCase();
-    if (this.state.allTestNames.indexOf(term) !== -1) { // search term matches a test name
-      var displayQuestions = this.state.allQuestions.filter(function(question) {
-        return question.testName.toLowerCase().match(term);
-      });
-      this.setState({
-        displayQuestions: displayQuestions
-      });
-    } else if (term === '') { // no search term
+    var term = new RegExp(term.split(' ').join('|'), 'i');
+
+    if (term === '') { // no search term
       this.setState((prevState, props) => {
         return {
           displayQuestions: prevState.allQuestions
         };
       });
-    } else { // no matches
+    } else {
+      var displayQuestions = [];
+
+      this.state.allQuestions.forEach(function(question) {
+
+        if (question.testName.match(term) ||
+            question.name.match(term)) {
+          displayQuestions.push(question);
+        }
+      });
+
       this.setState({
-        displayQuestions: []
+        displayQuestions: displayQuestions
       });
     }
   }
@@ -107,7 +111,7 @@ export default class ManageQuiz extends React.Component {
 
   // toggle the display of the individual questions and answers
   toggleInfo(e) {
-    const info = e.currentTarget.getElementsByClassName('moreInfo')[0];
+    const info = e.currentTarget.getElementsByClassName('info-answers')[0];
     if(info.style.display == 'block'){
       info.style.display = 'none';
     } else {
