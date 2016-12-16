@@ -7,13 +7,31 @@ export default class MyResults extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userID: '999',
+      userID: '',
       results: [],
     };
   }
 
   componentWillMount(){
-    this.getResults();
+    this.getUserId();
+  }
+
+    getUserId(){
+    var setUserId = this.setUserId.bind(this);
+    this.props.route.auth.lock.getProfile(this.props.route.auth.getToken(), function(error, profile) {
+      if (error) {
+        return;
+      }
+      setUserId(profile.user_id);
+    });
+  }
+
+  setUserId(id){
+    this.setState({
+      userID: id
+    }, function(){
+      this.getResults();
+    });
   }
 
   getResults() {
@@ -25,7 +43,6 @@ export default class MyResults extends React.Component {
     }
     axios.get('/Results', config)
       .then(response => {
-        console.log('------------RESULTS',response.data);
         this.setState({
           results: response.data,
         });
