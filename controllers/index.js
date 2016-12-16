@@ -17,7 +17,10 @@ module.exports = {
   },
   questions: {
     get: function (req, res) {
+      // console.log('===> MAKING GET REQUEST FOR QUESTIONS, REQ.PARAMS = ', JSON.parse(JSON.stringify(req.query)).ID)
+      // console.log('===> MAKING GET REQUEST FOR QUESTIONS, REQ.PARAMS = ', req.query.ID)
       if (req.query.ID !== undefined) {
+        console.log('INSIDE IF STATEMENT')
         db.Question.findAll({
           where: {
             testName: req.query.ID
@@ -35,8 +38,10 @@ module.exports = {
     },
     // in quiz Creation page, POST request will add an entry into database
     post: function (req, res) {
+      console.log('POST REQUEST TO QUESTIONS')
       console.log(JSON.stringify(req.body));
       if (req.body.delete === true) {
+        console.log('POST delete request for name = ' + req.body.name);
         db.Question.destroy({
             where: {
               name: req.body.name
@@ -87,13 +92,15 @@ module.exports = {
   results: {
     // opportunity to keep track of results in database, sorting by userID.
     get: function (req, res) {
-      db.Results.findAll({
+
+      db.Results.find({
           where: {
-            userID: req.query.userID
+            userID: req.body.userID
           }
         })
         .then(function(response) {
           if (!response) {
+            console.log('No results for that test');
           } else {
             res.json(response);
           }
@@ -101,20 +108,17 @@ module.exports = {
     },
 
     post: function (req, res) {
-      db.Results.find({
+      console.log('REQUEST BODY==============',req.body);
+      db.Results.findOrCreate({
         where:{
           userID: req.body.userID,
-          testName: req.body.testName
+          testName: req.body.testName,
+        },
+        defaults:{
+          correct: req.body.correct,
+          incorrect: req.body.incorrect,
         }
-      }).then(function(result){
-        if(result){
-          db.Results.update(req.body,{
-            where:{
-              userID: req.body.userID,
-              testName: req.body.testName
-            }
-          });
-        }
+
       }).then(function(results) {
         res.sendStatus(201);
       })
