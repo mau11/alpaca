@@ -47,13 +47,11 @@ export default class CarQuizGame extends React.Component {
 
     function moveLeft(){
       var elem = document.getElementById('car');
-        console.log('pos',elem.style.left);
         elem.style.left = parseInt(elem.style.left) - 10 + 'px';
     };
 
     function moveRight(){
       var elem = document.getElementById('car');
-      console.log('pos',elem.style.left);
       elem.style.left = parseInt(elem.style.left) + 10 + 'px';
     };
   }
@@ -141,10 +139,14 @@ export default class CarQuizGame extends React.Component {
 
   playCorrectSound() {
     var audio = new Audio('./assets/correct.mp3');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
   playWrongSound() {
     var audio = new Audio('./assets/wrongCrash.wav');
+    var sounds = document.getElementById("volume").value;
+    audio.volume = sounds / 100;
     audio.play();
   }
 
