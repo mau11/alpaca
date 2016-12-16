@@ -92,10 +92,10 @@ module.exports = {
   results: {
     // opportunity to keep track of results in database, sorting by userID.
     get: function (req, res) {
-
-      db.Results.find({
+      console.log('------------GET RESULTS',req.query);
+      db.Results.findAll({
           where: {
-            userID: req.body.userID
+            userID: req.query.userID
           }
         })
         .then(function(response) {

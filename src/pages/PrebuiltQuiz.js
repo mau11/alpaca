@@ -240,7 +240,7 @@ export default class PrebuiltQuiz extends React.Component {
       answerBtns[i].style.maxWidth = width + '%';
       answerBtns[i].style.minWidth = width + '%';
     }
-
+  }
   // helper function to remove undefined from an array
   removeBlank(array) {
     var result = [];
@@ -250,7 +250,6 @@ export default class PrebuiltQuiz extends React.Component {
       }
     }
     return result;
-
   }
 
   // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)

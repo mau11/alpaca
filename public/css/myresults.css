@@ -1,7 +1,18 @@
-table {
-    width: 100%;
+.myresults{
+	margin: 50px;
 }
 
-th {
-    height: 50px;
+.results{
+	text-align: left;
+}
+
+.flex-container{
+	width: 100vh;
+	display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-box{
+	width: 80%;
 }
