@@ -12,6 +12,15 @@
   height: 40px;
 }
 
+#car {
+  position: absolute;
+  top: 500px;
+  width: 120px;
+  background: url(http://www.clipartbest.com/cliparts/9Tz/xXn/9TzxXnaxc.png);
+  background-size: 100% 100%;
+  height: 170px;
+}
+
 /*Prebuilt Styles*/
 .buttonStyle {
   background-color:#007dc1;

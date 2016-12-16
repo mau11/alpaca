@@ -78,6 +78,7 @@ input[type=range] {
   text-decoration: none;
   display: inline;
   font-size: 16px;
+  position: relative;
 }
 
 .input-group {
