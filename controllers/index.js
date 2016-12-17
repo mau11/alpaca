@@ -1,8 +1,21 @@
 var db = require('../db');
 
 module.exports = {
-  // in quiz page, GET request will return object of all quiz Q's and A's
   tests: {
+    get: function (req, res) {
+        db.Question.findAll({
+          where: {
+            testName: req.query.testName
+          }
+        })
+        .then(function(questions) {
+          console.log('questions:', questions);
+          res.json(questions);
+        })
+        .catch(function(error) {
+          console.log('There was an error:', error);
+        });
+      },
     post: function (req, res) {
       if (req.body.delete === true) {
         console.log('POST delete request for testName = ' + req.body.testName);
@@ -17,16 +30,28 @@ module.exports = {
   },
   questions: {
     get: function (req, res) {
-      if (req.query.userID !== undefined) {
+      if (req.query.userID) {
         db.Question.findAll({
-          where: req.query
+          where: {
+            userID: req.query.userID
+          }
         })
         .then(function(questions) {
+          console.log('questions:', questions);
           res.json(questions);
+        })
+        .catch(function(error) {
+          console.log('There was an error:', error);
         });
       } else {
-        console.log('No user ID supplied');
-        res.json(questions)
+        db.Question.findAll({})
+        .then(function(questions) {
+          console.log('questions:', questions);
+          res.json(questions);
+        })
+        .catch(function(error) {
+          console.log('There was an error:', error);
+        });
       }
     },
     // in quiz Creation page, POST request will add an entry into database
@@ -89,10 +114,11 @@ module.exports = {
 
       db.Results.find({
           where: {
-            userID: req.body.userID
+            userID: req.query.userID
           }
         })
         .then(function(response) {
+          console.log('THIS IS CONTROLLER RESPONSE', response);
           if (!response) {
             console.log('No results for that test');
           } else {
@@ -102,12 +128,14 @@ module.exports = {
     },
 
     post: function (req, res) {
+      console.log('posting to results', req.body);
       db.Results.find({
         where:{
           userID: req.body.userID,
           testName: req.body.testName
         }
       }).then(function(result){
+        console.log('Update results post', req.body);
         if(result){
           db.Results.update(req.body,{
             where:{
@@ -116,6 +144,7 @@ module.exports = {
             }
           });
         } else {
+          console.log('New results post', req.body);
           db.Results.create({
             userID: req.body.userID,
             testName: req.body.testName,

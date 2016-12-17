@@ -26,6 +26,7 @@ router.post('/questions', controller.questions.post);
 //router.post('/users', controller.users.post);
 router.get('/results', controller.results.get);
 router.post('/results', controller.results.post);
+router.get('/tests', controller.tests.get);
 router.post('/tests', controller.tests.post);
 
 // Port ========================
