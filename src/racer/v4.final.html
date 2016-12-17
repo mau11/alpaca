@@ -754,8 +754,11 @@
       var isCorrect = window.answerHandler.chooseAnswer(answer)
       if (isCorrect === true) {
         sounds.correct.play();
+        sounds.correct.currentTime = 0;
       } else if (isCorrect === false) {
         sounds.wrong.play();
+        sounds.wrong.currentTime = 0.1;
+        sounds.wrong.volume = 0.5;
       }
       // Shake animation
       document.body.classList.add("shake");
