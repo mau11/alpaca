@@ -25,6 +25,12 @@ export default class GameOverview extends React.Component {
               <Link to="/carQuizGame"><h2>Car Quiz Game</h2></Link>
             </div>
           </div>
+          <div className="col-md-6">
+            <div>
+              <img className="game-overview-icon" alt="Racer Game" src="http://s3.amazonaws.com/libapps/sites/611/icons/4179/app_store_icon.png" />
+              <Link to="../racer/v4.final.html"><h2>Racer Quiz Game</h2></Link>
+            </div>
+          </div>
         </div>
       </div>
     );
