@@ -4,7 +4,7 @@ class Game {
   constructor() {
     // Levels correspond to quiz ids. If you complete a level at 100%, you pass on to the next one.
     this.level = 1;
-    this._currentQuestions = [];
+    this._currentQuiz;
     this._currentQuestionIndex = 0;
     // Number of wrong answers during the current quiz
     this._numCorrectAnswers = 0;
@@ -13,17 +13,17 @@ class Game {
 
   /**
    * Starts the game for the current level.
+   * @var Function callback that will be run when questions are set.
    */
-  start() {
-    this._initializeCurrentLevel();
+  start(cb) {
+    this._initializeCurrentLevel(cb);
   }
 
   /**
    * Initializes the current game.
    */
-  _initializeCurrentLevel() {
+  _initializeCurrentLevel(cb) {
     // @todo
-    var cb = function () {};
     this._initializeCurrentQuiz(this.level, cb);
     // Number of correct answers during the current quiz
     this._numCorrectAnswers = 0;
@@ -66,12 +66,12 @@ class Game {
   /**
    * Gets the quiz data that corresponds to the current level.
    */
-  _intializeCurrentQuiz(level, cb) {
+  _initializeCurrentQuiz(level, cb) {
     // make every testName correspond to a quiz ID.
     var testNames = [];
     var testNameForLevel;
     var questions = [];
-    axios.get('/questions')
+    axios.get('http://localhost:1337/questions')
       .then(response => {
         var entries = response.data;
         entries.forEach(entry => {
@@ -85,6 +85,7 @@ class Game {
             questions.push(new Question(entry.name, entry.correct, entry.wrong1, entry.wrong2, entry.wrong3));
           }
         });
+        this._currentQuiz = new Quiz(testNameForLevel, questions);
         cb();
       })
       .catch(function(err){
@@ -202,3 +203,9 @@ class Answer {
     this.isCorrect = isCorrect;
   }
 }
+
+module.exports = {
+  Game: Game,
+  Question: Question,
+  Answer: Answer
+};
