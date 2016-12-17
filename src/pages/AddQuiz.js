@@ -204,31 +204,31 @@ export default class AddQuiz extends React.Component {
                 </div>
 
                 <div className="form-group row">
-                  <label className="col-xs-4 col-form-label" htmlFor="answer" maxLength="20">Correct answer</label>
+                  <label className="col-xs-4 col-form-label" htmlFor="answer">Correct answer</label>
                   <div className="col-xs-8">
-                    <input name="answer" type="text" className="form-control" placeholder="Enter an answer" maxLength="25" required onChange={this.handleCorrentAnswer.bind(this)}></input>
+                    <input name="answer" type="text" className="form-control" maxLength="25" placeholder="Enter an answer" maxLength="25" required onChange={this.handleCorrentAnswer.bind(this)}></input>
 
                   </div>
                 </div>
 
                 <div className="form-group row">
-                  <label className="col-xs-4 col-form-label" htmlFor="option1" maxLength="20">Wrong answer #1</label>
+                  <label className="col-xs-4 col-form-label" htmlFor="option1">Wrong answer #1</label>
                   <div className="col-xs-8">
-                    <input name="option1" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleWrong1.bind(this)}></input>
+                    <input name="option1" type="text" className="form-control" maxLength="25" placeholder="Enter an answer" onChange={this.handleWrong1.bind(this)}></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
-                  <label className="col-xs-4 col-form-label" htmlFor="option2" maxLength="20">Wrong answer #2</label>
+                  <label className="col-xs-4 col-form-label" htmlFor="option2">Wrong answer #2</label>
                   <div className="col-xs-8">
-                    <input name="option2" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleWrong2.bind(this)}></input>
+                    <input name="option2" type="text" className="form-control" maxLength="25" placeholder="Enter an answer" onChange={this.handleWrong2.bind(this)}></input>
                   </div>
                 </div>
 
                 <div className="form-group row">
-                  <label className="col-xs-4 col-form-label" htmlFor="option3" maxLength="20">Wrong answer #3</label>
+                  <label className="col-xs-4 col-form-label" htmlFor="option3">Wrong answer #3</label>
                   <div className="col-xs-8">
-                    <input name="option3" type="text" className="form-control" placeholder="Enter an answer" onChange={this.handleWrong3.bind(this)}></input>
+                    <input name="option3" type="text" className="form-control" maxLength="25" placeholder="Enter an answer" onChange={this.handleWrong3.bind(this)}></input>
                   </div>
                 </div>
 
