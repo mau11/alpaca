@@ -5,11 +5,11 @@ var game = new Util.Game();
 window.game = game;
 
 game.start(function() {
-  setCurrentQuestion();
+  setCurrentQuiz();
   setListeners();
 });
 
-function setCurrentQuestion() {
+function setCurrentQuiz() {
   var question = game.getCurrentQuestion();
   var message = '<h1>' + question.questionString + '</h1>' +
                 '<h3>Level: ' + game.level + '</h3>' + '<ol>';
@@ -47,9 +47,8 @@ function chooseAnswer(e) {
     var score = game.getCurrentScore();
     var message = 'Your score is ' + score + '! Click 1 to redo the quiz, click 2 to start a different quiz.';
     setMessage(message);
-    setGameOverListeners();
   } else {
-    setCurrentQuestion();
+
   }
 }
 
@@ -57,13 +56,13 @@ function chooseNextLevel(e) {
   if (e.target.id === '1') {
     // start the game over again at the same level
     game.finishLevel(false, function() {
-      setCurrentQuestion();
+      setCurrentQuiz();
       setListeners();
     });
   } else if (e.target.id === '2') {
     // go to the next level
     game.finishLevel(true, function() {
-      setCurrentQuestion();
+      setCurrentQuiz();
       setListeners();
     });
   }
