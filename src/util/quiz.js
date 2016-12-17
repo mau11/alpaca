@@ -13,7 +13,9 @@ class Game {
 
   /**
    * Starts the game for the current level.
-   * @var Function callback that will be run when questions are set.
+   *
+   * @var Function
+   *   Callback that will be run when questions are set.
    */
   start(cb) {
     this._initializeCurrentLevel(cb);
@@ -32,18 +34,20 @@ class Game {
   }
 
   /**
-   * Get the question that the player is about to answer.
+   * Gets the question that the player is about to answer.
    */
   getCurrentQuestion() {
-    return this._currentQuestions[this._currentQuestionIndex];
+    return this._currentQuiz.questions[this._currentQuestionIndex];
   }
 
   /**
-   * Checks the answer given by the player and sets the next question.
+   * Checks the answer given by the player and sets the next question if applicable.
    *
    * @val string answer
    *   The answer ID given by the player (1, 2, 3, or 4).
+   *
    * @return bool|undefined
+   *   true if correct, false if incorrect, undefined if no such answer.
    */
   processAnswer(answerId) {
     if (this.getCurrentQuestion().hasAnswerId(answerId)) {
@@ -86,7 +90,9 @@ class Game {
           }
         });
         this._currentQuiz = new Quiz(testNameForLevel, questions);
-        cb();
+        if (cb) {
+          cb();
+        }
       })
       .catch(function(err){
         console.log(err)
@@ -94,21 +100,37 @@ class Game {
   }
 
   /**
-   * hecks if all questions have been answered
+   * Gets the next question and checks if all questions have been answered.
+   *
+   * Returns false if there is no next question.
+   *
    * @return bool|string
    */
   getNextQuestion() {
-    var question = this.currentQuestions[this.currentQuestionIndex];
+    var question = this.currentQuiz[this.currentQuestionIndex];
     this.currentQuestionIndex++;
+    if (!this.currentQuiz[this.currentQuestionIndex]) {
+      return false;
+    }
     return question;
   }
 
   getCurrentScore() {
-    return Math.floor(this.numCorrectAnswers / this.currentQuestions.length * 100) + '%';
+    if (!this._currentQuiz || this._currentQuiz.length === 0) {
+      return '0%';
+    }
+    return Math.floor(this.numCorrectAnswers / this._currentQuiz.length * 100) + '%';
   }
 
-  finishLevel() {
+  /**
+   * Passes the game on to the next level and initializes it.
+   *
+   * @return Function cb
+   *   Called when the questions are initialized.
+   */
+  finishLevel(cb) {
     this.level++;
+    this._initializeCurrentLevel(cb);
   }
 };
 
