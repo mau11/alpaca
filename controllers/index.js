@@ -112,7 +112,7 @@ module.exports = {
     // opportunity to keep track of results in database, sorting by userID.
     get: function (req, res) {
 
-      db.Results.find({
+      db.Results.findAll({
           where: {
             userID: req.query.userID
           }
