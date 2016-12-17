@@ -1,5 +1,68 @@
 import axios from "axios";
 
+class AnswerHandler {
+  constructor(){
+    this.game = new Game();
+    this.game.start();
+    this._quizOver = false;
+  }
+
+  _setCurrentQuestion() {
+    var question = this.game.getCurrentQuestion();
+    var message = '<h1>' + question.questionString + '</h1>' +
+                  '<h3>Level: ' + this.game.level + '</h3>' + '<ol>';
+
+    question.answers.forEach(function(answer) {
+      message += '<li>' + answer.answerString + '</li>';
+    });
+
+    message += '</ol>';
+
+    this._setMessage(message);
+  }
+
+  _setMessage(message) {
+    var status = document.getElementById('status');
+    status.innerHTML = message;
+  }
+
+  chooseAnswer(answer) {
+    if(this._quizOver === true){
+      return this._chooseNextLevel(answer);
+    }
+    var correct = this.game.processAnswer(answer);
+    if (correct === undefined) {
+      return;
+    }
+    var nextQuestion = this.game.getNextQuestion();
+    if (nextQuestion === false){
+      var score = this.game.getCurrentScore();
+      var message = 'Your score is ' + score + '! Choose 1 to redo the quiz, choose 2 to start a different quiz.';
+      this._setMessage(message);
+      this._quizOver = true;
+    } else {
+      this._setCurrentQuestion();
+    }
+  }
+
+  _chooseNextLevel(response) {
+    if (response === '1') {
+      // start the game over again at the same level
+      this._quizOver = false;
+      this.game.finishLevel(false, function() {
+        this._setCurrentQuestion();
+      });
+    } else if (response === '2') {
+      // go to the next level
+      this._quizOver = false;
+      this.game.finishLevel(true, function() {
+        this._setCurrentQuestion();
+      });
+    }
+  }
+
+}
+
 class Game {
   constructor() {
     // Levels correspond to quiz ids. If you complete a level at 100%, you pass on to the next one.
@@ -242,5 +305,8 @@ class Answer {
 module.exports = {
   Game: Game,
   Question: Question,
-  Answer: Answer
+  Answer: Answer,
+  AnswerHandler: AnswerHandler
 };
+
+  window.AnswerHandler = AnswerHandler;
