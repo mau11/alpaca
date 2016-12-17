@@ -20,7 +20,7 @@ module.exports = function(grunt) {
     },
     watch: {
       browserify: {
-        files: ['src/**/*.js'],
+        files: ['src/**/*.js', '!src/racer/racer.js', '!src/util/quiz.js'],
         tasks: ['browserify']
       }
     },
@@ -39,7 +39,7 @@ module.exports = function(grunt) {
           }
         },
         src:
-          ['src/**/*.js']
+          ['src/**/*.js', '!src/racer/racer.js', '!src/util/quiz.js']
           ,
         dest: 'public/bundle.js'
       }
