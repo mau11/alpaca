@@ -14,6 +14,7 @@
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
+  <link href="racer.css" rel="stylesheet" type="text/css" />
   <link href="../css/app.css" rel="stylesheet" type="text/css" />
   <link href="../css/homepage.css" rel="stylesheet" type="text/css" />
 
@@ -130,8 +131,8 @@
   </div>
 
   <audio id='music'>
-    <source src="music/racer.ogg">
     <source src="music/racer.mp3">
+    <source src="music/racer.ogg">
   </audio>
   <span id="mute"></span>
 
@@ -204,6 +205,11 @@
       last_lap_time:    { value: null, dom: Dom.get('last_lap_time_value')    },
       fast_lap_time:    { value: null, dom: Dom.get('fast_lap_time_value')    }
     }
+
+    var sounds = {
+      correct: new Audio('sounds/correct-SoundBible.com-685385892.mp3'),
+      wrong: new Audio('../assets/wrongCrash.wav')
+    };
 
     //=========================================================================
     // UPDATE THE GAME WORLD
@@ -745,7 +751,17 @@
     function collision(){
       var answer = Math.floor(((playerX+1)*2)+1);
       console.log(answer);
-      window.answerHandler.chooseAnswer(answer);
+      var isCorrect = window.answerHandler.chooseAnswer(answer)
+      if (isCorrect === true) {
+        sounds.correct.play();
+      } else if (isCorrect === false) {
+        sounds.wrong.play();
+      }
+      // Shake animation
+      document.body.classList.add("shake");
+      setTimeout(function () {
+        document.body.classList.remove("shake");
+      }, 1000);
     };
 
 

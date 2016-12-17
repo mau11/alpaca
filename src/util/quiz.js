@@ -43,6 +43,7 @@ class AnswerHandler {
     } else {
       this._setCurrentQuestion();
     }
+    return correct;
   }
 
   _chooseNextLevel(response) {
@@ -52,13 +53,13 @@ class AnswerHandler {
       this._quizOver = false;
       this.game.finishLevel(false, function() {
         this._setCurrentQuestion();
-      });
+      }.bind(this));
     } else if (response == '2') {
       // go to the next level
       this._quizOver = false;
       this.game.finishLevel(true, function() {
         this._setCurrentQuestion();
-      });
+      }.bind(this));
     }
   }
 
@@ -121,7 +122,7 @@ class Game {
       return undefined;
     }
 
-    let match = answerId === this.getCurrentQuestion().correctAnswerId.toString();
+    let match = answerId.toString() === this.getCurrentQuestion().correctAnswerId.toString();
     if (match) {
       this._numCorrectAnswers++;
       console.log('correct answer')
@@ -310,4 +311,4 @@ module.exports = {
   AnswerHandler: AnswerHandler
 };
 
-  window.AnswerHandler = AnswerHandler;
+window.AnswerHandler = AnswerHandler;
