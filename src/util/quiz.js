@@ -46,13 +46,14 @@ class AnswerHandler {
   }
 
   _chooseNextLevel(response) {
-    if (response === '1') {
+    console.log('_chooseNextLevel works');
+    if (response == '1') {
       // start the game over again at the same level
       this._quizOver = false;
       this.game.finishLevel(false, function() {
         this._setCurrentQuestion();
       });
-    } else if (response === '2') {
+    } else if (response == '2') {
       // go to the next level
       this._quizOver = false;
       this.game.finishLevel(true, function() {
