@@ -9,6 +9,8 @@ class Game {
     // Number of wrong answers during the current quiz
     this._numCorrectAnswers = 0;
     this._numWrongAnswers = 0;
+    // Set in _initializeCurrentQuiz
+    this._numLevels;
   }
 
   /**
@@ -50,12 +52,12 @@ class Game {
    *   true if correct, false if incorrect, undefined if no such answer.
    */
   processAnswer(answerId) {
-    if (this.getCurrentQuestion().hasAnswerId(answerId)) {
+    if (!this.getCurrentQuestion().hasAnswerId(answerId)) {
       console.log('answer not found');
       return undefined;
     }
 
-    let match = answerId === this.getCurrentQuestion().correctAnswer;
+    let match = answerId === this.getCurrentQuestion().correctAnswerId.toString();
     if (match) {
       this._numCorrectAnswers++;
       console.log('correct answer')
@@ -63,7 +65,6 @@ class Game {
       this._numWrongAnswers++;
       console.log('wrong answer');
     }
-    this._currentQuestionIndex++;
     return match;
   }
 
@@ -71,6 +72,7 @@ class Game {
    * Gets the quiz data that corresponds to the current level.
    */
   _initializeCurrentQuiz(level, cb) {
+    this._currentQuestionIndex = 0;
     // make every testName correspond to a quiz ID.
     var testNames = [];
     var testNameForLevel;
@@ -90,8 +92,9 @@ class Game {
           }
         });
         this._currentQuiz = new Quiz(testNameForLevel, questions);
+        this._numLevels = testNames.length;
         if (cb) {
-          cb();
+          cb.bind(this)();
         }
       })
       .catch(function(err){
@@ -107,19 +110,19 @@ class Game {
    * @return bool|string
    */
   getNextQuestion() {
-    var question = this.currentQuiz[this.currentQuestionIndex];
-    this.currentQuestionIndex++;
-    if (!this.currentQuiz[this.currentQuestionIndex]) {
+    this._currentQuestionIndex++;
+    var question = this._currentQuiz.questions[this._currentQuestionIndex];
+    if (question === undefined) {
       return false;
     }
     return question;
   }
 
   getCurrentScore() {
-    if (!this._currentQuiz || this._currentQuiz.length === 0) {
+    if (!this._currentQuiz || this._currentQuiz.questions.length === 0) {
       return '0%';
     }
-    return Math.floor(this.numCorrectAnswers / this._currentQuiz.length * 100) + '%';
+    return Math.floor(this._numCorrectAnswers / this._currentQuiz.questions.length * 100) + '%';
   }
 
   /**
@@ -128,8 +131,14 @@ class Game {
    * @return Function cb
    *   Called when the questions are initialized.
    */
-  finishLevel(cb) {
-    this.level++;
+  finishLevel(nextLevel, cb) {
+    if (nextLevel) {
+      if (this.level + 1 > this._numLevels) {
+        this.level = 1;
+      } else {
+        this.level++;
+      }
+    }
     this._initializeCurrentLevel(cb);
   }
 };
@@ -169,7 +178,11 @@ class Question {
     this.answers.push(new Answer(correctAnswer, true));
     this.answers.push(new Answer(wrong1, false));
     this.answers.push(new Answer(wrong2, false));
-    this.answers.push(new Answer(wrong3, true));
+    this.answers.push(new Answer(wrong3, false));
+    // Remove blank answers.
+    this.answers = this.answers.filter(function(answer) {
+      return !!answer.answerString;
+    });
     // Shuffle the answers.
     this._shuffle(this.answers);
     // Add an answer ID.
