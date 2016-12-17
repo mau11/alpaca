@@ -19,9 +19,13 @@ module.exports = function(grunt) {
       }
     },
     watch: {
-      browserify: {
+      browserifyApp: {
         files: ['src/**/*.js', '!src/racer/racer.js', '!src/util/quiz.js'],
-        tasks: ['browserify']
+        tasks: ['browserify:dist']
+      },
+      browserifyGame: {
+        files: ['src/racer/racer.js', 'src/util/quiz.js'],
+        tasks: ['browserify:game']
       }
     },
     browserify: {
@@ -42,10 +46,16 @@ module.exports = function(grunt) {
           ['src/**/*.js', '!src/racer/racer.js', '!src/util/quiz.js']
           ,
         dest: 'public/bundle.js'
+      },
+      game : {
+         options: {
+           transform: [['babelify', {presets: ['es2015']}]]
+        },
+        src: ['src/racer/racer.js', 'src/util/quiz.js'],
+        dest: 'public/racer.build.js'
       }
     },
-    nodemon: {
-      dev: {
+    nodemon: { dev: {
         script: 'server.js'
       }
     },
