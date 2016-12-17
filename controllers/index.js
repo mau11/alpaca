@@ -32,9 +32,7 @@ module.exports = {
     get: function (req, res) {
       if (req.query.userID) {
         db.Question.findAll({
-          where: {
-            userID: req.query.userID
-          }
+          where: req.query
         })
         .then(function(questions) {
           console.log('questions:', questions);
