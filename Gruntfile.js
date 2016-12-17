@@ -57,8 +57,11 @@ module.exports = function(grunt) {
       database: {
         command: [
           'mysql.server start',
-          'mysql -u root -e "create database if not exists crashcourse"'
+          'mysql -u root -e "drop database crashcourse; create database crashcourse"'
         ].join('&&')
+      },
+      seed: {
+        command: 'node seed.js'
       }
     }
 
@@ -78,6 +81,7 @@ module.exports = function(grunt) {
 
   grunt.registerTask('build', ['browserify']);
 
-  grunt.registerTask('default', ['build','concurrent:target', 'shell:database']);
+  grunt.registerTask('default', ['build','concurrent:target', 'shell:database', 'shell:seed']);
+  grunt.registerTask('build-nodb', ['build','concurrent:target']);
 
 };
