@@ -8,15 +8,15 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cerulean/bootstrap.min.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400" rel="stylesheet">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="../css/main.css">
   <!-- JQuery -->
   <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
-  <link href="/pubic/css/app.css" rel="stylesheet" type="text/css" />
-  <link href="/pubic/css/homepage.css" rel="stylesheet" type="text/css" />
   <link href="racer.css" rel="stylesheet" type="text/css" />
+  <link href="../css/app.css" rel="stylesheet" type="text/css" />
+  <link href="../css/homepage.css" rel="stylesheet" type="text/css" />
 
 
 
@@ -138,7 +138,17 @@
 
   <script src="stats.js"></script>
   <script src="common.js"></script>
+
+
+
+  <div id="status">
+
+  <canvas id='textCanvas' height=20></canvas>
+  <script src="../racer.build.js"></script>
+
+
   <script>
+  window.answerHandler = new AnswerHandler();
 
     var fps            = 60;                      // how many 'update' frames per second
     var step           = 1/fps;                   // how long is each frame (in seconds)
@@ -740,11 +750,11 @@
     function collision(){
       var answer = Math.floor(((playerX+1)*2)+1);
       console.log(answer);
+      window.answerHandler.chooseAnswer(answer);
     };
 
 
   </script>
-
 
       <footer>
         <div className="container footer">
@@ -753,6 +763,7 @@
           </div>
         </div>
       </footer>
+
 
 </body>
 </html>
