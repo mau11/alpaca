@@ -210,6 +210,7 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .game-overview-icon {
+  margin-top: 20px;
   width: 250px;
 }
 
@@ -219,5 +220,5 @@ input[type=range]:focus::-ms-fill-upper {
 }
 
 .game-overview-title a {
-  font-weight: bold;
+  font-size: 14px;
 }

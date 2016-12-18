@@ -9,8 +9,10 @@ export default class GameOverview extends React.Component {
   render() {
     return (
       <div className="container customquiz">
-        <h1>Games</h1>
         <div className="col-md-12">
+          <div className="col-md-12">
+            <h1>Games</h1>
+          </div>
           <div className="col-md-4">
             <div>
               <Link to="/prebuiltQuiz">
