@@ -168,14 +168,24 @@ bkcore.hexgl.ShipEffects.prototype.update = function(dt)
 
 		if(this.shipControls.collision.right)
 		{
-			window.answerHandler.chooseAnswer(2);
+			var match = window.answerHandler.chooseAnswer(2);
+			if (match === true) {
+				window.hexGL.hud.display('Correct!', 0.5);
+			} else if (match === false) {
+				window.hexGL.hud.display('WRONG!!', 0.5);
+			}
 			this.particles.rightSparks.emit(10);
 			this.particles.rightClouds.emit(5);
 		}
 
 		if(this.shipControls.collision.left)
 		{
-			window.answerHandler.chooseAnswer(1);
+			var match = window.answerHandler.chooseAnswer(1);
+			if (match === true) {
+				window.hexGL.hud.display('Correct!', 0.5);
+			} else if (match === false) {
+				window.hexGL.hud.display('WRONG!!', 0.5);
+			}
 			this.particles.leftSparks.emit(10);
 			this.particles.leftClouds.emit(5);
 		}
