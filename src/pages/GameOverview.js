@@ -8,39 +8,49 @@ export default class GameOverview extends React.Component {
 
   render() {
     return (
-    	<div className="container customquiz">
-        <h1>Games</h1>
+      <div className="container customquiz">
         <div className="col-md-12">
-          <div className="row">
-            <div className="col-md-6">
-              <div>
-                <img className="game-overview-icon" alt="Regular Quiz" src="http://s3.amazonaws.com/libapps/sites/611/icons/4179/app_store_icon.png" />
-                <Link to="/prebuiltQuiz"><h2>Regular Quiz</h2></Link>
-              </div>
+          <div className="col-md-12">
+            <h1>Games</h1>
+          </div>
+          <div className="col-md-4">
+            <div>
+              <Link to="/prebuiltQuiz">
+                <img className="game-overview-icon" alt="Regular Quiz" src="assets/icons/quiz.png" />
+              </Link>
+              <div className="game-overview-title"><Link to="/prebuiltQuiz">Regular Quiz</Link></div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div>
-              <img className="game-overview-icon" alt="Regular Quiz" src="http://s3.amazonaws.com/libapps/sites/611/icons/4179/app_store_icon.png" />
-              <Link to="/carQuizGame"><h2>Car Quiz Game</h2></Link>
+              <Link to="/carQuizGame">
+                <img className="game-overview-icon" alt="Car Quiz Game" src="assets/icons/carquiz.png" />
+              </Link>
+              <div className="game-overview-title"><Link to="/carQuizGame">Car Quiz Game</Link></div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div>
-              <img className="game-overview-icon" alt="Racer Game" src="http://s3.amazonaws.com/libapps/sites/611/icons/4179/app_store_icon.png" />
-              <a href="../game/v4.final.html"><h2>Racer Quiz Game</h2></a>
+              <a href="../game/v4.final.html">
+                <img className="game-overview-icon" alt="Racer Quiz Game" src="assets/icons/racer.png" />
+              </a>
+              <div className="game-overview-title"><a href="../game/v4.final.html">Racer Quiz Game</a></div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div>
-              <img className="game-overview-icon" alt="3D Racer Game" src="http://s3.amazonaws.com/libapps/sites/611/icons/4179/app_store_icon.png" />
-              <a href="../hex/index.html"><h2>3D Racer Quiz Game</h2></a>
+              <a href="../hex/index.html">
+                <img className="game-overview-icon" alt="3D Racer Quiz Game" src="assets/icons/hexgl.png" />
+              </a>
+              <div className="game-overview-title"><a href="../hex/index.html">3D Racer Quiz Game</a></div>
             </div>
           </div>
-          <div className="col-md-6">
+          <div className="col-md-4">
             <div>
-              <img className="game-overview-icon" alt="Shooter Game" src="http://s3.amazonaws.com/libapps/sites/611/icons/4179/app_store_icon.png" />
-              <a href="../shooter/index.html"><h2>Wolfenstein 3D - Quiz version</h2></a>
+              <a href="../wolf/index.html">
+                <img className="game-overview-icon" alt="Wolfenstein 3D - Quiz edition" src="assets/icons/wolf3d.png" />
+              </a>
+              <div className="game-overview-title"><a href="../wolf/index.html">Wolfenstein 3D - Quiz edition</a></div>
             </div>
           </div>
 

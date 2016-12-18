@@ -208,3 +208,17 @@ input[type=range]:focus::-ms-fill-upper {
 .question {
   padding: 5px;
 }
+
+.game-overview-icon {
+  margin-top: 20px;
+  width: 250px;
+}
+
+.game-overview-title {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.game-overview-title a {
+  font-size: 14px;
+}
