@@ -187,7 +187,7 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
     Dom.get(parentId).appendChild(result.domElement);
 
     var msg = document.createElement('div');
-    msg.style.cssText = "border: 2px solid gray; padding: 5px; margin-top: 5px; text-align: left; font-size: 1.15em; text-align: right;";
+    msg.style.cssText = "border: 2px solid gray; border-radius: 5px; padding: 5px; margin-top: 5px; text-align: left; font-size: 1.15em; text-align: right;";
     msg.innerHTML = "Your canvas performance is ";
     Dom.get(parentId).appendChild(msg);
 

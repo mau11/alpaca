@@ -29,10 +29,17 @@ export default class GameOverview extends React.Component {
               <div className="game-overview-title"><Link to="/carQuizGame">Car Quiz Game</Link></div>
             </div>
           </div>
+<<<<<<< eecc39c1c27b46a3d9ee327f7862eb870b4bbb7c
           <div className="col-md-4">
             <div>
               <a href="../game/v4.final.html">
                 <img className="game-overview-icon" alt="Racer Quiz Game" src="assets/icons/racer.png" />
+=======
+          <div className="col-lg-3 col-md-4 col-xs-6 thumb">
+            <a href="http://localhost:1337/game/v4.final.html" className="thumbnail" >
+              <img className="game-overview-icon" alt="Racer Game" src="http://s3.amazonaws.com/libapps/sites/611/icons/4179/app_store_icon.png" />
+              <h2>Racer Quiz Game</h2>
+>>>>>>> added some css styling
               </a>
               <div className="game-overview-title"><a href="../game/v4.final.html">Racer Quiz Game</a></div>
             </div>
