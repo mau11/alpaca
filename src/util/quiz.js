@@ -1,13 +1,19 @@
 import axios from "axios";
 
 class AnswerHandler {
-  constructor(){
+  constructor(cb){
     this.game = new Game();
-    this.game.start();
+    this.game.start(() => {
+      this._setCurrentQuestion();
+      if (cb) {
+        cb();
+      }
+    });
     this._quizOver = false;
+    this.message = '';
   }
 
-  _setCurrentQuestion() {
+  _setCurrentQuestion(cb) {
     var question = this.game.getCurrentQuestion();
     var message = '<h1>' + question.questionString + '</h1>' +
                   '<h3>Level: ' + this.game.level + '</h3>' + '<ol>';
@@ -18,12 +24,20 @@ class AnswerHandler {
 
     message += '</ol>';
 
-    this._setMessage(message);
+    this._setMessage(message, cb);
   }
 
-  _setMessage(message) {
+  getCurrentMessage() {
+    return this.message;
+  }
+
+  _setMessage(message, cb) {
     var status = document.getElementById('status');
     status.innerHTML = message;
+    this.message = message;
+    if (cb) {
+      cb();
+    }
   }
 
   chooseAnswer(answer) {

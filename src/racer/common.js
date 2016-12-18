@@ -137,14 +137,6 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
 
   //---------------------------------------------------------------------------
 
-  generateImage: function(){
-    var tCtx = document.getElementById('textCanvas').getContext('2d');
-    tCtx.canvas.width = tCtx.measureText('hello world').width;
-    tCtx.fillText('hello world', 0, 10);
-    imageElem = document.createElement('img');
-    imageElem.src = tCtx.canvas.toDataURL();
-    return imageElem;
-  },
 
   loadImages: function(names, callback) { // load multiple images and callback when ALL images have loaded
     var result = [];
@@ -152,17 +144,52 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
 
     var onload = function() {
       if (--count == 0)
-        callback(result);
+        generateImage(function () {
+          callback(result);
+        });
+    };
+    for (var n = 0 ; n < names.length ; n++) {
+      var name = names[n];
+        result[n] = document.createElement('img');
+        Dom.on(result[n], 'load', onload);
+        result[n].src = "images/" + name + ".png";
+    }
+
+    var generateImage = function(cb){
+      function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      };
+      var tCtx = document.getElementById('textCanvas').getContext('2d');
+      var imageElem = document.createElement('img');
+      tCtx.canvas.width = 400;
+      tCtx.strokeStyle = 'red';
+      tCtx.lineWidth = 2;
+      tCtx.fillStyle = "#fff";
+      tCtx.fillRect(0,0,300,300);
+      tCtx.font = "25px Roboto";
+      tCtx.fillStyle = "#000";
+      wrapText(tCtx, window.answerHandler.getCurrentMessage(), 15, 40, 280, 30);
+      //tCtx.fillText(this.value, 0, 100);
+      imageElem.src = tCtx.canvas.toDataURL();
+      window.generatedImage = imageElem;
+      cb();
     };
 
-    for(var n = 0 ; n < names.length ; n++) {
-      var name = names[n];
-      result[n] = document.createElement('img');
-      Dom.on(result[n], 'load', onload);
-      result[n].src = "images/" + name + ".png";
-      //result[n]=this.generateImage();
-      console.log('function?', this.generateImage);
-    }
   },
 
   //---------------------------------------------------------------------------
@@ -302,7 +329,8 @@ var Render = {
 
   //---------------------------------------------------------------------------
 
-  sprite: function(ctx, width, height, resolution, roadWidth, sprites, sprite, scale, destX, destY, offsetX, offsetY, clipY) {
+  sprite: function(ctx, width, height, resolution, roadWidth, sprites, sprite, scale, destX, destY, offsetX, offsetY, clipY, replaceWithQuizQuestion) {
+
 
                     //  scale for projection AND relative to roadWidth (for tweakUI)
     var destW  = (sprite.w * scale * width/2) * (SPRITES.SCALE * roadWidth);
@@ -312,8 +340,13 @@ var Render = {
     destY = destY + (destH * (offsetY || 0));
 
     var clipH = clipY ? Math.max(0, destY+destH-clipY) : 0;
-    if (clipH < destH)
-      ctx.drawImage(sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), destX, destY, destW, destH - clipH);
+    if (clipH < destH) {
+      if (replaceWithQuizQuestion) {
+        ctx.drawImage(window.generatedImage, 0, 0, sprite.w, sprite.h - (sprite.h*clipH/destH), destX, destY, destW, destH - clipH);
+      } else {
+        ctx.drawImage(sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), destX, destY, destW, destH - clipH);
+      }
+    }
 
   },
 

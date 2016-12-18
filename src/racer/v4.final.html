@@ -14,6 +14,7 @@
   src="https://code.jquery.com/jquery-3.1.1.min.js"
   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
   crossorigin="anonymous"></script>
+  <script src="http://cburgmer.github.io/rasterizeHTML.js/rasterizeHTML.allinone.js" crossorigin="anonymous"></script>
   <link href="racer.css" rel="stylesheet" type="text/css" />
   <link href="../css/app.css" rel="stylesheet" type="text/css" />
   <link href="../css/homepage.css" rel="stylesheet" type="text/css" />
@@ -135,6 +136,7 @@
     <source src="music/racer.ogg">
   </audio>
   <span id="mute"></span>
+  <canvas id='textCanvas' height="400" width="400"></canvas>
 
   <script src="stats.js"></script>
   <script src="common.js"></script>
@@ -143,12 +145,10 @@
 
   <div id="status">
 
-  <canvas id='textCanvas' height=20></canvas>
   <script src="../racer.build.js"></script>
 
 
   <script>
-  window.answerHandler = new AnswerHandler();
 
     var fps            = 60;                      // how many 'update' frames per second
     var step           = 1/fps;                   // how long is each frame (in seconds)
@@ -210,6 +210,8 @@
       correct: new Audio('sounds/correct-SoundBible.com-685385892.mp3'),
       wrong: new Audio('../assets/wrongCrash.wav')
     };
+
+    var currentQuestionSprite;
 
     //=========================================================================
     // UPDATE THE GAME WORLD
@@ -391,6 +393,8 @@
     //=========================================================================
     // RENDER THE GAME WORLD
     //=========================================================================
+    var limit = 100;
+    var current = 0;
 
     function render() {
 
@@ -460,7 +464,12 @@
           spriteScale = segment.p1.screen.scale;
           spriteX     = segment.p1.screen.x + (spriteScale * sprite.offset * roadWidth * width/2);
           spriteY     = segment.p1.screen.y;
-          Render.sprite(ctx, width, height, resolution, roadWidth, sprites, sprite.source, spriteScale, spriteX, spriteY, (sprite.offset < 0 ? -1 : 0), -1, segment.clip);
+          if (sprite.source.x == SPRITES.BILLBOARD07.x && sprite.source.y == SPRITES.BILLBOARD07.y) {
+            var replaceWithQuizQuestion = true;
+          } else {
+            var replaceWithQuizQuestion = false;
+          }
+          Render.sprite(ctx, width, height, resolution, roadWidth, sprites, sprite.source, spriteScale, spriteX, spriteY, (sprite.offset < 0 ? -1 : 0), -1, segment.clip, replaceWithQuizQuestion);
         }
 
         if (segment == playerSegment) {
@@ -608,15 +617,10 @@
     function resetSprites() {
       var n, i;
 
-      addSprite(20,  SPRITES.BILLBOARD07, -1);
-      addSprite(40,  SPRITES.BILLBOARD06, -1);
-      addSprite(60,  SPRITES.BILLBOARD08, -1);
-      addSprite(80,  SPRITES.BILLBOARD09, -1);
-      addSprite(100, SPRITES.BILLBOARD01, -1);
-      addSprite(120, SPRITES.BILLBOARD02, -1);
-      addSprite(140, SPRITES.BILLBOARD03, -1);
-      addSprite(160, SPRITES.BILLBOARD04, -1);
-      addSprite(180, SPRITES.BILLBOARD05, -1);
+      // Billboard #7 will be replaced with questions
+      for (n = 20; n < segments.length; n += 40) {
+        addSprite(n,  SPRITES.BILLBOARD07, -1);
+      }
 
       addSprite(240,                  SPRITES.BILLBOARD07, -1.2);
       addSprite(240,                  SPRITES.BILLBOARD06,  1.2);
@@ -671,27 +675,29 @@
     // THE GAME LOOP
     //=========================================================================
 
-    Game.run({
-      canvas: canvas, render: render, update: update, stats: stats, step: step,
-      images: ["background", "sprites"],
-      keys: [
-        { keys: [KEY.LEFT,  KEY.A], mode: 'down', action: function() { keyLeft   = true;  } },
-        { keys: [KEY.RIGHT, KEY.D], mode: 'down', action: function() { keyRight  = true;  } },
-        { keys: [KEY.UP,    KEY.W], mode: 'down', action: function() { keyFaster = true;  } },
-        { keys: [KEY.DOWN,  KEY.S], mode: 'down', action: function() { keySlower = true;  } },
-        { keys: [KEY.LEFT,  KEY.A], mode: 'up',   action: function() { keyLeft   = false; } },
-        { keys: [KEY.RIGHT, KEY.D], mode: 'up',   action: function() { keyRight  = false; } },
-        { keys: [KEY.UP,    KEY.W], mode: 'up',   action: function() { keyFaster = false; } },
-        { keys: [KEY.DOWN,  KEY.S], mode: 'up',   action: function() { keySlower = false; } }
-      ],
-      ready: function(images) {
-        background = images[0];
-        sprites    = images[1];
-        reset();
-        Dom.storage.fast_lap_time = Dom.storage.fast_lap_time || 180;
-        updateHud('fast_lap_time', formatTime(Util.toFloat(Dom.storage.fast_lap_time)));
-      }
-    });
+    window.answerHandler = new AnswerHandler(function () {
+      Game.run({
+        canvas: canvas, render: render, update: update, stats: stats, step: step,
+        images: ["background", "sprites"],
+        keys: [
+          { keys: [KEY.LEFT,  KEY.A], mode: 'down', action: function() { keyLeft   = true;  } },
+          { keys: [KEY.RIGHT, KEY.D], mode: 'down', action: function() { keyRight  = true;  } },
+          { keys: [KEY.UP,    KEY.W], mode: 'down', action: function() { keyFaster = true;  } },
+          { keys: [KEY.DOWN,  KEY.S], mode: 'down', action: function() { keySlower = true;  } },
+          { keys: [KEY.LEFT,  KEY.A], mode: 'up',   action: function() { keyLeft   = false; } },
+          { keys: [KEY.RIGHT, KEY.D], mode: 'up',   action: function() { keyRight  = false; } },
+          { keys: [KEY.UP,    KEY.W], mode: 'up',   action: function() { keyFaster = false; } },
+          { keys: [KEY.DOWN,  KEY.S], mode: 'up',   action: function() { keySlower = false; } }
+        ],
+        ready: function(images) {
+          background = images[0];
+          sprites    = images[1];
+          reset();
+          Dom.storage.fast_lap_time = Dom.storage.fast_lap_time || 180;
+          updateHud('fast_lap_time', formatTime(Util.toFloat(Dom.storage.fast_lap_time)));
+        }
+      });
+  });
 
     function reset(options) {
       options       = options || {};
