@@ -341,6 +341,20 @@ export default class CarQuizGame extends React.Component {
   // ternary is used in render to render the completed page if this.state.CompletedQuiz is true :)
   // ternary is also used to display the Timer only after a test has been selected
   render() {
+    let quizSelect = '';
+    if (this.state.quizName === '') {
+      quizSelect = (
+        <div>
+          <h1>Select a quiz!</h1>
+              <select className="buttonStyle" onChange={(e) => this.handleQuizSelect(e.target.value)} value={this.state.value} >
+                <option selected></option>
+                {this.state.quizNames.map(name =>
+                  <option value={name}>{name}</option>
+                )}
+              </select>
+        </div>
+      );
+    }
     return (
       <div className="App">
       {
@@ -348,19 +362,14 @@ export default class CarQuizGame extends React.Component {
           <div>
             <h2>Quiz complete!<br/>Your score is: {this.state.score}%</h2>
             <div>
-              <button className="button btn-retake-quiz" onClick={(e) => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
+              <button className="btn btn-primary btn-md btn-retake-quiz" onClick={(e) => this.handleQuizSelect(this.state.quizName)} value={this.state.value} >Try again?
               </button>
-              <button className="button btn-another-quiz" onClick={(e) => window.location.reload() }>Take another quiz?</button>
+              <button className="btn btn-default btn-md btn-retake-quiz" onClick={(e) => window.location.reload() }>Take another quiz?</button>
             </div>
           </div>
           :
-          <div><h1>Select a quiz!</h1>
-            <select className="buttonStyle" onChange={(e) => this.handleQuizSelect(e.target.value)} value={this.state.value} >
-              <option selected></option>
-              {this.state.quizNames.map(name =>
-                <option value={name}>{name}</option>
-              )}
-            </select>
+          <div>
+            {quizSelect}
 
             <h2>{this.state.name}</h2>
             {/* animations for buttons */}
@@ -377,7 +386,7 @@ export default class CarQuizGame extends React.Component {
             {
               this.state.showTimer ? <h2>{this.state.timeCount}</h2> : null
             }
-            <div id='car'></div>
+            <div id="car" className={this.state.quizName == '' ? 'hidden' : this.state.quizName }></div>
           </div>
       }
       </div>
