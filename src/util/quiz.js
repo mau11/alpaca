@@ -31,10 +31,44 @@ class AnswerHandler {
     return this.message;
   }
 
+  setUpCurrentMessageImage(cb){
+      function wrapText(context, text, x, y, maxWidth, lineHeight) {
+        var words = text.split(' ');
+        var line = '';
+        for(var n = 0; n < words.length; n++) {
+          var testLine = line + words[n] + ' ';
+          var metrics = context.measureText(testLine);
+          var testWidth = metrics.width;
+          if (testWidth > maxWidth && n > 0) {
+            context.fillText(line, x, y);
+            line = words[n] + ' ';
+            y += lineHeight;
+          }
+          else {
+            line = testLine;
+          }
+        }
+        context.fillText(line, x, y);
+      };
+      var tCtx = document.getElementById('textCanvas').getContext('2d');
+      tCtx.clearRect(0, 0, tCtx.canvas.width, tCtx.canvas.height);
+      var imageElem = document.createElement('img');
+      rasterizeHTML.drawHTML('<div style="font-size: 20px; font-family: Arial; background: white; padding-top: 1px; padding-left: 20px;">' +
+            this.getCurrentMessage()
+            + '</div>',
+            tCtx.canvas)
+      .then(function () {
+        imageElem.src = tCtx.canvas.toDataURL();
+        window.generatedImage = imageElem;
+        cb();
+      });
+    };
+
   _setMessage(message, cb) {
     var status = document.getElementById('status');
     status.innerHTML = message;
     this.message = message;
+    this.setUpCurrentMessageImage();
     if (cb) {
       cb();
     }
@@ -61,7 +95,6 @@ class AnswerHandler {
   }
 
   _chooseNextLevel(response) {
-    console.log('_chooseNextLevel works');
     if (response == '1') {
       // start the game over again at the same level
       this._quizOver = false;

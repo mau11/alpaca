@@ -144,7 +144,7 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
 
     var onload = function() {
       if (--count == 0)
-        generateImage(function () {
+        window.answerHandler.setUpCurrentMessageImage(function () {
           callback(result);
         });
     };
@@ -155,37 +155,7 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
         result[n].src = "images/" + name + ".png";
     }
 
-    var generateImage = function(cb){
-      function wrapText(context, text, x, y, maxWidth, lineHeight) {
-        var words = text.split(' ');
-        var line = '';
-        for(var n = 0; n < words.length; n++) {
-          var testLine = line + words[n] + ' ';
-          var metrics = context.measureText(testLine);
-          var testWidth = metrics.width;
-          if (testWidth > maxWidth && n > 0) {
-            context.fillText(line, x, y);
-            line = words[n] + ' ';
-            y += lineHeight;
-          }
-          else {
-            line = testLine;
-          }
-        }
-        context.fillText(line, x, y);
-      };
-      var tCtx = document.getElementById('textCanvas').getContext('2d');
-      var imageElem = document.createElement('img');
-      rasterizeHTML.drawHTML('<div style="font-size: 20px; font-family: Roboto; background: white; padding-top: 1px; padding-left: 20px;">' +
-            window.answerHandler.getCurrentMessage()
-            + '</div>',
-            tCtx.canvas)
-      .then(function () {
-        imageElem.src = tCtx.canvas.toDataURL();
-        window.generatedImage = imageElem;
-        cb();
-      });
-    };
+
 
   },
 
