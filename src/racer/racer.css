@@ -17,16 +17,24 @@
 }
 
 .shake {
-      animation: shake 0.15s cubic-bezier(.36,.07,.19,.97) both;
-      transform: translate3d(0, 0, 0);
-      backface-visibility: hidden;
-      perspective: 1000px;
+  animation: shake 0.15s cubic-bezier(.36,.07,.19,.97) both;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 
 #textCanvas, #status, #controls, #instructions {
   display: none;
 }
+
 #hud {
   font-family: Roboto;
+  font-size: 16px;
+}
+
+#racer {
+   border-radius: 10px;
+   background-color: white;
+   overflow: hidden;
 }

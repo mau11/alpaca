@@ -222,3 +222,7 @@ input[type=range]:focus::-ms-fill-upper {
 .game-overview-title a {
   font-size: 14px;
 }
+
+.btn-retake-quiz {
+  margin: 5px;
+}
