@@ -176,18 +176,15 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
       };
       var tCtx = document.getElementById('textCanvas').getContext('2d');
       var imageElem = document.createElement('img');
-      tCtx.canvas.width = 400;
-      tCtx.strokeStyle = 'red';
-      tCtx.lineWidth = 2;
-      tCtx.fillStyle = "#fff";
-      tCtx.fillRect(0,0,300,300);
-      tCtx.font = "25px Roboto";
-      tCtx.fillStyle = "#000";
-      wrapText(tCtx, window.answerHandler.getCurrentMessage(), 15, 40, 280, 30);
-      //tCtx.fillText(this.value, 0, 100);
-      imageElem.src = tCtx.canvas.toDataURL();
-      window.generatedImage = imageElem;
-      cb();
+      rasterizeHTML.drawHTML('<div style="font-size: 20px; font-family: Roboto; background: white; padding-top: 1px; padding-left: 20px;">' +
+            window.answerHandler.getCurrentMessage()
+            + '</div>',
+            tCtx.canvas)
+      .then(function () {
+        imageElem.src = tCtx.canvas.toDataURL();
+        window.generatedImage = imageElem;
+        cb();
+      });
     };
 
   },
