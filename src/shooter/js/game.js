@@ -725,6 +725,8 @@ Wolf.Game = (function() {
             levelMusic = null;
             Wolf.Sound.stopAllSounds();
         }
+        $('#status').show();
+        $('#counter').show();
 
         $("#game .renderer .death").hide();
         $("#game .renderer .damage-flash").hide();
@@ -762,6 +764,8 @@ Wolf.Game = (function() {
         if (paused) {
             togglePause();
         }
+        $('#status').hide();
+        $('#counter').hide();
     }
 
     function startVictoryText(game) {

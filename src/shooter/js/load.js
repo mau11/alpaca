@@ -55,6 +55,8 @@ var files2 = [
 
 $(document).ready(function() {
     window.answerHandler = new AnswerHandler();
+    $('#status').hide();
+    $('#counter').hide();
     window.setInterval(function () {
         var counter = document.getElementById('counter');
         if (+counter.innerHTML === 4) {
