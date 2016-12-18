@@ -40,7 +40,6 @@ export default class MyResults extends React.Component {
         userID: this.state.userID
       }
     }
-    console.log('userID:', this.state.userID);
     axios.get('/results', config)
       .then(response => {
         console.log('RESULTS RESPONSE', response.data);

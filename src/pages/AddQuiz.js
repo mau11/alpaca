@@ -88,7 +88,6 @@ export default class AddQuiz extends React.Component {
 
   handleTestName(e) {
     var testName = e.target.value;
-    console.log('testName:', testName, 'allTestNames:', this.state.allTestNames);
     if (this.state.allTestNames.indexOf(testName.toLowerCase()) !== -1 || testName === '') {
       this.setState({
         testName: testName,
@@ -163,7 +162,6 @@ export default class AddQuiz extends React.Component {
   }
 
   render() {
-    console.log('this.state.currQuesList:', this.state.currQuesList);
     return (
       <div className="container customquiz">
         <div className="col-md-12">
