@@ -168,12 +168,14 @@ bkcore.hexgl.ShipEffects.prototype.update = function(dt)
 
 		if(this.shipControls.collision.right)
 		{
+			window.answerHandler.chooseAnswer(2);
 			this.particles.rightSparks.emit(10);
 			this.particles.rightClouds.emit(5);
 		}
 
 		if(this.shipControls.collision.left)
 		{
+			window.answerHandler.chooseAnswer(1);
 			this.particles.leftSparks.emit(10);
 			this.particles.leftClouds.emit(5);
 		}
