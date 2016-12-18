@@ -68,7 +68,9 @@ class AnswerHandler {
     var status = document.getElementById('status');
     status.innerHTML = message;
     this.message = message;
-    this.setUpCurrentMessageImage();
+    if (document.getElementById('textCanvas')) {
+      this.setUpCurrentMessageImage();
+    }
     if (cb) {
       cb();
     }
