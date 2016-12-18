@@ -22,3 +22,11 @@
       backface-visibility: hidden;
       perspective: 1000px;
 }
+
+
+#textCanvas, #status, #controls, #instructions {
+  display: none;
+}
+#hud {
+  font-family: Roboto;
+}
