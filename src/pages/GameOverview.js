@@ -47,10 +47,10 @@ export default class GameOverview extends React.Component {
           </div>
           <div className="col-md-4">
             <div>
-              <a href="../shooter/index.html">
+              <a href="../wolf/index.html">
                 <img className="game-overview-icon" alt="Wolfenstein 3D - Quiz edition" src="assets/icons/wolf3d.png" />
               </a>
-              <div className="game-overview-title"><a href="../shooter/index.html">Wolfenstein 3D - Quiz edition</a></div>
+              <div className="game-overview-title"><a href="../wolf/index.html">Wolfenstein 3D - Quiz edition</a></div>
             </div>
           </div>
 
