@@ -20,7 +20,7 @@ module.exports = function(grunt) {
     },
     watch: {
       browserifyApp: {
-        files: ['src/**/*.js', '!src/racer/racer.js', '!src/util/quiz.js'],
+        files: ['src/**/*.js', '!src/racer/*.js', '!src/util/quiz.js', '!src/HexGL/**/*.js', '!src/shooter/**/*.js'],
         tasks: ['browserify:dist']
       },
       browserifyGame: {
@@ -42,9 +42,7 @@ module.exports = function(grunt) {
             insertGlobals: true
           }
         },
-        src:
-          ['src/**/*.js', '!src/racer/racer.js', '!src/util/quiz.js']
-          ,
+        src: ['src/**/*.js', '!src/racer/*.js', '!src/util/quiz.js', '!src/HexGL/**/*.js', '!src/shooter/**/*.js'],
         dest: 'public/bundle.js'
       },
       game : {
