@@ -35,7 +35,6 @@ export default class PrebuiltQuiz extends React.Component {
 
     axios.get('/questions')
       .then(response => {
-        console.log('TESTS RESPONSE', response.data);
         var entries = response.data;
         var temp = [];
         entries.forEach(entry => {
@@ -204,7 +203,6 @@ export default class PrebuiltQuiz extends React.Component {
   }
 
   sendResults() {
-    console.log('post results as', this.state.userID, this.state.quizName);
     axios.post('/results', {
       userID: this.state.userID,
       testName: this.state.quizName,
