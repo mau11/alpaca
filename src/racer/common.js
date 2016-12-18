@@ -137,14 +137,6 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
 
   //---------------------------------------------------------------------------
 
-  generateImage: function(){
-    var tCtx = document.getElementById('textCanvas').getContext('2d');
-    tCtx.canvas.width = tCtx.measureText('hello world').width;
-    tCtx.fillText('hello world', 0, 10);
-    imageElem = document.createElement('img');
-    imageElem.src = tCtx.canvas.toDataURL();
-    return imageElem;
-  },
 
   loadImages: function(names, callback) { // load multiple images and callback when ALL images have loaded
     var result = [];
@@ -152,17 +144,19 @@ var Game = {  // a modified version of the game loop from my previous boulderdas
 
     var onload = function() {
       if (--count == 0)
-        callback(result);
+        window.answerHandler.setUpCurrentMessageImage(function () {
+          callback(result);
+        });
     };
-
-    for(var n = 0 ; n < names.length ; n++) {
+    for (var n = 0 ; n < names.length ; n++) {
       var name = names[n];
-      result[n] = document.createElement('img');
-      Dom.on(result[n], 'load', onload);
-      result[n].src = "images/" + name + ".png";
-      //result[n]=this.generateImage();
-      console.log('function?', this.generateImage);
+        result[n] = document.createElement('img');
+        Dom.on(result[n], 'load', onload);
+        result[n].src = "images/" + name + ".png";
     }
+
+
+
   },
 
   //---------------------------------------------------------------------------
@@ -302,7 +296,8 @@ var Render = {
 
   //---------------------------------------------------------------------------
 
-  sprite: function(ctx, width, height, resolution, roadWidth, sprites, sprite, scale, destX, destY, offsetX, offsetY, clipY) {
+  sprite: function(ctx, width, height, resolution, roadWidth, sprites, sprite, scale, destX, destY, offsetX, offsetY, clipY, replaceWithQuizQuestion) {
+
 
                     //  scale for projection AND relative to roadWidth (for tweakUI)
     var destW  = (sprite.w * scale * width/2) * (SPRITES.SCALE * roadWidth);
@@ -312,8 +307,13 @@ var Render = {
     destY = destY + (destH * (offsetY || 0));
 
     var clipH = clipY ? Math.max(0, destY+destH-clipY) : 0;
-    if (clipH < destH)
-      ctx.drawImage(sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), destX, destY, destW, destH - clipH);
+    if (clipH < destH) {
+      if (replaceWithQuizQuestion) {
+        ctx.drawImage(window.generatedImage, 0, 0, sprite.w, sprite.h - (sprite.h*clipH/destH), destX, destY, destW, destH - clipH);
+      } else {
+        ctx.drawImage(sprites, sprite.x, sprite.y, sprite.w, sprite.h - (sprite.h*clipH/destH), destX, destY, destW, destH - clipH);
+      }
+    }
 
   },
 
