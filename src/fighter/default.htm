@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Street Fighter Alpha - Web</title>
+    <link rel="StyleSheet" type="text/css" href="css/sfa.css" />
+</head>
+<body>
+    <div id="pnlStage" class="stage" style="width:768px;">
+        <script type="text/javascript">
+            function OnStageImagesLoaded() {}
+        </script>
+        <div id="pnlDimBackground" class="dimBackground" style="display:none">&nbsp;</div>
+        <div id="pnlLoadingProgress" class="loadingBackground" style="display:none"></div>
+        <img onload="OnStageImagesLoaded()" id="bg0" style="left:0px" />
+        <img onload="OnStageImagesLoaded()" id="bg1" style="left:0px" />
+        <!--<div class="time"></div>-->
+        <!--<div class="overlay"></div>-->
+        <div id="pnlTeam1" class="team team1" style="display:none">
+            <div id="pnlHealthbarTeam1" class="health-bar"></div>
+            <div id="portriatTeam1" class="portriat"></div>
+            <div id="nameTeam1" class="name"></div>
+        </div>
+        <div id="pnlEnergyBarTeam1Container" class="team1-energy-bar-container">
+            <div id="pnlEnergyBarTeam1" class="energy-bar"></div>
+        </div>
+        <div id="pnlTeam2" class="team team2" style="display:none">
+            <div id="pnlHealthbarTeam2" class="health-bar"></div>
+            <div id="portriatTeam2" class="portriat"></div>
+            <div id="nameTeam2" class="name"></div>
+        </div>
+        <div id="pnlEnergyBarTeam2Container" class="team2-energy-bar-container">
+            <div id="pnlEnergyBarTeam2" class="energy-bar"></div>
+        </div>
+        <div id="pnlText" class="Text"></div>
+        <div id="pnlTeam1ComboText" class="Text"></div>
+        <div id="pnlTeam1NbHitsText" class="Text"></div>
+        <div id="pnlTeam2ComboText" class="Text"></div>
+        <div id="pnlTeam2NbHitsText" class="Text"></div>
+        <div class="Announce">
+            <span style="display:none;" id="pnlFight" class="Fight">&nbsp;</span>
+            <br />
+            <span style="display:none;" id="pnlRoundNumber" class="RoundNumber">&nbsp;</span>
+            <br />
+            <span style="display:none;" id="pnlRound" class="Round">&nbsp;</span>
+            <br />
+            <span style="display:none;" id="pnlPerfect" class="Perfect">&nbsp;</span>
+            <br />
+            <span style="display:none;" id="pnlKO" class="KO">&nbsp;</span>
+        </div>
+        <div class="superComboFinish" id="pnlSuperComboFinish" style="display:none;">&nbsp;</div>
+    </div>
+    <div id="pnlStatus">
+        <br /><span class="frame-rate">Game speed: <span id="spnSpeed">?</span>/100</span>
+        <br />
+        <br /><u class="game-speed">Press:</u>
+        <br /><span class="step-frame">[8] increase game speed</span>
+        <br /><span class="step-frame">[9] decrease game speed</span>
+        <br /><span class="step-frame">[0] reset game speed</span>
+        <br /><span id="spnStepFrame" class="step-frame">[O] for next frame</span>
+        <br /><span id="spnResume" class="resume">[P] to resume</span>
+        <br />
+    </div>
+    <div>
+        <br /><span id="spnMsg"></span>
+        <br /><span id="spnState" class="state running">State: <span>Running</span></span>
+    </div>
+    <div class="loading">Graphics loading (<span id="pnlLoading" class="loading">done</span>)</div>
+    <div class="loading">Audio loading (<span id="pnlAudio" class="loading">done</span>)</div>
+    <div id="pnlTeam1Keys" class="team1Keys"></div>
+    <div id="pnlTeam2Keys" class="team2Keys"></div>
+    <div id="pnlMenu" class="menu">
+        <br /><input type="checkbox" id="chkPracticeMode" onchange="debug_.setPracticeMode(this.checked);" /><label for="chkPracticeMode">No damage</label>
+        <br /><input checked type="checkbox" id="chkFallDamageMode" onchange="debug_.setFallingDamage(this.checked);" /><label for="chkFallDamageMode">High fall damage</label>
+        <br /><input checked type="checkbox" id="chkTeamMode" onchange="debug_.setTeamMode(this.checked);" /><label for="chkTeamMode">Dramatic battles</label>
+        <br /><input class="button" type="button" onclick="debug_.practice();this.blur();" value="practice" />
+        <br /><input class="button" type="button" onclick="ResetGame();this.blur();" value="reset" />
+    </div>
+    <!--
+    <div id="pnlAnimationDebug" class="animation-debug">
+        <input type="button" onclick="debug_.p1ReverseFrame();" value="<<"/>
+        <input type="button" onclick="debug_.p1StepFrame();" value=">>"/>
+        <br />#: <span id="spnIndex"></span>
+        <br />X: <input id="txtX" />
+        <br />Y: <input id="txtY" />
+        <br />S: <input id="txtShadow" />
+        <br />Sx:<input id="txtShadowOffsetX" />
+        <br />Sy:<input id="txtShadowOffsetY" />
+        <input type="button" onclick="debug_.setFrameData()" value="Set"/>
+    </div>
+    -->
+    <div id="pnlProjectiles" class="projectile-editor" style="display:none;">
+        <hr style="clear:both" />
+        <button onclick="debug_.loadProjectiles()">Load Projectiles</button>
+        <select id="selProjectile"></select>
+        <br style="clear:both" />
+        <div id="pnlSelectedProjectile" class="selected-projectile">
+            <div class="item">
+                <div class="label">Name:</div>
+                <div class="input"><span id="spnProjectileName"></span></div>
+            </div>
+            <div class="item">
+                <div class="label">Juggle:</div>
+                <div class="input"><input type="checkbox" id="chkCanJuggle" /></div>
+            </div>
+            <div class="item">
+                <div class="label">Max hits:</div>
+                <div class="input"><input id="txtProjectileMaxHits" /></div>
+            </div>
+            <div class="item">
+                <div class="label">Delay:</div>
+                <div class="input"><input id="txtProjectileHitDelay"></span></div>
+            </div>
+            <div class="item">
+                <div class="label">Flags:</div>
+                <div class="input"><input id="txtProjectileComboFlags"></span></div>
+            </div>
+            <div class="item">
+                <div class="label">Vx:</div>
+                <div class="input"><input id="txtProjectileXSpeed"></span></div>
+            </div>
+            <div class="item">
+                <div class="label">Vy:</div>
+                <div class="input"><input id="txtProjectileYSpeed"></span></div>
+            </div>
+            <div class="item">
+                <div class="label">&nbsp;</div>
+                <div class="input"><button onclick="debug_.saveProjectileData()">Save</button></div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var __debugMode = false;
+        var __noDamage = false;
+        var __noFallDamage = false;
+
+        /*
+        if(!__debugMode)
+        {
+            window.document.getElementById("pnlAnimationDebug").style.display = "none";
+            window.document.getElementById("pnlStatus").style.display = "";
+            window.document.getElementById("cmdGo").style.display = "none";
+        }
+        else
+        {
+            window.document.getElementById("pnlAnimationDebug").style.display = "";
+            window.document.getElementById("pnlStatus").style.display = "";
+            window.document.getElementById("cmdGo").style.display = "";
+        }
+        */
+    </script>
+    <script type="text/javascript" src="script/browserDetect.js"></script>
+    <script type="text/javascript" src="script/gamepad.js"></script>
+    <script type="text/javascript" src="script/values.js"></script>
+    <script type="text/javascript" src="script/flags.js"></script>
+    <script type="text/javascript" src="script/user.js"></script>
+    <script type="text/javascript" src="script/vcr.js"></script>
+    <script type="text/javascript" src="script/fonts.js"></script>
+    <script type="text/javascript" src="script/stuff-loader.js"></script>
+    <script type="text/javascript" src="script/base64-binary.js"></script>
+    <script type="text/javascript" src="script/webAudioManager.js"></script>
+    <script type="text/javascript" src="script/soundmanager.js"></script>
+    <script type="text/javascript" src="script/fontsystem.js"></script>
+    <script type="text/javascript" src="script/animation-trial.js"></script>
+    <script type="text/javascript" src="script/insert-coin.js"></script>
+    <script type="text/javascript" src="script/char-select.js"></script>
+    <script type="text/javascript" src="script/game.js"></script>
+    <script type="text/javascript" src="script/energy-bar.js"></script>
+    <script type="text/javascript" src="script/health-bar.js"></script>
+    <script type="text/javascript" src="script/hitsystem.js"></script>
+    <script type="text/javascript" src="script/team.js"></script>
+    <script type="text/javascript" src="script/stage.js"></script>
+    <script type="text/javascript" src="script/announcer.js"></script>
+    <script type="text/javascript" src="script/faceoff.js"></script>
+    <script type="text/javascript" src="script/match.js"></script>
+    <script type="text/javascript" src="script/circle.js"></script>
+    <script type="text/javascript" src="script/cdHelper.js"></script>
+    <script type="text/javascript" src="script/animation.js"></script>
+    <script type="text/javascript" src="script/player-utils.js"></script>
+    <script type="text/javascript" src="script/player.js"></script>
+    <script type="text/javascript" src="script/player.sound.js"></script>
+    <script type="text/javascript" src="script/player.combat.js"></script>
+    <script type="text/javascript" src="script/player.animation.js"></script>
+    <script type="text/javascript" src="script/player.input.js"></script>
+    <script type="text/javascript" src="script/player.motion.js"></script>
+    <script type="text/javascript" src="script/player.debug.js"></script>
+    <script type="text/javascript" src="script/player-common.js"></script>
+    <script type="text/javascript" src="script/player.ai.js"></script>
+    <script type="text/javascript" src="script/generic-ai.js"></script>
+    <script type="text/javascript" src="script/ai-proxy.js"></script>
+    <script type="text/javascript" src="script/debug.js"></script>
+    <script type="text/javascript" src="script/load-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-ryu.js"></script>
+    <script type="text/javascript" src="script/ryu-ai.js"></script>
+    <script type="text/javascript" src="script/player-ryu-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-ryu2-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-ken.js"></script>
+    <script type="text/javascript" src="script/ken-ai.js"></script>
+    <script type="text/javascript" src="script/player-ken-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-ken2-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-sagat.js"></script>
+    <script type="text/javascript" src="script/player-sagat-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-sagat2-spritedata.js"></script>
+    <script type="text/javascript" src="script/sagat-ai.js"></script>
+    <script type="text/javascript" src="script/player-mbison.js"></script>
+    <script type="text/javascript" src="script/mbison-ai.js"></script>
+    <script type="text/javascript" src="script/player-mbison-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-mbison2-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-akuma.js"></script>
+    <script type="text/javascript" src="script/akuma-ai.js"></script>
+    <script type="text/javascript" src="script/player-akuma-spritedata.js"></script>
+    <script type="text/javascript" src="script/player-akuma2-spritedata.js"></script>
+    <script type="text/javascript" src="script/init.js"></script>
+    <script type="text/javascript" src="script/audio/guy-theme.ogg.js"></script>
+    <script type="text/javascript" src="script/audio/ryu-theme.ogg.js"></script>
+    <script type="text/javascript" src="script/audio/ken-theme.ogg.js"></script>
+    <script type="text/javascript" src="script/audio/chunli-theme.ogg.js"></script>
+    <script type="text/javascript" src="script/audio/mbison-theme.ogg.js"></script>
+    <script type="text/javascript" src="script/audio/sagat-theme.ogg.js"></script>
+    <script type="text/javascript" src="script/audio/sodom-theme.ogg.js"></script>
+    <script type="text/javascript" src="script/audio/akuma-theme.ogg.js"></script>
+
+
+    <audio id="myaudio">
+    HTML5 audio not supported
+    </audio>
+</body>
+</html>
