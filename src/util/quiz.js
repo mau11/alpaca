@@ -15,13 +15,10 @@ class AnswerHandler {
 
   _setCurrentQuestion(cb) {
     var question = this.game.getCurrentQuestion();
-<<<<<<< HEAD
-    var message = '<div style="line-height:100%; padding-top:10px; padding-bottom:10px; padding-left: 10px;padding-right:10px;">Level: ' + this.game.level + '' +
-    '<h3>' + question.questionString + '</h3>' + '<ol>';
-=======
-    var message = '<h2>' + question.questionString + '</h2>' +
-                  '<h3>Level: ' + this.game.level + '</h3>' + '<ol>';
->>>>>>> 42f89cbd19187714af8e09ba9749c78a430e5388
+
+    var message = '<h4>Level: ' + this.game.level + '</h4>' +
+                  '<h3>' + question.questionString + '</h3>' +
+                  '<ol>';
 
     question.answers.forEach(function(answer) {
       message += '<li>' + answer.answerString + '</li>';
@@ -58,11 +55,9 @@ class AnswerHandler {
       var tCtx = document.getElementById('textCanvas').getContext('2d');
       tCtx.clearRect(0, 0, tCtx.canvas.width, tCtx.canvas.height);
       var imageElem = document.createElement('img');
-<<<<<<< HEAD
-      rasterizeHTML.drawHTML('<div style="font-size: 15px; width:280px; font-family: Arial; background: #ebeae8; padding-top: 1px; color:#3d3935; border-radius:10px; border: 3px solid #0090da">' +
-=======
-      rasterizeHTML.drawHTML('<div style="border: 5px solid black; font-size: 10px; font-family: Arial; background: white; padding-top: 1px; padding-left: 20px;">' +
->>>>>>> 42f89cbd19187714af8e09ba9749c78a430e5388
+
+      rasterizeHTML.drawHTML('<div style="border: 5px solid #0090da; border-radius:10px; font-size: 12px; color:#3d3935; font-family: Arial; background: white; padding-top: 0px; padding-left: 20px;">' +
+
             this.getCurrentMessage()
             + '</div><div style="width: 50%; margin: 0 auto; background: black; width: 20px; height: 1000px;"></div>',
             tCtx.canvas)
