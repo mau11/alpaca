@@ -24,6 +24,7 @@
     "axios": "^0.15.3",
     "bcrypt": "^1.0.1",
     "body-parser": "^1.15.2",
+    "chart.js": "^2.4.0",
     "core-util-is": "^1.0.2",
     "debug": "^2.3.3",
     "express": "^4.14.0",
