@@ -88,7 +88,6 @@ export default class AddQuiz extends React.Component {
 
   handleTestName(testName) {
     if (this.state.allTestNames.indexOf(testName.toLowerCase()) !== -1 || testName === '') {
-      console.log('I was called with', testName);
       this.setState({
         testName: testName,
         currQuesList: [],
