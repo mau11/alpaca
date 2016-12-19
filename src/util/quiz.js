@@ -1,8 +1,12 @@
 import axios from "axios";
+import AuthService from "./AuthService"
+
+const auth = new AuthService('iH7Hvxq7GkgxZEIVFK7Ntb5ySmT8jWdE', 'stefanr.auth0.com');
 
 class AnswerHandler {
   constructor(cb){
     this.game = new Game();
+    this.scoreHandler = new ScoreHandler();
     this.game.start(() => {
       this._setCurrentQuestion();
       if (cb) {
@@ -77,6 +81,7 @@ class AnswerHandler {
   }
 
   chooseAnswer(answer) {
+    console.log('CHOOSING ANSWER');
     if(this._quizOver === true){
       return this._chooseNextLevel(answer);
     }
@@ -86,6 +91,8 @@ class AnswerHandler {
     }
     var nextQuestion = this.game.getNextQuestion();
     if (nextQuestion === false){
+      //submit score to db with userID, score, testName and game
+      this.scoreHandler.submit(this.game);
       var score = this.game.getCurrentScore();
       var message = 'Your score is ' + score + '! Choose 1 to redo the quiz, choose 2 to start a different quiz.';
       this._setMessage(message);
@@ -112,6 +119,43 @@ class AnswerHandler {
     }
   }
 
+}
+
+class ScoreHandler {
+  constructor() {
+    this.userID = '';
+    this.correct;
+    this.incorrect;
+    this.game = '';
+    this.getUserId();
+  }
+
+  getUserId() {
+    var setUserId = this.setUserId.bind(this);
+    console.log('GETUSERID');
+    auth.lock.getProfile(auth.getToken(), function(error, profile) {
+      if (error) {
+        return;
+      }
+      setUserId(profile.user_id);
+    });
+  }
+
+  setUserId(id){
+    this.userID = id;
+  }
+
+  submit(game) {
+    axios.post('/results', {
+      userID: this.userID,
+      testName: game._currentQuiz.quizName,
+      correct: game._numCorrectAnswers,
+      incorrect: game._numWrongAnswers,
+    })
+    .catch(function(err){
+        console.log(err)
+    });
+  }
 }
 
 class Game {
