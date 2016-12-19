@@ -15,14 +15,14 @@ class AnswerHandler {
 
   _setCurrentQuestion(cb) {
     var question = this.game.getCurrentQuestion();
-    var message = '<h1>' + question.questionString + '</h1>' +
-                  '<h3>Level: ' + this.game.level + '</h3>' + '<ol>';
+    var message = '<div style="line-height:100%; padding-top:10px; padding-bottom:10px; padding-left: 10px;padding-right:10px;">Level: ' + this.game.level + '' +
+    '<h3>' + question.questionString + '</h3>' + '<ol>';
 
     question.answers.forEach(function(answer) {
       message += '<li>' + answer.answerString + '</li>';
     });
 
-    message += '</ol>';
+    message += '</ol></div>';
 
     this._setMessage(message, cb);
   }
@@ -53,7 +53,7 @@ class AnswerHandler {
       var tCtx = document.getElementById('textCanvas').getContext('2d');
       tCtx.clearRect(0, 0, tCtx.canvas.width, tCtx.canvas.height);
       var imageElem = document.createElement('img');
-      rasterizeHTML.drawHTML('<div style="font-size: 20px; font-family: Arial; background: white; padding-top: 1px; padding-left: 20px;">' +
+      rasterizeHTML.drawHTML('<div style="font-size: 15px; width:280px; font-family: Arial; background: #ebeae8; padding-top: 1px; color:#3d3935; border-radius:10px; border: 3px solid #0090da">' +
             this.getCurrentMessage()
             + '</div>',
             tCtx.canvas)
