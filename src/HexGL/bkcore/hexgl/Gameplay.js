@@ -153,6 +153,8 @@ bkcore.hexgl.Gameplay.prototype.start = function(opts)
 		this.hud.display("Get ready", 1);
 		this.hud.updateLap(this.lap, this.maxLaps);
 	}
+ document.getElementById("status").style.display = "block";
+
 }
 
 bkcore.hexgl.Gameplay.prototype.end = function(result)
@@ -174,6 +176,8 @@ bkcore.hexgl.Gameplay.prototype.end = function(result)
 		if(this.hud != null) this.hud.display("Destroyed");
 		this.step = 100;
 	}
+
+ document.getElementById("status").style.display = "hidden";
 }
 
 bkcore.hexgl.Gameplay.prototype.update = function()

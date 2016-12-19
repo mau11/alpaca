@@ -1,7 +1,7 @@
  /*
  * HexGL
  * @author Thibaut 'BKcore' Despoulain <http://bkcore.com>
- * @license This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License. 
+ * @license This work is licensed under the Creative Commons Attribution-NonCommercial 3.0 Unported License.
  *          To view a copy of this license, visit http://creativecommons.org/licenses/by-nc/3.0/.
  */
 
@@ -11,6 +11,16 @@ bkcore.hexgl = bkcore.hexgl || {};
 bkcore.hexgl.HUD = function(opts)
 {
 	var self = this;
+
+  this.answers = [1, 2];
+  // Update every 3 seconds from 1/2 => 3/4
+  window.setInterval(function () {
+  	if (this.answers[0] === 1 && this.answers[1] === 2) {
+      this.answers = [3, 4];
+    } else {
+    	this.answers = [1, 2];
+    }
+  }.bind(this), 3000);
 
 	this.visible = true;
 	this.messageOnly = false;
@@ -149,7 +159,7 @@ bkcore.hexgl.HUD.prototype.update = function(speed, speedRatio, shield, shieldRa
 	var sho = SCREEN_WIDTH/this.shieldBarHRatio;
 	var sh = sho*shieldRatio;
 	var sy = (SCREEN_WIDTH/this.shieldBarYRatio)+sho-sh;
-	
+
 
 	if(this.step == 0)
 	{
@@ -195,6 +205,14 @@ bkcore.hexgl.HUD.prototype.update = function(speed, speedRatio, shield, shieldRa
 	else if(this.step == 1)
 	{
 		this.ctx.clearRect(0 , 0 , SCREEN_WIDTH , oh);
+
+		// ANSWERS
+		  if (this.answers) {
+				this.ctx.font = (SCREEN_WIDTH/this.timeFontRatio)+"px "+this.font;
+		    this.ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+		    this.ctx.fillText(this.answers[0], SCREEN_WIDTH * 0.05, SCREEN_HEIGHT * 0.7);
+		    this.ctx.fillText(this.answers[1], SCREEN_WIDTH * 0.95, SCREEN_HEIGHT * 0.7);
+		  }
 
 		// TIME
 	    if(this.time != "")
@@ -262,7 +280,7 @@ bkcore.hexgl.HUD.prototype.update = function(speed, speedRatio, shield, shieldRa
 		    this.ctx.fillText(this.message, SCREEN_HW, my);
 		}
 	}
-	
+
 	this.messageTiming++;
 
 	this.step++;
