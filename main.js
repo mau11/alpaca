@@ -1,4 +1,6 @@
 const electron = require('electron');
+const Menu = electron.Menu;
+const MenuItem = electron.MenuItem;
 // Module to control application life.
 const app = electron.app;
 // Module to create native browser window.
@@ -6,6 +8,151 @@ const BrowserWindow = electron.BrowserWindow;
 
 const path = require('path');
 const url = require('url');
+
+const template = [
+  {
+    label: 'Games',
+    submenu: [{
+    label: 'Regular Quiz',
+    click: function() {
+      mainWindow.loadURL('http://localhost:1337/#/prebuiltQuiz');
+    }
+  },
+  {
+    label: 'Car Quiz',
+    click: function() {
+      mainWindow.loadURL('http://localhost:1337/#/carQuizGame');
+    }
+  },
+  {
+    label: 'Racer Quiz',
+    click: function() {
+      mainWindow.loadURL('http://localhost:1337/game/v4.final.html');
+    }
+  },
+  {
+    label: '3D Racer Quiz',
+    click: function() {
+      mainWindow.loadURL('http://localhost:1337/hex/index.html');
+    }
+  },
+  {
+    label: 'Wolfenstein 3D',
+    click: function() {
+      mainWindow.loadURL('http://localhost:1337/wolf/index.html');
+    }
+  }]
+  },
+  {
+    label: 'View',
+    submenu: [
+      {
+        role: 'reload'
+      },
+      {
+        role: 'toggledevtools'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        role: 'resetzoom'
+      },
+      {
+        role: 'zoomin'
+      },
+      {
+        role: 'zoomout'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        role: 'togglefullscreen'
+      }
+    ]
+  },
+  {
+    role: 'window',
+    submenu: [
+      {
+        role: 'minimize'
+      },
+      {
+        role: 'close'
+      }
+    ]
+  },
+  {
+    role: 'help',
+    submenu: [
+      {
+        label: 'Learn More',
+        click () { require('electron').shell.openExternal('http://electron.atom.io') }
+      }
+    ]
+  }
+]
+
+if (process.platform === 'darwin') {
+  template.unshift({
+    label: app.getName(),
+    submenu: [
+      {
+        role: 'about'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        role: 'services',
+        submenu: []
+      },
+      {
+        type: 'separator'
+      },
+      {
+        role: 'hide'
+      },
+      {
+        role: 'hideothers'
+      },
+      {
+        role: 'unhide'
+      },
+      {
+        type: 'separator'
+      },
+      {
+        role: 'quit'
+      }
+    ]
+  })
+  // Window menu.
+  template[3].submenu = [
+    {
+      label: 'Close',
+      accelerator: 'CmdOrCtrl+W',
+      role: 'close'
+    },
+    {
+      label: 'Minimize',
+      accelerator: 'CmdOrCtrl+M',
+      role: 'minimize'
+    },
+    {
+      label: 'Zoom',
+      role: 'zoom'
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: 'Bring All to Front',
+      role: 'front'
+    }
+  ]
+}
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -15,11 +162,9 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({width: 800, height: 600});
 
+
   // and load the index.html of the app.
   mainWindow.loadURL('http://localhost:1337/');
-
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -35,6 +180,10 @@ function createWindow () {
 // Some APIs can only be used after this event occurs.
 app.on('ready', function() {
   createWindow();
+
+  const menu = Menu.buildFromTemplate(template)
+  Menu.setApplicationMenu(menu)
+
 });
 
 // Quit when all windows are closed.
@@ -54,5 +203,3 @@ app.on('activate', function () {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
