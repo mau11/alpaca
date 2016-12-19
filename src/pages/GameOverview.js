@@ -53,7 +53,14 @@ export default class GameOverview extends React.Component {
               <div className="game-overview-title"><a href="../wolf/index.html">Wolfenstein 3D - Quiz edition</a></div>
             </div>
           </div>
-
+          <div className="col-md-4">
+            <div>
+              <a href="../wolf/index.html">
+                <img className="game-overview-icon" alt="Street Fighter Alpha - Quiz edition" src="assets/icons/wolf3d.png" />
+              </a>
+              <div className="game-overview-title"><a href="../fighter/default.htm">Street Fighter Alpha - Quiz edition</a></div>
+            </div>
+          </div>
         </div>
       </div>
     );

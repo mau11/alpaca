@@ -15,6 +15,7 @@ app.use(express.static('public')); // Serve the client files
 app.use('/game', express.static('src/racer')); // Serve the client files
 app.use('/hex', express.static('src/HexGL')); // Serve the client files
 app.use('/wolf', express.static('src/shooter')); // Serve the client files
+app.use('/fighter', express.static('src/fighter')); // Serve the client files
 app.use(morgan('dev')); //logging
 app.use(parser.json()); //parsing
 app.use('/', router); // Set up our routes
