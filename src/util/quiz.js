@@ -15,7 +15,7 @@ class AnswerHandler {
 
   _setCurrentQuestion(cb) {
     var question = this.game.getCurrentQuestion();
-    var message = '<h1>' + question.questionString + '</h1>' +
+    var message = '<h2>' + question.questionString + '</h2>' +
                   '<h3>Level: ' + this.game.level + '</h3>' + '<ol>';
 
     question.answers.forEach(function(answer) {
@@ -53,9 +53,9 @@ class AnswerHandler {
       var tCtx = document.getElementById('textCanvas').getContext('2d');
       tCtx.clearRect(0, 0, tCtx.canvas.width, tCtx.canvas.height);
       var imageElem = document.createElement('img');
-      rasterizeHTML.drawHTML('<div style="font-size: 20px; font-family: Arial; background: white; padding-top: 1px; padding-left: 20px;">' +
+      rasterizeHTML.drawHTML('<div style="border: 5px solid black; font-size: 10px; font-family: Arial; background: white; padding-top: 1px; padding-left: 20px;">' +
             this.getCurrentMessage()
-            + '</div>',
+            + '</div><div style="width: 50%; margin: 0 auto; background: black; width: 20px; height: 1000px;"></div>',
             tCtx.canvas)
       .then(function () {
         imageElem.src = tCtx.canvas.toDataURL();

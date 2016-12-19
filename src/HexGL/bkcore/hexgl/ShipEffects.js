@@ -168,11 +168,13 @@ bkcore.hexgl.ShipEffects.prototype.update = function(dt)
 
 		if(this.shipControls.collision.right)
 		{
-			var match = window.answerHandler.chooseAnswer(2);
+			var match = window.answerHandler.chooseAnswer(window.hexGL.hud.answers[1]);
 			if (match === true) {
 				window.hexGL.hud.display('Correct!', 0.5);
+				this.shipControls.speed *= 1.2;
 			} else if (match === false) {
 				window.hexGL.hud.display('WRONG!!', 0.5);
+				this.shipControls.speed = 0;
 			}
 			this.particles.rightSparks.emit(10);
 			this.particles.rightClouds.emit(5);
@@ -180,11 +182,13 @@ bkcore.hexgl.ShipEffects.prototype.update = function(dt)
 
 		if(this.shipControls.collision.left)
 		{
-			var match = window.answerHandler.chooseAnswer(1);
+			var match = window.answerHandler.chooseAnswer(window.hexGL.hud.answers[0]);
 			if (match === true) {
 				window.hexGL.hud.display('Correct!', 0.5);
+				this.shipControls.speed *= 1.2;
 			} else if (match === false) {
 				window.hexGL.hud.display('WRONG!!', 0.5);
+				this.shipControls.speed *= 0;
 			}
 			this.particles.leftSparks.emit(10);
 			this.particles.leftClouds.emit(5);
