@@ -45,6 +45,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "mocha --compilers js:babel-core/register serverTests/test/serverTests.js gameTests/test/quizTest.js",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "client": "node node_modules/nightwatch/bin/nightwatch",
+    "e2e-setup": "node node_modules/selenium-standalone/bin/selenium-standalone install"
   }
 }
