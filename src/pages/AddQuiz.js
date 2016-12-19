@@ -86,9 +86,9 @@ export default class AddQuiz extends React.Component {
     })
   }
 
-  handleTestName(e) {
-    var testName = e.target.value;
+  handleTestName(testName) {
     if (this.state.allTestNames.indexOf(testName.toLowerCase()) !== -1 || testName === '') {
+      console.log('I was called with', testName);
       this.setState({
         testName: testName,
         currQuesList: [],
@@ -150,7 +150,14 @@ export default class AddQuiz extends React.Component {
       .not('input[name=testName]')
       .val('');
       this.setMessage('Question added! Keep adding questions to this quiz if you like...', 'success');
-      this.getTestNameCurrentQuestions();
+
+      // load questions to delete
+      this.setState((prevState, props) => {
+        allTestNames: prevState.allTestNames.push(testName);
+      }, function() {
+        this.handleTestName(testName);
+      });
+
     })
     .catch(function (err) {
       console.error('error:', err);
@@ -173,7 +180,7 @@ export default class AddQuiz extends React.Component {
                 <div className="form-group row">
                   <label className="col-xs-4 col-form-label" htmlFor="testName">Test Name</label>
                   <div className="col-xs-8">
-                    <input name="testName" type="text" className="form-control" placeholder="Enter the Name of this Test" onChange={this.handleTestName.bind(this)} required></input>
+                    <input name="testName" type="text" className="form-control" placeholder="Enter the Name of this Test" onChange={(e) => this.handleTestName(e.target.value)} required></input>
                   </div>
                 </div>
 
@@ -212,7 +219,7 @@ export default class AddQuiz extends React.Component {
                   </div>
                 </div>
 
-                <button className="btn btn-sm btn-primary" type="submit" onClick={(e) => this.sendCustomTemplate(e).bind(this) }>Submit</button>
+                <button className="btn btn-sm btn-primary" type="submit" onClick={(e) => this.sendCustomTemplate(e) }>Submit</button>
               </form>
             </div>
             <div className='col-md-6'>
