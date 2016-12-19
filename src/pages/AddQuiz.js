@@ -152,7 +152,7 @@ export default class AddQuiz extends React.Component {
 
       // load questions to delete
       this.setState((prevState, props) => {
-        allTestNames: prevState.allTestNames.push(testName);
+        allTestNames: prevState.allTestNames.push(testName.toLowerCase());
       }, function() {
         this.handleTestName(testName);
       });
