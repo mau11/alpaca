@@ -55,7 +55,7 @@ html, body {
   background: white;
 }
 
-#global {
+#not-global {
   position: absolute;
   top: 0;
   right: 0;
