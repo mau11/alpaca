@@ -1,0 +1,75 @@
+diff --git a/controllers/index.js b/controllers/index.js
+index 14932a7..9b7dac9 100644
+--- a/controllers/index.js
++++ b/controllers/index.js
+@@ -3,6 +3,13 @@ var db = require('../db');
+ module.exports = {
+   // in quiz page, GET request will return object of all quiz Q's and A's
+   tests: {
++    get: function(req, res){
++      db.Question.find()
++      .then(function(questions){
++        console.log('QUESTIONS ARE', questions);
++        res.json(questions);
++      });
++    },
+     post: function (req, res) {
+       if (req.body.delete === true) {
+         console.log('POST delete request for testName = ' + req.body.testName);
+diff --git a/server.js b/server.js
+index a0ea84f..bfcb3e8 100644
+--- a/server.js
++++ b/server.js
+@@ -26,6 +26,7 @@ router.post('/questions', controller.questions.post);
+ //router.post('/users', controller.users.post);
+ router.get('/results', controller.results.get);
+ router.post('/results', controller.results.post);
++router.get('/tests', controller.tests.get);
+ router.post('/tests', controller.tests.post);
+ 
+ // Port ========================
+diff --git a/src/pages/PrebuiltQuiz.js b/src/pages/PrebuiltQuiz.js
+index 53c5d95..22eafd5 100644
+--- a/src/pages/PrebuiltQuiz.js
++++ b/src/pages/PrebuiltQuiz.js
+@@ -32,8 +32,10 @@ export default class PrebuiltQuiz extends React.Component {
+ 
+   // get all quizzes from server
+   getQuizes() {
+-    axios.get('/questions')
++
++    axios.get('/tests')
+       .then(response => {
++        console.log('TESTS RESPONSE', response.data);
+         var entries = response.data;
+         var temp = [];
+         entries.forEach(entry => {
+diff --git a/src/racer/v4.final.html b/src/racer/v4.final.html
+index 1eb2723..68c8077 100644
+--- a/src/racer/v4.final.html
++++ b/src/racer/v4.final.html
+@@ -14,8 +14,8 @@
+   src="https://code.jquery.com/jquery-3.1.1.min.js"
+   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+   crossorigin="anonymous"></script>
+-  <link href="/pubic/css/app.css" rel="stylesheet" type="text/css" />
+-  <link href="/pubic/css/homepage.css" rel="stylesheet" type="text/css" />
++  <link href="../../pubic/css/app.css" rel="stylesheet" type="text/css" />
++  <link href="../../pubic/css/homepage.css" rel="stylesheet" type="text/css" />
+ 
+ 
+ 
+diff --git a/src/util/quiz.js b/src/util/quiz.js
+index e5123fb..d6f4ad2 100644
+--- a/src/util/quiz.js
++++ b/src/util/quiz.js
+@@ -202,3 +202,9 @@ class Answer {
+     this.isCorrect = isCorrect;
+   }
+ }
++
++module.exports = {
++  Game: Game,
++  Quiz: Quiz,
++  Answer: Answer
++};
