@@ -24,6 +24,7 @@ describe('Crash Course (before logging in)', function() {
   });
 
   it('should load all games', function(client){
+    client.waitForElementVisible('body', 1000);
     client.click('link text', 'Games').pause(1000);
     client.click('link text', 'Regular Quiz', function(){
       client.assert.visible('#ground')
@@ -36,11 +37,15 @@ describe('Crash Course (before logging in)', function() {
     }).pause(1000).back();
 // Assertions need to be updated below:
 /*    client.click('link text', '3D Racer Quiz Game', function(){
-      client.pause(5000);
-      client.assert.visible('#global')
+      client.pause(1000);
+      client.assert.visible('#step-1')
     }).pause(1000).back();
     client.click('link text', 'Wolfenstein 3D - Quiz edition', function(){
-      client.assert.visible('h3')
+      client.assert.visible('p')
+    }).pause(1000).back();
+    client.click('link text', 'Street Fighter Alpha - Quiz edition', function(){
+      client.pause(1000);
+      client.assert.visible('.pnlStage')
     }).pause(1000).back();*/
   });
 
