@@ -1,3 +1,5 @@
+window.answerHandler = new AnswerHandler(function () {}, 'fighter');
+
 Array.prototype.indexOf = Array.prototype.indexOf || function(value)
 {
     for(var i = 0, length = this.length; i < length; ++i)
@@ -93,7 +95,7 @@ function Alert(text)
 {
     //if(!!console && !!console.log)
         //console.log(text);
-    
+
 }
 function AlertError(text)
 {
@@ -239,7 +241,12 @@ Player.prototype.loadAssets("akuma","akuma2",true);
 //play
 //StartInsertCoin();
 //game_.startRandomMatch();
+/*
 if(getRand(100) > 50)
     debug_.startMatch([{A:CHARACTERS.RYU, C:true},{A:CHARACTERS.KEN, C:true}], [{A:CHARACTERS.AKUMA, C:true}], "akuma");
 else
     debug_.startMatch([{A:CHARACTERS.RYU, C:true},{A:CHARACTERS.KEN, C:true}], [{A:CHARACTERS.MBISON, C:true}], "dramatic_battle");
+*/
+window._chooseAnswer = _.throttle(window.answerHandler.chooseAnswer.bind(window.answerHandler), 2000);
+debug_.startMatch([{A:CHARACTERS.RYU}], [{A:CHARACTERS.KEN, C:true, D:0}], "guy")
+

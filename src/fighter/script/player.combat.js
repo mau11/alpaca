@@ -236,7 +236,7 @@ Player.prototype.setAllowBlock = function(attackId,frame,isAllowed,x,y,hitPoints
         //Check if the move is already blockable
         if(!this.addBlockableAttack(attackId))
             this.BlockedAttacks[this.BlockedAttacks.length] = {AttackId:attackId};
-        
+
         //allow the block animation
         this.Flags.Pose.add(POSE_FLAGS.ALLOW_BLOCK);
     }
@@ -397,7 +397,7 @@ Player.prototype.canBeGrappled = function(x,y,distance,airborneFlags,isAirborne,
 
     if((this.getFrame() - this.GotUpOnFrame) < CONSTANTS.MOBILE_FRAMES_FOR_GRAPPLE)
         return false;
-    
+
     //player can not have a grapple on him already!
     if(this.getHasPendingGrapple() || this.isBeingGrappled())
         return false;
@@ -504,7 +504,7 @@ Player.prototype.handleAttack = function(frame, moveFrame)
         else
             hitPoints.push({x:rect.Left,y:rect.Bottom});
     }
-    
+
     if(hasFlag(moveFrame.FlagsToSet.Combat,COMBAT_FLAGS.CAN_BE_BLOCKED))
     {
         this.MustClearAllowBlock = true;
@@ -624,7 +624,7 @@ Player.prototype.setRegisteredHit = function(attackFlags,hitState,flags,frame,da
 
     if(!!isProjectile && !!this.CurrentAnimation.Animation && hasFlag(this.CurrentAnimation.Animation.Flags.Combat,COMBAT_FLAGS.IGNORE_PROJECTILES))
         return false;
-    
+
     //notify AI
     this.onAttackStateChanged(otherPlayer,ATTACK_STATE.PENDING);
 
@@ -646,6 +646,28 @@ Player.prototype.checkPendingHit = function()
 
 Player.prototype.registerHit = function(frame, registeredHit)
 {
+    var match;
+    var human = this.getMatch().getTeamA().getPlayers()[0];
+    var opponent = this.getMatch().getTeamB().getPlayers()[0];
+    if (!human.IsAI && opponent.IsAI) {
+
+        if (registeredHit.HitID.indexOf('t1p0-light punch') !== -1) {
+           match = window._chooseAnswer('1');
+        } else if (registeredHit.HitID.indexOf('t1p0-medium punch') !== -1) {
+           match = window._chooseAnswer('2');
+        } else if (registeredHit.HitID.indexOf('t1p0-hard punch') !== -1) {
+           match = window._chooseAnswer('3');
+        } else if (registeredHit.HitID.indexOf('t1p0-light kick') !== -1) {
+           match = window._chooseAnswer('4');
+        }
+        if (match === true) {
+            opponent.takeDamage(100, 1);
+            this.getMatch().getTeamA().writeText('GREAT !!');
+        } else if (match === false) {
+            human.takeDamage(100, 1);
+            this.getMatch().getTeamA().writeText('WRONG ANSWER !!');
+        }
+    }
     this.takeHit(registeredHit.AttackFlags
                 ,registeredHit.HitState
                 ,registeredHit.Flags
@@ -693,7 +715,7 @@ Player.prototype.isBlocking = function()
 }
 Player.prototype.isHitFrameOk = function(playerId,hitFrameId)
 {
-    return !!this.LastHitFrame[playerId] 
+    return !!this.LastHitFrame[playerId]
         && (this.LastHitFrame[playerId] == hitFrameId)
     ;
 }
@@ -1001,7 +1023,7 @@ Player.prototype.takeHit = function(attackFlags,hitState,flags,startFrame,frame,
 
         //if any player is dead, then the whole team is dead.
         this.forceTeamLose(attackDirection,ignoreDeadAnimation);
-        this.setHoldFrame(enemyHitStop || nbFreeze);        
+        this.setHoldFrame(enemyHitStop || nbFreeze);
         return;
     }
 
@@ -1433,12 +1455,12 @@ Player.prototype.takeAirborneHit = function(attackFlags,hitState,flags,frame,dam
 {
     var move = this.Moves[this.MoveNdx.Air];
     if(!!move)
-    {   
+    {
         var direction = -this.getAttackDirection(attackDirection);
         this.setCurrentAnimation({Animation:move,StartFrame:frame,Direction:this.Direction,AttackDirection:direction});
         this.performJump(direction * move.Vx * fx,move.Vy * fy);
     }
-    
+
 }
 Player.prototype.slideBack = function(frame,attackFlags,hitStop,energyToAdd,behaviorFlags,otherPlayer)
 {
@@ -1597,6 +1619,6 @@ Player.prototype.checkFallingDamage = function(frame)
             }
         }
 
-        this.queueSound("audio/" + this.Name.toLowerCase() + "/clocked.zzz");   
+        this.queueSound("audio/" + this.Name.toLowerCase() + "/clocked.zzz");
     }
 }
