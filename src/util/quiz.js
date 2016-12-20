@@ -1,8 +1,12 @@
 import axios from "axios";
+import AuthService from "./AuthService"
+
+const auth = new AuthService('iH7Hvxq7GkgxZEIVFK7Ntb5ySmT8jWdE', 'stefanr.auth0.com');
 
 class AnswerHandler {
   constructor(cb){
     this.game = new Game();
+    this.scoreHandler = new ScoreHandler();
     this.game.start(() => {
       this._setCurrentQuestion();
       if (cb) {
@@ -15,14 +19,16 @@ class AnswerHandler {
 
   _setCurrentQuestion(cb) {
     var question = this.game.getCurrentQuestion();
-    var message = '<h2>' + question.questionString + '</h2>' +
-                  '<h3>Level: ' + this.game.level + '</h3>' + '<ol>';
+
+    var message = '<h4>Level: ' + this.game.level + '</h4>' +
+                  '<h3>' + question.questionString + '</h3>' +
+                  '<ol>';
 
     question.answers.forEach(function(answer) {
       message += '<li>' + answer.answerString + '</li>';
     });
 
-    message += '</ol>';
+    message += '</ol></div>';
 
     this._setMessage(message, cb);
   }
@@ -53,7 +59,9 @@ class AnswerHandler {
       var tCtx = document.getElementById('textCanvas').getContext('2d');
       tCtx.clearRect(0, 0, tCtx.canvas.width, tCtx.canvas.height);
       var imageElem = document.createElement('img');
-      rasterizeHTML.drawHTML('<div style="border: 5px solid black; font-size: 10px; font-family: Arial; background: white; padding-top: 1px; padding-left: 20px;">' +
+
+      rasterizeHTML.drawHTML('<div style="border: 5px solid #0090da; border-radius:10px; font-size: 12px; color:#3d3935; font-family: Arial; background: white; padding-top: 0px; padding-left: 20px;">' +
+
             this.getCurrentMessage()
             + '</div><div style="width: 50%; margin: 0 auto; background: black; width: 20px; height: 1000px;"></div>',
             tCtx.canvas)
@@ -77,6 +85,7 @@ class AnswerHandler {
   }
 
   chooseAnswer(answer) {
+    console.log('CHOOSING ANSWER');
     if(this._quizOver === true){
       return this._chooseNextLevel(answer);
     }
@@ -86,6 +95,8 @@ class AnswerHandler {
     }
     var nextQuestion = this.game.getNextQuestion();
     if (nextQuestion === false){
+      //submit score to db with userID, score, testName and game
+      this.scoreHandler.submit(this.game);
       var score = this.game.getCurrentScore();
       var message = 'Your score is ' + score + '! Choose 1 to redo the quiz, choose 2 to start a different quiz.';
       this._setMessage(message);
@@ -112,6 +123,43 @@ class AnswerHandler {
     }
   }
 
+}
+
+class ScoreHandler {
+  constructor() {
+    this.userID = '';
+    this.correct;
+    this.incorrect;
+    this.game = '';
+    this.getUserId();
+  }
+
+  getUserId() {
+    var setUserId = this.setUserId.bind(this);
+    console.log('GETUSERID');
+    auth.lock.getProfile(auth.getToken(), function(error, profile) {
+      if (error) {
+        return;
+      }
+      setUserId(profile.user_id);
+    });
+  }
+
+  setUserId(id){
+    this.userID = id;
+  }
+
+  submit(game) {
+    axios.post('/results', {
+      userID: this.userID,
+      testName: game._currentQuiz.quizName,
+      correct: game._numCorrectAnswers,
+      incorrect: game._numWrongAnswers,
+    })
+    .catch(function(err){
+        console.log(err)
+    });
+  }
 }
 
 class Game {

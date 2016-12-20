@@ -8,7 +8,8 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.6/cerulean/bootstrap.min.css" rel="stylesheet">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400" rel="stylesheet">
-  <link rel="stylesheet" href="../css/main.css">
+  <link href="racer.css" rel="stylesheet" type="text/css" />
+
   <!-- JQuery -->
   <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -16,59 +17,40 @@
   crossorigin="anonymous"></script>
   <script src="rasterizeHTML.allinone.js"></script>
   <link href="racer.css" rel="stylesheet" type="text/css" />
-  <link href="../css/app.css" rel="stylesheet" type="text/css" />
-  <link href="../css/homepage.css" rel="stylesheet" type="text/css" />
-
-
-
+  <link href="/css/main.css" rel="stylesheet" type="text/css" />
+  <link href="/css/app.css" rel="stylesheet" type="text/css" />
+  <link href="/css/homepage.css" rel="stylesheet" type="text/css" />
+  <link href="/css/customquiz.css" rel="stylesheet" type="text/css" />
+  <link href="/css/myresults.css" rel="stylesheet" type="text/css" />
+  <link href="/css/signin.css" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body>
 
-
-
-      <nav className="navbar navbar-inverse navbar-fixed-top" role="navigation">
-        <div className="container">
-          <div className="navbar-header">
-            <button type="button" className="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span className="sr-only">Toggle navigation</span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-              <span className="icon-bar"></span>
-            </button>
-            <a className="navbar-brand" href="#">CrashCourse</a>
-          </div>
-          <div className="navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul className="nav navbar-nav navbar-right">
-                      <li><Link to="/gameOverview">Games</Link></li>
-                      <li><Link to="/addQuiz">Build a Quiz</Link></li>
-                      <li><Link to="/manageQuiz">Manage Quizzes</Link></li>
-                      <li><Link to="/myResults">My Results</Link></li>
-                      <li><Link className="logout" onClick="">Log Out</Link></li>
-                    </ul>
-                    :
-                    <ul className="nav navbar-nav navbar-right">
-                      <li><Link to="/gameOverview">Games</Link></li>
-                      <li><Link className="login" onClick="">Log In</Link></li>
-                    </ul>
-              }
-          </div>
-        </div>
-      </nav>
-
-
-
+  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">CrashCourse</a>
+      </div>
+      <div class="navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="http://localhost:1337/#/gameOverview">Games</a></li>
+          <li><a href="http://localhost:1337/#/addQuiz">Build a Quiz</a></li>
+          <li><a href="http://localhost:1337/#/manageQuiz">Manage Quizzes</a></li>
+          <li><a href="http://localhost:1337/#/myResults">My Results</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <table id="controls">
-    <tr>
-      <td colspan="2">
-        <a href='v1.straight.html'>straight</a> |
-        <a href='v2.curves.html'>curves</a>     |
-        <a href='v3.hills.html'>hills</a>       |
-        <a href='v4.final.html'>final</a>
-      </td>
-    </tr>
     <tr><td id="fps" colspan="2" align="right"></td></tr>
     <tr>
       <th><label for="resolution">Resolution :</label></th>
@@ -113,7 +95,6 @@
       <td><input id="fogDensity" type='range' min='0' max='50' title="integer (0-50)"></td>
     </tr>
   </table>
-
   <div id='instructions'>
     <p>Use the <b>arrow keys</b> to drive the car.</p>
   </div>
@@ -132,8 +113,8 @@
   </div>
 
   <audio id='music'>
-    <source src="music/racer.mp3">
     <source src="music/racer.ogg">
+    <source src="music/racer.mp3">
   </audio>
   <span id="mute"></span>
   <canvas id='textCanvas' height="600" width="300"></canvas>
@@ -141,13 +122,9 @@
   <script src="stats.js"></script>
   <script src="common.js"></script>
 
-
-
-  <div id="status">
+  <div id="status"></div>
 
   <script src="../racer.build.js"></script>
-
-
   <script>
 
     var fps            = 60;                      // how many 'update' frames per second
@@ -206,12 +183,14 @@
       fast_lap_time:    { value: null, dom: Dom.get('fast_lap_time_value')    }
     }
 
+
     var sounds = {
       correct: new Audio('sounds/correct-SoundBible.com-685385892.mp3'),
       wrong: new Audio('../assets/wrongCrash.wav')
     };
 
     var currentQuestionSprite;
+
 
     //=========================================================================
     // UPDATE THE GAME WORLD
@@ -767,23 +746,24 @@
         sounds.wrong.volume = 0.5;
       }
       // Shake animation
-      document.body.classList.add("shake");
+      document.getElementById('racer').classList.add("shake");
       setTimeout(function () {
-        document.body.classList.remove("shake");
+        document.getElementById('racer').classList.remove("shake");
       }, 1000);
     };
 
 
   </script>
 
-      <footer>
-        <div className="container footer">
-          <div className="col-lg-12">
-            <p>Copyright © CrashCourse 2016            <span><span id="volumeIcon" className="glyphicon glyphicon-volume-up"></span> <input  id="volume" type="range" min="0" max="100" /></span></p>
-          </div>
-        </div>
-      </footer>
 
+  <footer>
+    <div class="container footer">
+      <div class="col-lg-12">
+        <p>Copyright © CrashCourse 2016 <span><span id="volumeIcon" class="glyphicon glyphicon-volume-up"></span><input id="volume" type="range" min="0" max="100" /></span>
+        </p>
+      </div>
+    </div>
+  </footer>
 
 </body>
 </html>

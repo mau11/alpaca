@@ -15,6 +15,7 @@ var Question = db.define('Question', {
 var Results = db.define('Results', {
   userID: Sequelize.STRING,
   testName: Sequelize.STRING,
+  game: Sequelize.STRING,
   correct: Sequelize.INTEGER,
   incorrect: Sequelize.INTEGER
 });
