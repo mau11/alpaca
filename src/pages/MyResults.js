@@ -117,10 +117,10 @@ export default class MyResults extends React.Component {
           <div className="row flex-container">
             <div className="flex-box">
               <h1>Quiz Results</h1>
-              <table className="table table-striped results"><thead><tr><th>Quiz</th><th>Correct</th><th>Incorrect</th></tr></thead>
+              <table className="table table-striped results"><thead><tr><th>Quiz</th><th>Correct</th><th>Incorrect</th><th>Game</th></tr></thead>
               <tbody>
               {this.state.results.map(quiz =>
-                <tr><td>{quiz.testName}</td><td>{quiz.correct}</td><td>{quiz.incorrect}</td></tr>
+                <tr><td>{quiz.testName}</td><td>{quiz.correct}</td><td>{quiz.incorrect}</td><td>{quiz.game}</td></tr>
               )}</tbody>
               </table>
               <canvas id="myChart" width="400" height="400"></canvas>

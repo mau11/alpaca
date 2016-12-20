@@ -54,7 +54,7 @@ var files2 = [
 ];
 
 $(document).ready(function() {
-    window.answerHandler = new AnswerHandler();
+    window.answerHandler = new AnswerHandler(function(){ console.log('Loading Wolf3D')}, 'Wolfenstein');
     $('#status').hide();
     $('#counter').hide();
     window.setInterval(function () {

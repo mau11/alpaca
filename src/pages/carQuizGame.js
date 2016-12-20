@@ -6,7 +6,7 @@ export default class CarQuizGame extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      userID: '999', // opportunity to get ID for currently logged-in user to track results
+      userID: '', // opportunity to get ID for currently logged-in user to track results
       category: '', // opportunity to get category of current test to track results
       name: '',  // this is actually the question being asked (please change the name)
       correct: '',
@@ -26,12 +26,30 @@ export default class CarQuizGame extends React.Component {
   }
 
   componentWillMount(){
+    this.getUserId();
     this.getQuizes(); // generate drop down list to select test
   }
 
   componentDidMount() {
     document.getElementById('car').style.left=((window.innerWidth / 2) - 50) + 'px';
     this.registerKeydownListener();
+  }
+
+  getUserId(){
+    var setUserId = this.setUserId.bind(this);
+    this.props.route.auth.lock.getProfile(this.props.route.auth.getToken(), function(error, profile) {
+      if (error) {
+        return;
+      }
+      console.log('UserID will be set to', profile.user_id);
+      setUserId(profile.user_id);
+    });
+  }
+
+  setUserId(id){
+    this.setState({
+      userID: id
+    });
   }
 
   registerKeydownListener() {
@@ -268,9 +286,11 @@ export default class CarQuizGame extends React.Component {
   }
 
   sendResults() {
+    console.log('posting car quiz results');
     axios.post('/results', {
       userID: this.state.userID,
       testName: this.state.quizName,
+      game: 'Car Quiz',
       correct: this.state.correctAns,
       incorrect: this.state.wrongAns,
     })
