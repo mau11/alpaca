@@ -1,4 +1,4 @@
-﻿body {margin:0;padding:0;background:#000;color:#fff;font-family:arial;font-size:12px;overflow:hidden;}
+﻿body {margin:0;padding:0;background:#000;color:#fff;font-family:Roboto;font-size:12px;overflow:hidden;}
 div.stage{height:576px;width:1068px;top:20px;overflow:hidden;position:absolute;display:inline-block;}
 body div.select {margin-left:224px;height:201px;width:100%;background:url(../images/misc/misc/globe.png) no-repeat 0px 0px;}
 body div.char-select {margin-left:256px;margin-top:87px;height:400px;width:100%;}
@@ -42,7 +42,7 @@ div.stance-container-p2 {right:32px;}
 div.dimBackground{height:100%;width:100%;overflow:hidden;position:absolute;display:inline-block;left:0px;top:0px;z-index:16;background:#111;opacity:0.5;filter: Alpha(Opacity=50);}
 div.loadingBackground{height:100%;width:100%;overflow:hidden;position:absolute;display:inline-block;left:0px;top:0px;z-index:9999999;background:#111;text-align:center;}
 span.loading {background-color:#222;color:#aaaaff;}
-div.loading {margin-top:10px;}
+div.loading {margin-top:10px; display:none;}
 span.done-loading {font-weight:normal;color:#006600;}
 div.stage .bg0{position:absolute;}
 div.stage .bg1{position:absolute;}
@@ -113,7 +113,7 @@ div.team1 .portriat,.flipped
 	-o-transform:scale(-1,1);
 	-ms-transform:rotateY(180deg);
 	filter:progid:DXImageTransform.Microsoft.BasicImage(mirror=1);
-}	
+}
 
 div.team2{right:0px;}
 div.team2 div.health-bar{right:59px;}
@@ -158,3 +158,5 @@ div div.Text img{vertical-align:top;z-index:5000;background:Tranparent;}
 .projectile-editor .selected-projectile .item .label {float:left; width:50px; text-align:right;}
 .projectile-editor .selected-projectile .item .input {float:left; margin-left:10px;}
 .button{width:100px;margin:5px;}
+
+.menu {display: none;}

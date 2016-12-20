@@ -3,8 +3,24 @@
 <head>
     <title>Street Fighter Alpha - Web</title>
     <link rel="StyleSheet" type="text/css" href="css/sfa.css" />
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
 <body>
+<div id="help" style="font-family: Roboto;  background: #000; color: #fff; padding: 10px">
+Player keys:
+<p>Pause (Next frame): O</p>
+<p>Resume: P</p>
+<p>Coin: Control</p>
+<p>Start: Enter</p>
+<p>light punch/answer 1: A</p>
+<p>medium punch/answer 2: S</p>
+<p>hard punch/answer 3: D</p>
+<p>light kick/answer 4: Z</p>
+<p>medium kick: X</p>
+<p>hard kick: C</p>
+<p>turn around: F</p>
+<p>walk, crouch, jump: Arrow keys</p>
+</div>
     <div id="pnlStage" class="stage" style="width:768px;">
         <script type="text/javascript">
             function OnStageImagesLoaded() {}
@@ -49,7 +65,7 @@
         </div>
         <div class="superComboFinish" id="pnlSuperComboFinish" style="display:none;">&nbsp;</div>
     </div>
-    <div id="pnlStatus">
+    <div id="pnlStatus" style="display: none;">
         <br /><span class="frame-rate">Game speed: <span id="spnSpeed">?</span>/100</span>
         <br />
         <br /><u class="game-speed">Press:</u>
@@ -128,6 +144,8 @@
             </div>
         </div>
     </div>
+<div id="status" style="font-family: Roboto; position: absolute;width: 800px; padding: 10px; height: 200px; top: 7%;left: 50%;  background: rgba(0,0,0,0.5); color: #fff; display: none;"></div>
+
     <script type="text/javascript">
         var __debugMode = false;
         var __noDamage = false;
@@ -148,6 +166,8 @@
         }
         */
     </script>
+    <script type="text/javascript" src="underscore.js"></script>
+    <script src="../racer.build.js"></script>
     <script type="text/javascript" src="script/browserDetect.js"></script>
     <script type="text/javascript" src="script/gamepad.js"></script>
     <script type="text/javascript" src="script/values.js"></script>

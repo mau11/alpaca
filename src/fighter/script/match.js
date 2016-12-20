@@ -51,7 +51,7 @@ var CreateMatch = function(team1,team2,stage)
     }
     Match.prototype.checkAIMatch = function()
     {
-        isAIMatch_ = 
+        isAIMatch_ =
         (teamB_.getPlayers().length == 0
         || teamA_.getPlayers().every(
             function(player) { return player.Ai.isRunning(); }))
@@ -114,7 +114,7 @@ var CreateMatch = function(team1,team2,stage)
             this.setPlayerCount(teamA_.getPlayers().length + teamB_.getPlayers().length);
 
         return this.getPlayerCount();
-        
+
     }
     Match.prototype.getGame = function() { return game_; }
     Match.prototype.getCurrentFrame = function() { return game_.getCurrentFrame(); }
@@ -232,7 +232,7 @@ var CreateMatch = function(team1,team2,stage)
         //reset the game speed if all of the dead players have completed their "dead animation"
         switch(teamThatLost)
         {
-            case CONSTANTS.TEAM1: 
+            case CONSTANTS.TEAM1:
             {
                 for(var i = 0; i < teamA_.getPlayers().length; ++i)
                     if(!teamA_.getPlayer(i).CanEndRound)
@@ -240,7 +240,7 @@ var CreateMatch = function(team1,team2,stage)
                 game_.resetSpeed();
                 break;
             }
-            case CONSTANTS.TEAM2: 
+            case CONSTANTS.TEAM2:
             {
                 for(var i = 0; i < teamB_.getPlayers().length; ++i)
                     if(!teamB_.getPlayer(i).CanEndRound)
@@ -305,6 +305,7 @@ var CreateMatch = function(team1,team2,stage)
     /*Restarts the match*/
     Match.prototype.reset = function()
     {
+        alert('reset')
         if(this.getGotoNewRoundFrame() != CONSTANTS.NO_FRAME)
         {
             //check to see if the match is over
@@ -314,7 +315,7 @@ var CreateMatch = function(team1,team2,stage)
                 {
                     teamA_.advanceStoryMode();
                     teamB_.disableStoryMode();
-                    
+
                     if(!teamA_.getIsAI())
                         this.forceQuit(QUIT_MATCH.GOTO_STORYMODE);
                     else
@@ -497,6 +498,7 @@ var CreateMatch = function(team1,team2,stage)
     /*Initializes a new match*/
     Match.prototype.start = function(ignoreMusic)
     {
+        document.getElementById('status').style.display = 'block';
         forceQuit_ = false;
         stage_.start();
         faceoff_.init();
