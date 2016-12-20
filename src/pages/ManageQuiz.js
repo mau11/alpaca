@@ -15,7 +15,6 @@ export default class ManageQuiz extends React.Component {
 
   componentWillMount() {
     this.getUserId();
-    this.getQuestions();
   }
 
   componentWillUnmount() {
@@ -35,9 +34,7 @@ export default class ManageQuiz extends React.Component {
   setUserId(id){
     this.setState({
       userID: id
-    }, function(){
-      this.getQuestions();
-    });
+    }, this.getQuestions);
   }
 
   getQuestions() {
