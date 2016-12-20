@@ -77,7 +77,7 @@ export default class MyResults extends React.Component {
     data: {
         labels: this.state.allTestNames,
         datasets: [{
-            label: 'Score',
+            label: '',
             data: this.state.allScores,
             backgroundColor: [
                 'rgba(255, 99, 132, 0.2)',
