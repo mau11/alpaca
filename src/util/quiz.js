@@ -4,9 +4,11 @@ import AuthService from "./AuthService"
 const auth = new AuthService('iH7Hvxq7GkgxZEIVFK7Ntb5ySmT8jWdE', 'stefanr.auth0.com');
 
 class AnswerHandler {
-  constructor(cb){
-    this.game = new Game();
-    this.scoreHandler = new ScoreHandler();
+  constructor(cb, gameName){
+    console.log('Current game: ',gameName);
+    this.auth = new AuthService('iH7Hvxq7GkgxZEIVFK7Ntb5ySmT8jWdE', 'stefanr.auth0.com');
+    this.game = new Game(gameName);
+    this.scoreHandler = new ScoreHandler(this.auth);
     this.game.start(() => {
       this._setCurrentQuestion();
       if (cb) {
@@ -131,12 +133,11 @@ class ScoreHandler {
     this.correct;
     this.incorrect;
     this.game = '';
-    this.getUserId();
+    this.getUserId(auth);
   }
 
-  getUserId() {
+  getUserId(auth) {
     var setUserId = this.setUserId.bind(this);
-    console.log('GETUSERID');
     auth.lock.getProfile(auth.getToken(), function(error, profile) {
       if (error) {
         return;
@@ -150,9 +151,11 @@ class ScoreHandler {
   }
 
   submit(game) {
+    console.log(game._gameName);
     axios.post('/results', {
       userID: this.userID,
       testName: game._currentQuiz.quizName,
+      game: game._gameName,
       correct: game._numCorrectAnswers,
       incorrect: game._numWrongAnswers,
     })
@@ -163,7 +166,7 @@ class ScoreHandler {
 }
 
 class Game {
-  constructor() {
+  constructor(gameName) {
     // Levels correspond to quiz ids. If you complete a level at 100%, you pass on to the next one.
     this.level = 1;
     this._currentQuiz;
@@ -173,6 +176,7 @@ class Game {
     this._numWrongAnswers = 0;
     // Set in _initializeCurrentQuiz
     this._numLevels;
+    this._gameName = gameName;
   }
 
   /**
