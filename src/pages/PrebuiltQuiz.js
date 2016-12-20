@@ -206,6 +206,7 @@ export default class PrebuiltQuiz extends React.Component {
     axios.post('/results', {
       userID: this.state.userID,
       testName: this.state.quizName,
+      game: 'Regular Quiz',
       correct: this.state.correctAns,
       incorrect: this.state.wrongAns,
     })

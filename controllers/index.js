@@ -116,7 +116,6 @@ module.exports = {
           }
         })
         .then(function(response) {
-          console.log('THIS IS CONTROLLER RESPONSE', response);
           if (!response) {
             console.log('No results for that test');
           } else {
@@ -130,7 +129,8 @@ module.exports = {
       db.Results.find({
         where:{
           userID: req.body.userID,
-          testName: req.body.testName
+          testName: req.body.testName,
+          game: req.body.game
         }
       }).then(function(result){
         console.log('Update results post', req.body);
@@ -138,7 +138,8 @@ module.exports = {
           db.Results.update(req.body,{
             where:{
               userID: req.body.userID,
-              testName: req.body.testName
+              testName: req.body.testName,
+              game: req.body.game
             }
           });
         } else {
@@ -146,6 +147,7 @@ module.exports = {
           db.Results.create({
             userID: req.body.userID,
             testName: req.body.testName,
+            game: req.body.game,
             correct: req.body.correct,
             incorrect: req.body.incorrect
           })
